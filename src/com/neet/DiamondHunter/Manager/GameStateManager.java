@@ -25,11 +25,12 @@ public class GameStateManager {
 	private int currentState;
 	private int previousState;
 	
-	public static final int NUM_STATES = 4;
+	public static final int NUM_STATES = 5;
 	public static final int INTRO = 0;
 	public static final int MENU = 1;
 	public static final int PLAY = 2;
 	public static final int GAMEOVER = 3;
+	public static final int MAPVIEWER = 4; //Placeholder for Map Viewer app
 	
 	public GameStateManager() {
 		
