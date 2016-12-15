@@ -21,6 +21,5 @@ public class MapPane extends Pane {
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		canvas.drawImage(gc);
 		getChildren().add(canvas);
-
 	}
 }

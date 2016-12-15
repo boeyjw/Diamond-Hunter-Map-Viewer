@@ -53,7 +53,7 @@ public class PauseState extends GameState {
 		}
 		if(Keys.isPressed(Keys.F8)) {
 			gsm.setPaused(false);
-			gsm.setState(GameStateManager.MENU); //Map viewer placeholder
+			gsm.setState(GameStateManager.MAPVIEWER); //Map viewer placeholder
 		}
 	}
 	

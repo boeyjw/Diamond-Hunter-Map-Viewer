@@ -74,7 +74,7 @@ public class MenuState extends GameState {
 			System.exit(0);
 		}
 		if(currentOption == 2) {
-			//gsm.setState(/* The Map Viewer Application */);
+			gsm.setState(GameStateManager.MAPVIEWER);
 		}
 	}
 	
