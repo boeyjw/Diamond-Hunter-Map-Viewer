@@ -17,7 +17,6 @@ public class MapCanvas extends Canvas {
 	// position
 	private int x;
 	private int y;
-	private boolean moving;
 
 	// map
 	private int[][] map;
@@ -105,22 +104,6 @@ public class MapCanvas extends Canvas {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	public int getTileSize() {
-		return tileSize;
-	}
-
-	public int getNumRows() {
-		return numRows;
-	}
-
-	public int getNumCols() {
-		return numCols;
-	}
-	
-	public boolean isMoving() {
-		return moving;
 	}
 
 	public void drawImage(GraphicsContext gc) {
