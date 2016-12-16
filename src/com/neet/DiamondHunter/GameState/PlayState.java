@@ -7,6 +7,15 @@ package com.neet.DiamondHunter.GameState;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 
 import com.neet.DiamondHunter.Entity.Diamond;
@@ -171,21 +180,87 @@ public class PlayState extends GameState {
 	}
 	
 	private void populateItems() {
+		int[] itemPos = getItemCoord();
 		
+		if(itemPos == null) {
+			System.err.println("The game has failed to load custom coordinates. Falling back to default state.");
+			itemPos = new int[4];
+			itemPos[0] = 26;
+			itemPos[1] = 37;
+			itemPos[2] = 12;
+			itemPos[3] = 4;
+		}
 		Item item;
 		
 		item = new Item(tileMap);
 		item.setType(Item.AXE);
-		item.setTilePosition(26, 37);
+		item.setTilePosition(itemPos[0], itemPos[1]);
 		items.add(item);
 		
 		item = new Item(tileMap);
 		item.setType(Item.BOAT);
-		item.setTilePosition(12, 4);
+		item.setTilePosition(itemPos[2], itemPos[3]);
 		items.add(item);
-		
 	}
 	
+	/**
+	 * Reads the file for item coordinates.
+	 * If the file does not exist, create the file with default axe and boat position.
+	 * This method has not custom write capabilities unless the file does not exist.
+	 * @return The axe and boat coordinates. Arrangement: {@code AXE_xaxis, AXE_yaxis, BOAT_xaxis, BOAT_yaxis}
+	 */
+	private int[] getItemCoord() {
+		File itemCoordFile = new File("Resources/Sprites/Item-Coordinates.txt");
+		
+		//If the file does not exist in the specified path
+		if(!itemCoordFile.exists() || itemCoordFile.isDirectory()) {
+			try {
+				//Create the file first. If this fails, NullPointerException will be thrown as return value is null
+				if(itemCoordFile.createNewFile()) {
+					FileWriter wrItemCoords = new FileWriter(itemCoordFile);
+					wrItemCoords.write("26,37,12,4"); //This is the default position of the axe and boat
+					wrItemCoords.close();
+				}
+			} catch (IOException e) {
+				System.err.println("Unable to create or write file");
+				e.printStackTrace();
+			}
+		}
+		
+		//File exist and is ready to be read
+		if(itemCoordFile.canRead()) {
+			try {
+				FileInputStream rdItemCoords = new FileInputStream(itemCoordFile);
+				byte[] data = new byte[(int) itemCoordFile.length()];
+				
+				//Read the entire file in one go
+				rdItemCoords.read(data);
+				rdItemCoords.close();
+				String[] strItemCoords = new String(data, "UTF-8").split(",");
+				
+				//Get the coordinates
+				int[] itemCoords = new int[strItemCoords.length];
+				for(int i = 0; i < strItemCoords.length; i++) {
+					itemCoords[i] = Integer.parseInt(strItemCoords[i]);
+				}
+	
+				return itemCoords;
+			} catch (FileNotFoundException e) {
+				System.err.println("File does not exist");
+				e.printStackTrace();
+			} catch (IOException e) {
+				System.err.println("No read access to file");
+				e.printStackTrace();
+			}
+		}
+		else {
+			System.err.println("Error in reading file");
+			return null;
+		}
+		
+		return null;
+	}
+
 	public void update() {
 		
 		// check keys
