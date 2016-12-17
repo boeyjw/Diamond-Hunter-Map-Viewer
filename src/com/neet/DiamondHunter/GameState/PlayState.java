@@ -209,7 +209,7 @@ public class PlayState extends GameState {
 	 * This method has not custom write capabilities unless the file does not exist.
 	 * @return The axe and boat coordinates. Arrangement: {@code AXE_xaxis, AXE_yaxis, BOAT_xaxis, BOAT_yaxis}
 	 */
-	private int[] getItemCoord() {
+	public int[] getItemCoord() {
 		File itemCoordFile = new File("Resources/Sprites/Item-Coordinates.txt");
 		
 		//If the file does not exist in the specified path
