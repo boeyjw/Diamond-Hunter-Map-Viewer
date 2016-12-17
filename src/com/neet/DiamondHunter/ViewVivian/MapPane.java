@@ -1,6 +1,9 @@
 package com.neet.DiamondHunter.ViewVivian;
 
+import javafx.scene.SnapshotParameters;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 
 public class MapPane extends Pane {
@@ -21,5 +24,9 @@ public class MapPane extends Pane {
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		canvas.drawImage(gc);
 		getChildren().add(canvas);
+	}
+	
+	public WritableImage getCanvas() {
+		return canvas.snapshot(new SnapshotParameters(), null);
 	}
 }
