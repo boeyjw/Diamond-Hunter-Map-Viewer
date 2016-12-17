@@ -38,8 +38,8 @@ public class MapCanvas extends Canvas {
 	public MapCanvas(int tileSize, double width, double height) {
 		super(width, height);
 		this.tileSize = tileSize;
-		numRowsToDraw = MapPane.HEIGHT / tileSize + 8;
-		numColsToDraw = MapPane.WIDTH / tileSize + 8;
+		numRowsToDraw = MapPane.HEIGHT / tileSize + 2;
+		numColsToDraw = MapPane.WIDTH / tileSize + 2;
 	}
 
 	public void loadTiles(String s) {
