@@ -95,9 +95,15 @@ public class MapCanvas extends Canvas {
 			String delims = "\\s+";
 			for (int row = 0; row < numRows; row++) {
 				String line = br.readLine();
-				String[] tokens = line.split(delims);
-				for (int col = 0; col < numCols; col++) {
-					map[row][col] = Integer.parseInt(tokens[col]);
+				if(line != null) {
+					String[] tokens = line.split(delims);
+					for(int col = 0; col < numCols; col++) {
+						map[row][col] = Integer.parseInt(tokens[col]);
+					}
+				}
+				else {
+					System.err.println("Invalid or no URI input. Terminating program...");
+					System.exit(1);
 				}
 			}
 

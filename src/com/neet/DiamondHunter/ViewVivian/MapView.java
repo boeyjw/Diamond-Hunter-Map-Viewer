@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class MapView extends Application {
-
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -22,5 +22,4 @@ public class MapView extends Application {
 		primaryStage.setResizable(false);
 		primaryStage.sizeToScene();
 	}
-
 }
