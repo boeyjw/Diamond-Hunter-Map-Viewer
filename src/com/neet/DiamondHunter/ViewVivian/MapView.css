@@ -1,0 +1,7 @@
+#mvCanvas {
+	-fx-effect: innershadow(gaussian, #039ed3, 1, 1.0, 0, 0);
+}
+
+#mapCoordinates {
+	-fx-effect: innershadow(gaussian, #039ed3, 3, 1.0, 0, 0);
+}
