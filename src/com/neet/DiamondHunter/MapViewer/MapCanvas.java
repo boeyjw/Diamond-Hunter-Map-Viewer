@@ -82,7 +82,15 @@ public class MapCanvas extends Canvas {
 		}
 
 	}
-
+	
+	/**
+	 * Gets the reference to the resource it should load when loading tiles.
+	 * Coordinate reference:-<br>
+	 * - Player interactable (Tile.BLOCKED): (21 - Dead tree =AXE choppable=), (22 - Water tile =BOAT crossable=)<br>
+	 * - Obstacle (Tile.BLOCKED): (20 - Green tree)<br>
+	 * - Walkable (Tile.NORMAL): (1 - Normal green tile), (2 - Bush tile), (3 - Flower tile)
+	 * @param s Map resource URI
+	 */
 	public void loadMap(String s) {
 		try {
 
@@ -92,11 +100,10 @@ public class MapCanvas extends Canvas {
 			numCols = Integer.parseInt(br.readLine());
 			numRows = Integer.parseInt(br.readLine());
 			map = new int[numRows][numCols];
-			String delims = "\\s+";
 			for (int row = 0; row < numRows; row++) {
 				String line = br.readLine();
 				if(line != null) {
-					String[] tokens = line.split(delims);
+					String[] tokens = line.split("\\s+");
 					for(int col = 0; col < numCols; col++) {
 						map[row][col] = Integer.parseInt(tokens[col]);
 					}
