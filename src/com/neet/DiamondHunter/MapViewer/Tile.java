@@ -1,7 +1,7 @@
 // Only contains two types of tiles:
 // Blocked and non-blocked.
 
-package com.neet.DiamondHunter.ViewVivian;
+package com.neet.DiamondHunter.MapViewer;
 
 import javafx.scene.image.WritableImage;
 

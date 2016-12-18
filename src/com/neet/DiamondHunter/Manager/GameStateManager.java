@@ -15,7 +15,9 @@ import com.neet.DiamondHunter.GameState.MenuState;
 import com.neet.DiamondHunter.GameState.PauseState;
 import com.neet.DiamondHunter.GameState.PlayState;
 import com.neet.DiamondHunter.Main.Game;
-import com.neet.DiamondHunter.ViewVivian.MapView;
+import com.neet.DiamondHunter.MapViewer.MapView;
+
+import javafx.application.Application;
 
 
 public class GameStateManager {
@@ -33,6 +35,7 @@ public class GameStateManager {
 	public static final int PLAY = 2;
 	public static final int GAMEOVER = 3;
 	public static final int MAPVIEWER = 4; //Placeholder for Map Viewer app
+	public static boolean viewerLaunched = false;
 	
 	public GameStateManager() {
 		
@@ -66,9 +69,12 @@ public class GameStateManager {
 			gameStates[i] = new GameOverState(this);
 			gameStates[i].init();
 		}
-		else if(i == MAPVIEWER) {
-			MapView.main(null);
-			System.exit(0);
+		else if(i == MAPVIEWER) { //Contains threading issue
+			if(!viewerLaunched) {
+				Game.runMapViewer();
+				viewerLaunched = true;
+			}
+			setState(MENU);
 		}
 	}
 	

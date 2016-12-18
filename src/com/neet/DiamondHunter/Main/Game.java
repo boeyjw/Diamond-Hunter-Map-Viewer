@@ -6,10 +6,14 @@ package com.neet.DiamondHunter.Main;
 
 import javax.swing.JFrame;
 
+import com.neet.DiamondHunter.ViewVivian.MapView;
+
+import javafx.application.Application;
+
 public class Game {
-	
+	private static String[] mainArgs;
 	public static void main(String[] args) {
-		
+		mainArgs = args;
 		JFrame window = new JFrame("Diamond Hunter");
 		
 		window.add(new GamePanel());
@@ -21,6 +25,10 @@ public class Game {
 		window.setVisible(true);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+	}
+	
+	public static void runMapViewer() {
+		Application.launch(MapView.class, mainArgs);
 	}
 	
 }
