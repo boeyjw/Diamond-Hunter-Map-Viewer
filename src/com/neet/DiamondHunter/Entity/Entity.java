@@ -57,23 +57,13 @@ public abstract class Entity {
 	public int getRow() { return rowTile; }
 	public int getCol() { return colTile; }
 	
-	/**
-	 * Reads the file for item coordinates.
-	 * If the file does not exist, create the file with default axe and boat position.
-	 * This method has not custom write capabilities unless the file does not exist.
-	 * @return The axe and boat coordinates. Arrangement: {@code AXE_xaxis, AXE_yaxis, BOAT_xaxis, BOAT_yaxis}
-	 */
-	public int[] getEntityCoord() {
-		return WriteCoord.getCoord("Entity-Coordinates", "40,40");
-	}
-	
 	public void setPosition(int i1, int i2) {
 		x = i1;
 		y = i2;
 		xdest = x;
-		ydest = y;
-			
+		ydest = y;		
 	}
+	
 	public void setMapPosition() {
 		xmap = tileMap.getx();
 		ymap = tileMap.gety();
@@ -208,6 +198,4 @@ public abstract class Entity {
 			null
 		);
 	}
-	
-	public Entity(){}
 }

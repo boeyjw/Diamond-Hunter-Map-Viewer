@@ -6,13 +6,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import com.neet.DiamondHunter.Entity.Player;
+import com.neet.DiamondHunter.Coordinates.WriteCoord;
 import com.neet.DiamondHunter.Entity.Entity;
 import com.neet.DiamondHunter.Manager.Content;
 import com.neet.DiamondHunter.Manager.ImageConversion;
 
 import javafx.scene.image.WritableImage;
 
-public class ShowPlayer {
+public class ShowPlayer{
 	
 	int[] coordinate;
 	int row;
@@ -31,9 +32,7 @@ public class ShowPlayer {
 	
 	//get current position of the player
 	public int[] getPlayerPosition(){
-		Entity en = new Entity();
-		
-		coordinate = en.getEntityCoord();
+		coordinate = WriteCoord.getCoord("Entity-Coordinates","40,40");
 		row = coordinate[0];
 		col = coordinate[1];
 		
