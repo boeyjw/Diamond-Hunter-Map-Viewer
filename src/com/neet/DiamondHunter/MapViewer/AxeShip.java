@@ -5,6 +5,8 @@
 package com.neet.DiamondHunter.MapViewer;
 
 import com.neet.DiamondHunter.Manager.Content;
+import com.neet.DiamondHunter.Manager.ImageConversion;
+import com.neet.DiamondHunter.Entity.Player;
 import com.neet.DiamondHunter.GameState.PlayState;
 
 import javafx.scene.image.PixelWriter;
@@ -75,20 +77,11 @@ public class AxeShip {
 	
 	//get the sprites
 	private WritableImage getItem(){
+		ImageConversion ic;
 		
-		BufferedImage b =  Content.ITEMS[row][col];
-		
-        item = null;
-        if (b != null) {
-            item = new WritableImage(b.getWidth(), b.getHeight());
-            PixelWriter pw = item.getPixelWriter();
-            for (int x = 0; x < b.getWidth(); x++) {
-                for (int y = 0; y < b.getHeight(); y++) {
-                    pw.setArgb(x, y, b.getRGB(x, y));
-                }
-            }
-        }
-		return item;
+		ic = new ImageConversion(Content.ITEMS[row][col]);
+			
+		return ImageConversion.getWrImg();
 	}
 	
 }
