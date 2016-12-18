@@ -15,10 +15,13 @@ import com.neet.DiamondHunter.GameState.MenuState;
 import com.neet.DiamondHunter.GameState.PauseState;
 import com.neet.DiamondHunter.GameState.PlayState;
 import com.neet.DiamondHunter.Main.Game;
+<<<<<<< HEAD
 import com.neet.DiamondHunter.MapViewer.MapView;
 
 import javafx.application.Application;
 
+=======
+>>>>>>> origin
 
 public class GameStateManager {
 	
