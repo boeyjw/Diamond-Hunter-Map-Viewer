@@ -1,4 +1,4 @@
-/*package com.neet.DiamondHunter.MapViewer;
+package com.neet.DiamondHunter.MapViewer;
 
 import com.neet.DiamondHunter.Entity.Player;
 
@@ -11,4 +11,3 @@ public class ShowPlayer {
 	}
 	
 }
-*/
