@@ -26,4 +26,16 @@ public class MapPane extends Pane {
 	public WritableImage getCanvas() {
 		return canvas.snapshot(new SnapshotParameters(), null);
 	}
+	
+	public int getNumRows() {
+		return canvas.getNumRows();
+	}
+
+	public int getNumCols() {
+		return canvas.getNumCols();
+	}
+	
+	public int getTileSize() {
+		return canvas.getTileSize();
+	}
 }

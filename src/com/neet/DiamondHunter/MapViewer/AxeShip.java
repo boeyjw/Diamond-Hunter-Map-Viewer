@@ -6,12 +6,9 @@ package com.neet.DiamondHunter.MapViewer;
 
 import com.neet.DiamondHunter.Manager.Content;
 import com.neet.DiamondHunter.Manager.ImageConversion;
-import com.neet.DiamondHunter.Entity.Player;
 import com.neet.DiamondHunter.GameState.PlayState;
 
-import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;

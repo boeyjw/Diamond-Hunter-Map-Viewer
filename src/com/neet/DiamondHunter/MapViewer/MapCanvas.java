@@ -49,7 +49,6 @@ public class MapCanvas extends Canvas {
 			tileset = ImageIO.read(getClass().getResourceAsStream(s));
 			numTilesAcross = tileset.getWidth() / tileSize;
 			tiles = new Tile[2][numTilesAcross];
-
 			BufferedImage subimage1, subimage2;
 			for (int col = 0; col < numTilesAcross; col++) {
 				subimage1 = tileset.getSubimage(col * tileSize, 0, tileSize, tileSize);
@@ -76,7 +75,6 @@ public class MapCanvas extends Canvas {
 				tiles[0][col] = new Tile(wr1, Tile.NORMAL);
 				tiles[1][col] = new Tile(wr2, Tile.BLOCKED);
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -143,6 +141,18 @@ public class MapCanvas extends Canvas {
 
 		}
 
+	}
+	
+	public int getNumRows() {
+		return numRows;
+	}
+
+	public int getNumCols() {
+		return numCols;
+	}
+	
+	public int getTileSize() {
+		return tileSize;
 	}
 
 }
