@@ -6,12 +6,6 @@ package com.neet.DiamondHunter.Entity;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import com.neet.DiamondHunter.Coordinates.WriteCoord;
 import com.neet.DiamondHunter.TileMap.Tile;
 import com.neet.DiamondHunter.TileMap.TileMap;
