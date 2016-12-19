@@ -5,11 +5,14 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.TilePane;
 
 public class MapViewController implements Initializable {
+	
+	MapPane mp;
 	
 	@FXML
 	private Canvas mvCanvas;
@@ -18,11 +21,13 @@ public class MapViewController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		MapPane mp = new MapPane();
 		mvCanvas.relocate(60, 90);
-		mvCanvas.setWidth((double) (MapPane.WIDTH));
-		mvCanvas.setHeight((double) (MapPane.HEIGHT));
-		mvCanvas.getGraphicsContext2D().drawImage(mp.getCanvas(), 0, 0);
+		mvCanvas.setWidth((double) MapPane.WIDTH);
+		mvCanvas.setHeight((double) MapPane.HEIGHT);
+		
+		mp = new MapPane(mvCanvas);
+				
+		mvCanvas.getGraphicsContext2D().drawImage(mp.getGc().getCanvas().snapshot(new SnapshotParameters(), null), 0, 0);
 		
 		tileMapping.relocate(mvCanvas.getLayoutX() + 1, mvCanvas.getLayoutY() - 2);
 		tileMapping.setPrefSize((double) (mp.getNumCols() * mp.getTileSize()), (double) (mp.getNumCols() * mp.getTileSize()));
