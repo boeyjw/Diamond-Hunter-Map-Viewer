@@ -20,6 +20,7 @@ public class MapPane {
 
 	// map
 	private int[][] map;
+
 	private int tileSize;
 	private int numRows;
 	private int numCols;
@@ -27,7 +28,7 @@ public class MapPane {
 	// tileset
 	private BufferedImage tileset;
 	private int numTilesAcross;
-	private Tile[][] tiles;
+	private WritableImage[][] tiles;
 
 	// drawing
 	private int rowOffset;
@@ -39,30 +40,20 @@ public class MapPane {
 	// HEIGHT is the playing area size
 	public static final int WIDTH = 638;
 	public static final int HEIGHT = 625;
-	
-	GraphicsContext gc;
 
-	public MapPane(Canvas mvCanvas) {
-		init();
-		loadTiles("/Tilesets/testtileset.gif");
-		loadMap("/Maps/testmap.map");
-		gc = mvCanvas.getGraphicsContext2D();
-		drawImage(gc);
-	}
-	
-	private void init() {
+	public MapPane() {
 		tileSize = 16;
 		numRowsToDraw = MapPane.HEIGHT / tileSize + 2;
 		numColsToDraw = MapPane.WIDTH / tileSize + 2;
 	}
 
-	private void loadTiles(String s) {
+	public void loadTiles(String s) {
 
 		try {
 
 			tileset = ImageIO.read(getClass().getResourceAsStream(s));
 			numTilesAcross = tileset.getWidth() / tileSize;
-			tiles = new Tile[2][numTilesAcross];
+			tiles = new WritableImage[2][numTilesAcross];
 			BufferedImage subimage1, subimage2;
 			for (int col = 0; col < numTilesAcross; col++) {
 				subimage1 = tileset.getSubimage(col * tileSize, 0, tileSize, tileSize);
@@ -86,8 +77,8 @@ public class MapPane {
 						}
 					}
 				}
-				tiles[0][col] = new Tile(wr1, Tile.NORMAL);
-				tiles[1][col] = new Tile(wr2, Tile.BLOCKED);
+				tiles[0][col] = wr1;
+				tiles[1][col] = wr2;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -96,19 +87,18 @@ public class MapPane {
 	}
 
 	/**
-	 * Gets the reference to the resource it should load when loading tiles.
+	 * Gets the reference to the resource it should load when loading tiles and initialises tile information.
 	 * Coordinate reference:-<br>
 	 * - Player interactable (Tile.BLOCKED): (21 - Dead tree =AXE choppable=), (22 - Water tile =BOAT crossable=)<br>
 	 * - Obstacle (Tile.BLOCKED): (20 - Green tree)<br>
 	 * - Walkable (Tile.NORMAL): (1 - Normal green tile), (2 - Bush tile), (3 - Flower tile)
 	 * @param s Map resource URI
 	 */
-	private void loadMap(String s) {
+	public void loadMap(String s) {
 		try {
 
 			InputStream in = getClass().getResourceAsStream(s);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-
 			numCols = Integer.parseInt(br.readLine());
 			numRows = Integer.parseInt(br.readLine());
 			map = new int[numRows][numCols];
@@ -149,7 +139,7 @@ public class MapPane {
 				int r = rc / numTilesAcross;
 				int c = rc % numTilesAcross;
 				gc.save();
-				gc.drawImage(tiles[r][c].getImage(), x + col * tileSize, y + row * tileSize);
+				gc.drawImage(tiles[r][c], x + col * tileSize, y + row * tileSize);
 
 			}
 
@@ -168,8 +158,8 @@ public class MapPane {
 	public int getNumCols() {
 		return numCols;
 	}
-
-	public GraphicsContext getGc() {
-		return gc;
+	
+	public int getTileImageFromMap(int r, int c) {
+		return map[r][c];
 	}
 }
