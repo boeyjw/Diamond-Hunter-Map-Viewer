@@ -8,14 +8,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.TilePane;
 
 public class MapViewController implements Initializable {
 	
@@ -23,6 +22,8 @@ public class MapViewController implements Initializable {
 	private GraphicsContext gc;
 	private TileInformation[][] tileInfo;
 	
+	@FXML
+	private AnchorPane mainPane;
 	@FXML
 	private Canvas mvCanvas;
 	@FXML
@@ -33,10 +34,13 @@ public class MapViewController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		mp = new MapPane();
-		mapStack.relocate(60, 60);
-		mapStack.setPrefSize((double) (mp.getNumRows() * mp.getTileSize() - 15), (double) (mp.getNumCols() * mp.getTileSize() - 15));
 		
 		initMapCanvas();
+		
+		mapStack.relocate(20, 20);
+		mapStack.setPrefSize((double) (mp.getNumRows() * mp.getTileSize()), (double) (mp.getNumCols() * mp.getTileSize()));
+		
+		mainPane.setMinSize(mapStack.getPrefWidth() + 100, mapStack.getPrefHeight() + 100);
 		
 		initTileMapping();
 	}
@@ -62,11 +66,17 @@ public class MapViewController implements Initializable {
 		
 		for(int row = 0; row < mp.getNumRows(); row++) {
 			for(int col = 0; col < mp.getNumCols(); col++) {
-				Label lb = new Label("X");
-				tileMapping.add(lb, col, row);
 				tileInfo[row][col] = new TileInformation(mp.getTileImageFromMap(row, col));
+				addPane(col, row);
 			}
 		}
 	}
 	
+	private void addPane(int colIndex, int rowIndex) {
+        Pane pane = new Pane();
+        pane.setOnMouseEntered(e -> {
+            System.out.println("Box is: " + tileInfo[rowIndex][colIndex].getTileImageType());
+        });
+        tileMapping.add(pane, colIndex, rowIndex);
+    }
 }
