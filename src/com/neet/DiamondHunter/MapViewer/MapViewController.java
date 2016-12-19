@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.TilePane;
 
 public class MapViewController implements Initializable {
@@ -29,5 +30,11 @@ public class MapViewController implements Initializable {
 		tileMapping.setPrefTileHeight((double) (mp.getTileSize()));
 		tileMapping.setPrefRows(mp.getNumRows());
 		tileMapping.setPrefColumns(mp.getNumCols());
+		
+		for(int i = 0; i < tileMapping.getPrefColumns(); i++) {
+			for(int j = 0; j < tileMapping.getPrefRows() - 5; j++) {
+				tileMapping.getChildren().add(new CheckBox());
+			}
+		}
 	}
 }
