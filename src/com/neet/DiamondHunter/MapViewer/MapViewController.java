@@ -8,7 +8,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 
 public class MapViewController implements Initializable {
@@ -20,11 +26,15 @@ public class MapViewController implements Initializable {
 	@FXML
 	private Canvas mvCanvas;
 	@FXML
-	private TilePane tileMapping;
+	private GridPane tileMapping;
+	@FXML
+	private StackPane mapStack;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		mp = new MapPane();
+		mapStack.relocate(60, 90);
+		mapStack.setPrefSize((double) (mp.getNumRows() * mp.getTileSize() - 15), (double) (mp.getNumCols() * mp.getTileSize() - 15));
 		
 		initMapCanvas();
 		
@@ -32,7 +42,6 @@ public class MapViewController implements Initializable {
 	}
 
 	private void initMapCanvas() {
-		mvCanvas.relocate(60, 90);
 		mvCanvas.setWidth((double) MapPane.WIDTH);
 		mvCanvas.setHeight((double) MapPane.HEIGHT);
 		
@@ -45,22 +54,16 @@ public class MapViewController implements Initializable {
 	}
 	
 	private void initTileMapping() {
-		tileMapping.relocate(mvCanvas.getLayoutX() + 1, mvCanvas.getLayoutY() - 2);
-		tileMapping.setPrefSize((double) (mp.getNumCols() * mp.getTileSize()), (double) (mp.getNumCols() * mp.getTileSize()));
-		tileMapping.setPrefTileWidth((double) (mp.getTileSize()));
-		tileMapping.setPrefTileHeight((double) (mp.getTileSize()));
-		tileMapping.setPrefRows(mp.getNumRows());
-		tileMapping.setPrefColumns(mp.getNumCols());
-
-		tileInfo = new TileInformation[mp.getNumCols()][mp.getNumRows()];
+		tileInfo = new TileInformation[mp.getNumRows()][mp.getNumCols()];
 		
-		for(int row = 0; row < tileMapping.getPrefRows(); row++) {
-			for(int col = 0; col < tileMapping.getPrefColumns(); col++) {
-				Label tileCoord = new Label();
-				tileCoord.setId("o" + Integer.toString(row) + "x" + Integer.toString(col));
-				tileCoord.setVisible(false);
+		//Is out by a column for some odd reason
+		for(int row = 0; row < mp.getTileSize() - 3; row++) {
+			tileMapping.getColumnConstraints().add(new ColumnConstraints((double) (mp.getTileSize())));
+			tileMapping.getRowConstraints().add(new RowConstraints((double) (mp.getTileSize())));
+			for(int col = 0; col < mp.getTileSize() - 1; col++) {
+				Label lb = (col == 0 || row == 0) ? new Label(Integer.toString(col)) : new Label();
+				tileMapping.add(lb, col, row);
 				tileInfo[row][col] = new TileInformation(mp.getTileImageFromMap(row, col));
-				tileMapping.getChildren().add(tileCoord);
 			}
 		}
 	}
