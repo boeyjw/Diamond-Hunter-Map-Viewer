@@ -6,7 +6,7 @@ package com.neet.DiamondHunter.Main;
 
 import javax.swing.JFrame;
 
-import com.neet.DiamondHunter.ViewVivian.MapView;
+import com.neet.DiamondHunter.MapViewer.MapView;
 
 import javafx.application.Application;
 

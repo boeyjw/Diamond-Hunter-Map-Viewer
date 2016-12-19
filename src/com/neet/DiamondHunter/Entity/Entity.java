@@ -6,7 +6,7 @@ package com.neet.DiamondHunter.Entity;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-
+import com.neet.DiamondHunter.Coordinates.WriteCoord;
 import com.neet.DiamondHunter.TileMap.Tile;
 import com.neet.DiamondHunter.TileMap.TileMap;
 
@@ -61,8 +61,9 @@ public abstract class Entity {
 		x = i1;
 		y = i2;
 		xdest = x;
-		ydest = y;
+		ydest = y;		
 	}
+	
 	public void setMapPosition() {
 		xmap = tileMap.getx();
 		ymap = tileMap.gety();
@@ -197,5 +198,4 @@ public abstract class Entity {
 			null
 		);
 	}
-	
 }

@@ -7,11 +7,6 @@ package com.neet.DiamondHunter.GameState;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import com.neet.DiamondHunter.Entity.Diamond;
@@ -25,6 +20,7 @@ import com.neet.DiamondHunter.Manager.GameStateManager;
 import com.neet.DiamondHunter.Manager.JukeBox;
 import com.neet.DiamondHunter.Manager.Keys;
 import com.neet.DiamondHunter.TileMap.TileMap;
+import com.neet.DiamondHunter.Coordinates.WriteCoord;
 
 public class PlayState extends GameState {
 	
@@ -205,56 +201,8 @@ public class PlayState extends GameState {
 	 * This method has not custom write capabilities unless the file does not exist.
 	 * @return The axe and boat coordinates. Arrangement: {@code AXE_xaxis, AXE_yaxis, BOAT_xaxis, BOAT_yaxis}
 	 */
-	private int[] getItemCoord() {
-		File itemCoordFile = new File("Resources/Sprites/Item-Coordinates.txt");
-		
-		//If the file does not exist in the specified path
-		if(!itemCoordFile.exists() || itemCoordFile.isDirectory()) {
-			try {
-				//Create the file first. If this fails, NullPointerException will be thrown as return value is null
-				if(itemCoordFile.createNewFile()) {
-					FileWriter wrItemCoords = new FileWriter(itemCoordFile);
-					wrItemCoords.write("26,37,12,4"); //This is the default position of the axe and boat
-					wrItemCoords.close();
-				}
-			} catch (IOException e) {
-				System.err.println("Unable to create or write file");
-				e.printStackTrace();
-			}
-		}
-		
-		//File exist and is ready to be read
-		if(itemCoordFile.canRead()) {
-			try {
-				FileInputStream rdItemCoords = new FileInputStream(itemCoordFile);
-				byte[] data = new byte[(int) itemCoordFile.length()];
-				
-				//Read the entire file in one go
-				rdItemCoords.read(data);
-				rdItemCoords.close();
-				String[] strItemCoords = new String(data, "UTF-8").split(",");
-				
-				//Get the coordinates
-				int[] itemCoords = new int[strItemCoords.length];
-				for(int i = 0; i < strItemCoords.length; i++) {
-					itemCoords[i] = Integer.parseInt(strItemCoords[i]);
-				}
-	
-				return itemCoords;
-			} catch (FileNotFoundException e) {
-				System.err.println("File does not exist");
-				e.printStackTrace();
-			} catch (IOException e) {
-				System.err.println("No read access to file");
-				e.printStackTrace();
-			}
-		}
-		else {
-			System.err.println("Error in reading file");
-			return null;
-		}
-		
-		return null;
+	public int[] getItemCoord() {
+		return WriteCoord.getCoord("Item-Coordinates", "26,37,12,4");
 	}
 
 	public void update() {

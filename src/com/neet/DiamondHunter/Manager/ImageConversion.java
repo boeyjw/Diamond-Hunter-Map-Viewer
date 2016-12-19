@@ -7,6 +7,7 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 
 public class ImageConversion {
+
 	private BufferedImage buffImg;
 	private BufferedImage[] buffImgList;
 	private WritableImage wrImg;
@@ -15,7 +16,7 @@ public class ImageConversion {
 	public ImageConversion(BufferedImage buffImg) {
 		this.buffImg = buffImg;
 	}
-
+	
 	public ImageConversion(BufferedImage[] buffImgList) {
 		this.buffImgList = buffImgList;
 	}
@@ -28,7 +29,7 @@ public class ImageConversion {
 		this.wrImgList = wrImgList;
 	}
 
-	public WritableImage getWrImg() {
+	public static WritableImage getWrImg() {
 		WritableImage wrImg = null;
 		if (buffImg != null) {
 			wrImg = new WritableImage(buffImg.getWidth(), buffImg.getHeight());
@@ -41,7 +42,7 @@ public class ImageConversion {
 		}
 		return wrImg;
 	}
-
+	
 	public WritableImage[] getWrImgList() {
 		WritableImage[] wrImgList = new WritableImage[buffImgList.length];
 		for (int i = 0; i < buffImgList.length; i++) {
@@ -57,6 +58,7 @@ public class ImageConversion {
 		}
 		return wrImgList;
 	}
+
 
 	public BufferedImage getBuffImg() {
 		return SwingFXUtils.fromFXImage(wrImg, null);
