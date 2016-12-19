@@ -33,7 +33,7 @@ public class MapViewController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		mp = new MapPane();
-		mapStack.relocate(60, 90);
+		mapStack.relocate(60, 60);
 		mapStack.setPrefSize((double) (mp.getNumRows() * mp.getTileSize() - 15), (double) (mp.getNumCols() * mp.getTileSize() - 15));
 		
 		initMapCanvas();
@@ -55,13 +55,14 @@ public class MapViewController implements Initializable {
 	
 	private void initTileMapping() {
 		tileInfo = new TileInformation[mp.getNumRows()][mp.getNumCols()];
-		
-		//Is out by a column for some odd reason
-		for(int row = 0; row < mp.getTileSize() - 3; row++) {
+		for(int i = 0; i < tileInfo.length; i++) {
 			tileMapping.getColumnConstraints().add(new ColumnConstraints((double) (mp.getTileSize())));
 			tileMapping.getRowConstraints().add(new RowConstraints((double) (mp.getTileSize())));
-			for(int col = 0; col < mp.getTileSize() - 1; col++) {
-				Label lb = (col == 0 || row == 0) ? new Label(Integer.toString(col)) : new Label();
+		}
+		
+		for(int row = 0; row < mp.getNumRows(); row++) {
+			for(int col = 0; col < mp.getNumCols(); col++) {
+				Label lb = new Label("X");
 				tileMapping.add(lb, col, row);
 				tileInfo[row][col] = new TileInformation(mp.getTileImageFromMap(row, col));
 			}

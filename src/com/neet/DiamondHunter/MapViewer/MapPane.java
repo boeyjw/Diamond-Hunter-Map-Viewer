@@ -30,21 +30,13 @@ public class MapPane {
 	private int numTilesAcross;
 	private WritableImage[][] tiles;
 
-	// drawing
-	private int rowOffset;
-	private int colOffset;
-	private int numRowsToDraw;
-	private int numColsToDraw;
-
 	// dimensions
 	// HEIGHT is the playing area size
-	public static final int WIDTH = 638;
-	public static final int HEIGHT = 625;
+	public static final int WIDTH = 640;
+	public static final int HEIGHT = 640;
 
 	public MapPane() {
 		tileSize = 16;
-		numRowsToDraw = MapPane.HEIGHT / tileSize + 2;
-		numColsToDraw = MapPane.WIDTH / tileSize + 2;
 	}
 
 	public void loadTiles(String s) {
@@ -123,15 +115,8 @@ public class MapPane {
 
 	public void drawImage(GraphicsContext gc) {
 
-		for (int row = rowOffset; row < rowOffset + numRowsToDraw; row++) {
-
-			if (row >= numRows)
-				break;
-
-			for (int col = colOffset; col < colOffset + numColsToDraw; col++) {
-
-				if (col >= numCols)
-					break;
+		for (int row = 0; row < numRows; row++) {
+			for (int col = 0; col < numCols; col++) {
 				if (map[row][col] == 0)
 					continue;
 
@@ -140,11 +125,8 @@ public class MapPane {
 				int c = rc % numTilesAcross;
 				gc.save();
 				gc.drawImage(tiles[r][c], x + col * tileSize, y + row * tileSize);
-
 			}
-
 		}
-
 	}
 
 	public int getTileSize() {
