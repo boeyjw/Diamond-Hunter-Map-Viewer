@@ -8,8 +8,16 @@ import javafx.fxml.Initializable;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
-import javafx.scene.layout.TilePane;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.StackPane;
 
 public class MapViewController implements Initializable {
 	
@@ -18,9 +26,15 @@ public class MapViewController implements Initializable {
 	private TileInformation[][] tileInfo;
 	
 	@FXML
+	private AnchorPane mainPane;
+	@FXML
 	private Canvas mvCanvas;
 	@FXML
-	private TilePane tileMapping;
+	private GridPane tileMapping;
+	@FXML
+	private StackPane mapStack;
+	@FXML
+	private TextArea tileInfoText;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -28,11 +42,15 @@ public class MapViewController implements Initializable {
 		
 		initMapCanvas();
 		
+		mapStack.relocate(20, 20);
+		mapStack.setPrefSize((double) (mp.getNumRows() * mp.getTileSize()), (double) (mp.getNumCols() * mp.getTileSize()));
+		
+		mainPane.setMinSize(mapStack.getPrefWidth() + 100, mapStack.getPrefHeight() + 100);
+		
 		initTileMapping();
 	}
 
 	private void initMapCanvas() {
-		mvCanvas.relocate(60, 90);
 		mvCanvas.setWidth((double) MapPane.WIDTH);
 		mvCanvas.setHeight((double) MapPane.HEIGHT);
 		
@@ -45,24 +63,56 @@ public class MapViewController implements Initializable {
 	}
 	
 	private void initTileMapping() {
-		tileMapping.relocate(mvCanvas.getLayoutX() + 1, mvCanvas.getLayoutY() - 2);
-		tileMapping.setPrefSize((double) (mp.getNumCols() * mp.getTileSize()), (double) (mp.getNumCols() * mp.getTileSize()));
-		tileMapping.setPrefTileWidth((double) (mp.getTileSize()));
-		tileMapping.setPrefTileHeight((double) (mp.getTileSize()));
-		tileMapping.setPrefRows(mp.getNumRows());
-		tileMapping.setPrefColumns(mp.getNumCols());
-
-		tileInfo = new TileInformation[mp.getNumCols()][mp.getNumRows()];
+		tileInfo = new TileInformation[mp.getNumRows()][mp.getNumCols()];
+		for(int i = 0; i < tileInfo.length; i++) {
+			tileMapping.getColumnConstraints().add(new ColumnConstraints((double) (mp.getTileSize())));
+			tileMapping.getRowConstraints().add(new RowConstraints((double) (mp.getTileSize())));
+		}
 		
-		for(int row = 0; row < tileMapping.getPrefRows(); row++) {
-			for(int col = 0; col < tileMapping.getPrefColumns(); col++) {
-				Label tileCoord = new Label();
-				tileCoord.setId("o" + Integer.toString(row) + "x" + Integer.toString(col));
-				tileCoord.setVisible(false);
+		for(int row = 0; row < mp.getNumRows(); row++) {
+			for(int col = 0; col < mp.getNumCols(); col++) {
 				tileInfo[row][col] = new TileInformation(mp.getTileImageFromMap(row, col));
-				tileMapping.getChildren().add(tileCoord);
+				addPane(col, row);
 			}
 		}
 	}
 	
+	private void addPane(int colIndex, int rowIndex) {
+        Label label = new Label();
+        
+        String toolText = "Coordinate: " + Integer.toString(rowIndex + 1) + " x " + Integer.toString(colIndex + 1) + "\nTile Image: ";
+		
+		if(tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.GRASS) {
+			toolText += "Grassy tile";
+		}
+		else if(tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.BUSH) {
+			toolText += "Bushy tile";
+		}
+		else if(tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.FLOWER) {
+			toolText += "Flowery tile";
+		}
+		else if(tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.GREENTREE) {
+			toolText += "Big green tree";
+		}
+		else if(tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.DEADTREE) {
+			toolText += "Dead tree";
+		}
+		else if(tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.WATER) {
+			toolText += "Water";
+		}
+		
+		if(tileInfo[rowIndex][colIndex].isNormal()) {
+			toolText += "\nWalkable";
+		}
+		else {
+			toolText += "\nBlocked";
+		}
+		
+		final String tt = toolText;
+		
+        label.setOnMouseEntered(e -> {
+            tileInfoText.setText(tt);
+        });
+        tileMapping.add(label, colIndex, rowIndex);
+    }
 }

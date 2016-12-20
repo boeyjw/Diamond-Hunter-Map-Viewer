@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.StackPane?>
 
-<AnchorPane prefHeight="874.0" prefWidth="1096.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neet.DiamondHunter.MapViewer.MapViewController">
+<AnchorPane fx:id="mainPane" prefHeight="700.0" prefWidth="1003.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neet.DiamondHunter.MapViewer.MapViewController">
    <children>
-      <Canvas fx:id="mvCanvas" height="476.0" layoutX="59.0" layoutY="87.0" width="503.0" />
-      <TilePane fx:id="tileMapping" layoutX="119.0" layoutY="160.0" prefHeight="200.0" prefWidth="200.0" />
+      <StackPane fx:id="mapStack" layoutX="60.0" layoutY="60.0">
+         <children>
+            <Canvas fx:id="mvCanvas" height="640.0" width="640.0" />
+            <GridPane fx:id="tileMapping" gridLinesVisible="true">
+            </GridPane>
+         </children>
+      </StackPane>
+      <TextArea fx:id="tileInfoText" layoutX="725.0" layoutY="100.0" prefHeight="200.0" prefWidth="253.0" />
    </children>
 </AnchorPane>

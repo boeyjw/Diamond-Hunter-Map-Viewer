@@ -62,6 +62,7 @@ public class AxeShip {
 	private WritableImage getItem(){
 		item = new ImageConversion(Content.ITEMS[row][col]).getWrImg();	
 		return item;
+
 	}
 	
 }
