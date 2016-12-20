@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 
 import javax.imageio.ImageIO;
 
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;

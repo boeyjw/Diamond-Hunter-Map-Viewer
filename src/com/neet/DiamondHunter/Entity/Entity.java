@@ -6,7 +6,6 @@ package com.neet.DiamondHunter.Entity;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import com.neet.DiamondHunter.Coordinates.WriteCoord;
 import com.neet.DiamondHunter.TileMap.Tile;
 import com.neet.DiamondHunter.TileMap.TileMap;
 

@@ -21,6 +21,7 @@ public class MapViewController implements Initializable {
 	private MapPane mp;
 	private GraphicsContext gc;
 	private TileInformation[][] tileInfo;
+	boolean isLaunchedMainGame;
 	@FXML
 	private AnchorPane mainPane;
 	@FXML
@@ -34,7 +35,7 @@ public class MapViewController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		isLaunchedMainGame = false;
 		mp = new MapPane();
 
 		initMapCanvas();
@@ -82,6 +83,17 @@ public class MapViewController implements Initializable {
 
 	public void exitMapView() {
 		System.exit(0);
+	}
+	
+	public void playGame() {
+		if(!isLaunchedMainGame) {
+			MapView.runDHMainGame();
+			MapView.getWindow().setAutoRequestFocus(true);
+			isLaunchedMainGame = true;
+		}
+		else {
+			MapView.getWindow().setVisible(true);
+		}
 	}
 
 	private void addPane(int colIndex, int rowIndex) {

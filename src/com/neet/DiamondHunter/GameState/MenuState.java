@@ -5,10 +5,13 @@ package com.neet.DiamondHunter.GameState;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JFrame;
+
 import com.neet.DiamondHunter.Manager.Content;
 import com.neet.DiamondHunter.Manager.GameStateManager;
 import com.neet.DiamondHunter.Manager.JukeBox;
 import com.neet.DiamondHunter.Manager.Keys;
+import com.neet.DiamondHunter.MapViewer.MapView;
 
 public class MenuState extends GameState {
 	
@@ -18,8 +21,7 @@ public class MenuState extends GameState {
 	private int currentOption = 0;
 	private String[] options = {
 		"START",
-		"QUIT",
-		"MAP VIEWER"
+		"QUIT"
 	};
 	
 	public MenuState(GameStateManager gsm) {
@@ -43,11 +45,9 @@ public class MenuState extends GameState {
 		
 		Content.drawString(g, options[0], 44, 90);
 		Content.drawString(g, options[1], 48, 100);
-		Content.drawString(g, options[2], 26, 110); //Map viewer string in menu
 		
 		if(currentOption == 0) g.drawImage(diamond, 25, 86, null);
 		else if(currentOption == 1) g.drawImage(diamond, 25, 96, null);
-		else if(currentOption == 2) g.drawImage(diamond, 10, 106, null); //Select Map Viewer
 		
 	}
 	
@@ -71,10 +71,9 @@ public class MenuState extends GameState {
 			gsm.setState(GameStateManager.PLAY);
 		}
 		if(currentOption == 1) {
-			System.exit(0);
-		}
-		if(currentOption == 2) {
-			gsm.setState(GameStateManager.MAPVIEWER);
+			gsm.setState(GameStateManager.GAMEOVER);
+			gsm.setState(GameStateManager.INTRO);
+			MapView.getWindow().setVisible(false);
 		}
 	}
 	
