@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -14,6 +15,8 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 
 public class MapViewController implements Initializable {
 
@@ -76,6 +79,7 @@ public class MapViewController implements Initializable {
 		}
 	}
 
+	@FXML 
 	public void saveCoor() {
 		as = new AxeShip();
 		as.updateItemPosition();
@@ -115,7 +119,17 @@ public class MapViewController implements Initializable {
 		} else if (tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.WATER) {
 			toolText += "Water";
 		}
-
+		
+		as.getItemPosition();
+		if(colIndex == as.boatPosition[1] && rowIndex == as.boatPosition[0]){
+			as.type = 0;
+			label.setGraphic(new ImageView(as.getItem()));
+		}
+		if(colIndex == as.axePosition[1] && rowIndex == as.axePosition[0]){
+			as.type = 1;
+			label.setGraphic(new ImageView(as.getItem()));
+		}
+		
 		if (tileInfo[rowIndex][colIndex].isNormal()) {
 			toolText += "\nWalkable";
 		} else {

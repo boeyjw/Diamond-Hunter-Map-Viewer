@@ -14,9 +14,9 @@ import javafx.scene.image.WritableImage;
 public class AxeShip {
 
 	private WritableImage item;
-	private int type;
-	private int[] boatPosition;
-	private int[] axePosition;
+	int type;
+	static int[] boatPosition;
+	static int[] axePosition;
 	private int[] coordinates;
 	
 	int row;
@@ -35,23 +35,13 @@ public class AxeShip {
 	}
 
 	//get current position of the axe and boat
-	protected int[] getItemPosition(){
-		
+	protected void getItemPosition(){
 		//1 indicates line 1 which is the axe and boat coordinates
 		coordinates = WriteCoord.getCoord(1);
-		
-		if(type == BOAT){
-			row = boatPosition[0] = coordinates[2];
-			col = boatPosition[1] = coordinates[3];
-			
-			return boatPosition;
-			
-		}else if(type == AXE){
-			row = axePosition[0] = coordinates[0];
-			col = axePosition[1] = coordinates[1];
-			
-			return axePosition;
-		}else return null;
+		boatPosition[0] = coordinates[2];
+		boatPosition[1] = coordinates[3];
+		axePosition[0] = coordinates[0];
+		axePosition[1] = coordinates[1];
 	}
 	
 	//updates the game on the new position of the axe and boat
@@ -62,6 +52,15 @@ public class AxeShip {
 	
 	//get the sprites
 	protected WritableImage getItem(){
+		if(type == BOAT){
+			row = boatPosition[0];
+			col = boatPosition[1];
+		}
+		if(type == AXE){
+			row = axePosition[0];
+			col = axePosition[1];
+		}
+		
 		item = new ImageConversion(Content.ITEMS[row][col]).getWrImg();	
 		return item;
 
