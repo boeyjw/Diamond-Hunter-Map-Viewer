@@ -2,33 +2,25 @@ package com.neet.DiamondHunter.MapViewer;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.TextAlignment;
 
 public class MapViewController implements Initializable {
 
+	private AxeShip as;
 	private MapPane mp;
 	private GraphicsContext gc;
 	private TileInformation[][] tileInfo;
-
 	@FXML
 	private AnchorPane mainPane;
 	@FXML
@@ -42,7 +34,7 @@ public class MapViewController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-			
+
 		mp = new MapPane();
 
 		initMapCanvas();
@@ -81,6 +73,15 @@ public class MapViewController implements Initializable {
 				addPane(col, row);
 			}
 		}
+	}
+
+	public void saveCoor() {
+		as = new AxeShip();
+		as.updateItemPosition();
+	}
+
+	public void exitMapView() {
+		System.exit(0);
 	}
 
 	private void addPane(int colIndex, int rowIndex) {

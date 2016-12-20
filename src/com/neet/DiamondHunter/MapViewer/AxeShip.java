@@ -28,12 +28,16 @@ public class AxeShip {
 	private static final int BOAT = 0;
 	private static final int AXE = 1;
 	
-	private AxeShip(int type) {
+	protected AxeShip(int type) {
 		this.type = type;
 	}
 	
+	protected AxeShip() {
+		
+	}
+
 	//get current position of the axe and boat
-	private int[] getItemPosition(){
+	protected int[] getItemPosition(){
 		
 		PlayState ps = new PlayState(null);
 		coordinates = ps.getItemCoord();
@@ -53,13 +57,13 @@ public class AxeShip {
 	}
 	
 	//updates the game on the new position of the axe and boat
-	private void updateItemPosition(){
+	protected void updateItemPosition(){
 		String coords = Integer.toString(axePosition[0]) + "," + Integer.toString(axePosition[1]) + "," + Integer.toString(boatPosition[0]) + "," + Integer.toString(boatPosition[1]);
 		WriteCoord.overwriteFile(coords,1);
 	}
 	
 	//get the sprites
-	private WritableImage getItem(){
+	protected WritableImage getItem(){
 		item = new ImageConversion(Content.ITEMS[row][col]).getWrImg();	
 		return item;
 
