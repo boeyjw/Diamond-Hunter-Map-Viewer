@@ -12,18 +12,6 @@ public class MapView extends Application {
 		launch(args);
 	}
 
-	/*@Override
-	public void start(Stage primaryStage) throws Exception {
-		primaryStage.setTitle("Diamond Hunter");
-		Group root = new Group();
-		MapPane mp = new MapPane();
-		root.getChildren().add(mp);
-		primaryStage.setScene(new Scene(root));
-		primaryStage.show();
-		primaryStage.setResizable(false);
-		primaryStage.sizeToScene();
-	}*/
-	
 	@Override
 	public void start(Stage primaryStage) throws Exception{
 		try {
@@ -33,7 +21,8 @@ public class MapView extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Diamond Hunter Map Viewer"); 
 			primaryStage.show();
-			primaryStage.setResizable(true);
+			primaryStage.setResizable(false);
+			primaryStage.sizeToScene();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
