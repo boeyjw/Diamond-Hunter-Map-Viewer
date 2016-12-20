@@ -8,8 +8,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.util.List;
 
 /** 
  * This is a class to write coordinates of
@@ -30,7 +28,7 @@ private static final String[] diamond_coords = { "20,20","12,36","28,4","4,34","
 										 		 "35,26","38,36","27,28","20,30","14,25",
 										 		 "4,21","9,14","4,3","20,14","13,20" };
 	
-	public static int[] getCoord(String defPosition, int line){
+	public static int[] getCoord(int line){
 		File coordFile = new File("Resources/Sprites/Item-Coordinates.txt");
 		//If the file does not exist in the specified path
 		if(!coordFile.exists() || coordFile.isDirectory()) {
@@ -92,6 +90,7 @@ private static final String[] diamond_coords = { "20,20","12,36","28,4","4,34","
 		return null;
 	}
 	
+	//overwrite file to update position of items or player
 	public static void overwriteFile(String data, int line){
 		try {
 			BufferedReader coordFile = new BufferedReader(new FileReader("Resources/Sprites/Item-Coordinates.txt"));

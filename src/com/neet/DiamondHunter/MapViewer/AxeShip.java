@@ -39,8 +39,8 @@ public class AxeShip {
 	//get current position of the axe and boat
 	protected int[] getItemPosition(){
 		
-		PlayState ps = new PlayState(null);
-		coordinates = ps.getItemCoord();
+		//1 indicates line 1 which is the axe and boat coordinates
+		coordinates = WriteCoord.getCoord(1);
 		
 		if(type == BOAT){
 			row = boatPosition[0] = coordinates[2];

@@ -172,7 +172,7 @@ public class PlayState extends GameState {
 	}
 	
 	private void populateItems() {
-		int[] itemPos = getItemCoord();
+		int[] itemPos = WriteCoord.getCoord(1); //set the position
 		
 		if(itemPos == null) {
 			System.err.println("The game has failed to load custom coordinates. Falling back to default state.");
@@ -195,16 +195,6 @@ public class PlayState extends GameState {
 		items.add(item);
 	}
 	
-	/**
-	 * Reads the file for item coordinates.
-	 * If the file does not exist, create the file with default axe and boat position.
-	 * This method has not custom write capabilities unless the file does not exist.
-	 * @return The axe and boat coordinates. Arrangement: {@code AXE_xaxis, AXE_yaxis, BOAT_xaxis, BOAT_yaxis}
-	 */
-	public int[] getItemCoord() {
-		return WriteCoord.getCoord("26,37,12,4",1);
-	}
-
 	public void update() {
 		
 		// check keys

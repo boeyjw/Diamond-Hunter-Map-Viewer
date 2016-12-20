@@ -30,7 +30,8 @@ public class ShowPlayer{
 	
 	//get current position of the player
 	public int[] getPlayerPosition(){
-		coordinate = WriteCoord.getCoord("17,17",2);
+		//2 indicates line 2 which is the player's coordinate
+		coordinate = WriteCoord.getCoord(2);
 		row = coordinate[0];
 		col = coordinate[1];
 		
