@@ -8,7 +8,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -30,6 +33,8 @@ public class MapViewController implements Initializable {
 	private GridPane tileMapping;
 	@FXML
 	private StackPane mapStack;
+	@FXML
+	private TextArea tileInfoText;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -73,10 +78,41 @@ public class MapViewController implements Initializable {
 	}
 	
 	private void addPane(int colIndex, int rowIndex) {
-        Pane pane = new Pane();
-        pane.setOnMouseEntered(e -> {
-            System.out.println("Box is: " + tileInfo[rowIndex][colIndex].getTileImageType());
+        Label label = new Label();
+        
+        String toolText = "Coordinate: " + Integer.toString(rowIndex + 1) + " x " + Integer.toString(colIndex + 1) + "\nTile Image: ";
+		
+		if(tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.GRASS) {
+			toolText += "Grassy tile";
+		}
+		else if(tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.BUSH) {
+			toolText += "Bushy tile";
+		}
+		else if(tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.FLOWER) {
+			toolText += "Flowery tile";
+		}
+		else if(tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.GREENTREE) {
+			toolText += "Big green tree";
+		}
+		else if(tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.DEADTREE) {
+			toolText += "Dead tree";
+		}
+		else if(tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.WATER) {
+			toolText += "Water";
+		}
+		
+		if(tileInfo[rowIndex][colIndex].isNormal()) {
+			toolText += "\nWalkable";
+		}
+		else {
+			toolText += "\nBlocked";
+		}
+		
+		final String tt = toolText;
+		
+        label.setOnMouseEntered(e -> {
+            tileInfoText.setText(tt);
         });
-        tileMapping.add(pane, colIndex, rowIndex);
+        tileMapping.add(label, colIndex, rowIndex);
     }
 }
