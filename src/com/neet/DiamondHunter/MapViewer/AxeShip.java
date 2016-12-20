@@ -72,11 +72,7 @@ public class AxeShip {
 	
 	//get the sprites
 	private WritableImage getItem(){
-		ImageConversion ic;
-		
-		ic = new ImageConversion(Content.ITEMS[row][col]);
-			
-		return ImageConversion.getWrImg();
+		return (new ImageConversion(Content.ITEMS[row][col])).getWrImg();
 	}
 	
 }

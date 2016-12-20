@@ -19,13 +19,10 @@ public class ShowPlayer{
 
 	//get the sprites
 	public WritableImage getPlayer(){
-		ImageConversion ic;
-		
-		if(Player.onWater == true){
-			ic = new ImageConversion(Content.PLAYER[4]);
-		}else
-			ic = new ImageConversion(Content.PLAYER[0]);
-		return ImageConversion.getWrImg();
+		if(Player.onWater == true)
+			return (new ImageConversion(Content.PLAYER[4])).getWrImg();
+		else
+			return (new ImageConversion(Content.PLAYER[0])).getWrImg();
 	}
 	
 	//get current position of the player
