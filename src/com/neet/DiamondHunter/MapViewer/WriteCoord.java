@@ -65,14 +65,16 @@ private static final String[] diamond_coords = { "20,20","12,36","28,4","4,34","
 				String[] strCoords;
 				
 				//Get only the line for axe/boat coordinates or player coordinate
-				if(line == 1) strCoords= new String(strLines[0]).split(",");
-				else strCoords = new String(strLines[1]).split(",");
-
+				if(line == 1) strCoords= new String(strLines[0]).trim().split(",");
+				else strCoords = new String(strLines[1]).trim().split(",");
+				
+				//System.out.println(strCoords[0] + strCoords[1] + strCoords[2] + strCoords[3]);
 				//Get the coordinates
 				int[] Coords = new int[strCoords.length];
 				for(int i = 0; i < strCoords.length; i++) {
 					Coords[i] = Integer.parseInt(strCoords[i]);
 				}
+				
 				return Coords;
 			} catch (FileNotFoundException e) {
 				System.err.println("File does not exist");
