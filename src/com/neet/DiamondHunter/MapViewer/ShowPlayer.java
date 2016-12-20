@@ -1,8 +1,9 @@
-package com.neet.DiamondHunter.MapViewer;
+/* Get the position of player
+ * and return the value
+ * Get player sprite
+ * */
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+package com.neet.DiamondHunter.MapViewer;
 
 import com.neet.DiamondHunter.Entity.Player;
 import com.neet.DiamondHunter.Coordinates.WriteCoord;
@@ -16,21 +17,20 @@ public class ShowPlayer{
 	int[] coordinate;
 	int row;
 	int col;
+	WritableImage player;
 
 	//get the sprites
-	public WritableImage getPlayer(){
-		ImageConversion ic;
-		
+	public WritableImage getPlayer(){		
 		if(Player.onWater == true){
-			ic = new ImageConversion(Content.PLAYER[4]);
+			player = new ImageConversion(Content.PLAYER[4]).getWrImg();
 		}else
-			ic = new ImageConversion(Content.PLAYER[0]);
-		return ImageConversion.getWrImg();
+			player = new ImageConversion(Content.PLAYER[0]).getWrImg();
+		return player;
 	}
 	
 	//get current position of the player
 	public int[] getPlayerPosition(){
-		coordinate = WriteCoord.getCoord("Entity-Coordinates","40,40");
+		coordinate = WriteCoord.getCoord("17,17",2);
 		row = coordinate[0];
 		col = coordinate[1];
 		
@@ -38,18 +38,9 @@ public class ShowPlayer{
 	}
 	
 	//update current position
-	public void updatePlayerPosition() throws IOException{
-		File entityCoordFile = new File("Resources/Sprites/Entity-Coordinates.txt");
-		FileWriter newEntityCoordFile;
-		
-		String coords="";
-		coords = Integer.toString(row) + "," + Integer.toString(col);
-		
-		if(entityCoordFile.exists()){
-			newEntityCoordFile = new FileWriter(entityCoordFile,false);
-			newEntityCoordFile.write(coords);
-			newEntityCoordFile.close();
-		}
+	public void updatePlayerPosition(){
+		String coords = Integer.toString(row) + "," + Integer.toString(col);
+		WriteCoord.overwriteFile(coords,2);
 	}
 	
 }

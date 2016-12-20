@@ -1,17 +1,17 @@
-/* Get the position of axe and ship
+/* Get position of axe and boat
  * and return the value
+ * Update position of axe and boat
+ * Get axe and boat sprites
  * */
 
 package com.neet.DiamondHunter.MapViewer;
 
 import com.neet.DiamondHunter.Manager.Content;
 import com.neet.DiamondHunter.Manager.ImageConversion;
+import com.neet.DiamondHunter.Coordinates.WriteCoord;
 import com.neet.DiamondHunter.GameState.PlayState;
 
 import javafx.scene.image.WritableImage;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class AxeShip {
 
@@ -28,12 +28,9 @@ public class AxeShip {
 	private static final int BOAT = 0;
 	private static final int AXE = 1;
 	
-	private AxeShip(WritableImage item, int type) {
-		this.item = item;
+	private AxeShip(int type) {
 		this.type = type;
 	}
-	
-	private int getType() { return type; }
 	
 	//get current position of the axe and boat
 	private int[] getItemPosition(){
@@ -56,27 +53,15 @@ public class AxeShip {
 	}
 	
 	//updates the game on the new position of the axe and boat
-	private void updateItemPosition() throws IOException{
-		File itemCoordFile = new File("Resources/Sprites/Item-Coordinates.txt");
-		FileWriter newItemCoordFile;
-		
-		String coords="";
-		coords = Integer.toString(axePosition[0]) + "," + Integer.toString(axePosition[1]) + "," + Integer.toString(boatPosition[0]) + "," + Integer.toString(boatPosition[1]);
-		
-		if(itemCoordFile.exists()){
-			newItemCoordFile = new FileWriter(itemCoordFile,false);
-			newItemCoordFile.write(coords);
-			newItemCoordFile.close();
-		}
+	private void updateItemPosition(){
+		String coords = Integer.toString(axePosition[0]) + "," + Integer.toString(axePosition[1]) + "," + Integer.toString(boatPosition[0]) + "," + Integer.toString(boatPosition[1]);
+		WriteCoord.overwriteFile(coords,1);
 	}
 	
 	//get the sprites
 	private WritableImage getItem(){
-		ImageConversion ic;
-		
-		ic = new ImageConversion(Content.ITEMS[row][col]);
-			
-		return ImageConversion.getWrImg();
+		item = new ImageConversion(Content.ITEMS[row][col]).getWrImg();	
+		return item;
 	}
 	
 }

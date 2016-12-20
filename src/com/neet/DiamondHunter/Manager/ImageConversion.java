@@ -8,7 +8,7 @@ import javafx.scene.image.WritableImage;
 
 public class ImageConversion {
 
-	private static BufferedImage buffImg; //Check this, you cannot make a static reference to non-static field. Previously: private BufferedImage buffImg
+	private BufferedImage buffImg; //Check this, you cannot make a static reference to non-static field. Previously: private BufferedImage buffImg
 	private BufferedImage[] buffImgList;
 	private WritableImage wrImg;
 	private WritableImage[] wrImgList;
@@ -29,7 +29,7 @@ public class ImageConversion {
 		this.wrImgList = wrImgList;
 	}
 
-	public static WritableImage getWrImg() {
+	public WritableImage getWrImg() {
 		WritableImage wrImg = null;
 		if (buffImg != null) {
 			wrImg = new WritableImage(buffImg.getWidth(), buffImg.getHeight());

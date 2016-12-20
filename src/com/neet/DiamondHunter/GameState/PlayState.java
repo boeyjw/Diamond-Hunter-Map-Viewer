@@ -202,7 +202,7 @@ public class PlayState extends GameState {
 	 * @return The axe and boat coordinates. Arrangement: {@code AXE_xaxis, AXE_yaxis, BOAT_xaxis, BOAT_yaxis}
 	 */
 	public int[] getItemCoord() {
-		return WriteCoord.getCoord("Item-Coordinates", "26,37,12,4");
+		return WriteCoord.getCoord("26,37,12,4",1);
 	}
 
 	public void update() {
