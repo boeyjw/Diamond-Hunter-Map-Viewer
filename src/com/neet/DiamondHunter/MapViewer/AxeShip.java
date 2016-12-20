@@ -7,8 +7,7 @@
 package com.neet.DiamondHunter.MapViewer;
 
 import com.neet.DiamondHunter.Manager.Content;
-import com.neet.DiamondHunter.Manager.ImageConversion;
-import com.neet.DiamondHunter.Coordinates.WriteCoord;
+
 import javafx.scene.image.WritableImage;
 
 public class AxeShip {

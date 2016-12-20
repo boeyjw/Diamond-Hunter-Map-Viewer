@@ -1,4 +1,4 @@
-package com.neet.DiamondHunter.Manager;
+package com.neet.DiamondHunter.MapViewer;
 
 import java.awt.image.BufferedImage;
 

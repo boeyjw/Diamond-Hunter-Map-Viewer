@@ -6,6 +6,7 @@ package com.neet.DiamondHunter.Manager;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.sound.sampled.AudioFormat;
@@ -17,11 +18,13 @@ import javax.sound.sampled.FloatControl;
 public class JukeBox {
 	
 	private static HashMap<String, Clip> clips;
+	private static ArrayList<String> clipKeys;
 	private static int gap;
 	
 	// Creates new clips HashMap.
 	public static void init() {
 		clips = new HashMap<String, Clip>();
+		clipKeys = new ArrayList<String>();
 		gap = 0;
 	}
 	
@@ -49,6 +52,7 @@ public class JukeBox {
 			clip = AudioSystem.getClip();
 			clip.open(dais);
 			clips.put(n, clip);
+			clipKeys.add(n);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -70,6 +74,15 @@ public class JukeBox {
 	public static void stop(String s) {
 		if(clips.get(s) == null) return;
 		if(clips.get(s).isRunning()) clips.get(s).stop();
+	}
+	
+	public static void stopAll() {
+		if(clips.isEmpty())
+			return;
+		
+		for(String key : clipKeys) {
+			stop(key);
+		}
 	}
 	
 	public static void resume(String s) {

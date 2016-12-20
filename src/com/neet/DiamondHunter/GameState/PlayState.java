@@ -19,8 +19,8 @@ import com.neet.DiamondHunter.Manager.Data;
 import com.neet.DiamondHunter.Manager.GameStateManager;
 import com.neet.DiamondHunter.Manager.JukeBox;
 import com.neet.DiamondHunter.Manager.Keys;
+import com.neet.DiamondHunter.MapViewer.WriteCoord;
 import com.neet.DiamondHunter.TileMap.TileMap;
-import com.neet.DiamondHunter.Coordinates.WriteCoord;
 
 public class PlayState extends GameState {
 	

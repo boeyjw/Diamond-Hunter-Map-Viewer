@@ -6,9 +6,7 @@
 package com.neet.DiamondHunter.MapViewer;
 
 import com.neet.DiamondHunter.Entity.Player;
-import com.neet.DiamondHunter.Coordinates.WriteCoord;
 import com.neet.DiamondHunter.Manager.Content;
-import com.neet.DiamondHunter.Manager.ImageConversion;
 
 import javafx.scene.image.WritableImage;
 

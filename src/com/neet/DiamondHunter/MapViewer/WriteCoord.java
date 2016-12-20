@@ -1,4 +1,4 @@
-package com.neet.DiamondHunter.Coordinates;
+package com.neet.DiamondHunter.MapViewer;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -95,11 +95,11 @@ private static final String[] diamond_coords = { "20,20","12,36","28,4","4,34","
 		try {
 			BufferedReader coordFile = new BufferedReader(new FileReader("Resources/Sprites/Item-Coordinates.txt"));
 			int count=0;
-			String l;
-			while((l = coordFile.readLine()) != null){
+			String ln;
+			while((ln = coordFile.readLine()) != null){
 				count++;
 				if(count == line){
-					l.replace(l,data);
+					ln.replace(ln,data);
 				}
 			}
 			coordFile.close();

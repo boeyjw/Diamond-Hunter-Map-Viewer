@@ -1,53 +1,23 @@
 package com.neet.DiamondHunter.MapViewer;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-
-import javax.swing.JFrame;
-
-import com.neet.DiamondHunter.Main.GamePanel;
-import com.neet.DiamondHunter.Manager.GameStateManager;
-
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
+/**
+ * Main class of Map Viewer application.
+ * The launching of the application depends on this class.
+ *
+ */
 public class MapView extends Application {
 	
-	private static JFrame window;
-	
-	public static void runDHMainGame() {
-		window = new JFrame("Diamond Hunter");
-		
-		window.add(new GamePanel());
-		
-		window.setResizable(false);
-		window.pack();
-		
-		window.setLocationRelativeTo(null);
-		window.setVisible(true);
-		window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		
-		WindowListener closeWindow = new WindowAdapter() {
-			
-			@Override
-			public void windowClosing(WindowEvent e) {
-				window.setVisible(false);
-			}
-			
-		};
-		
-		window.addWindowListener(closeWindow);
-		
-	}
-
-	public static JFrame getWindow() {
-		return window;
-	}
-
+	/**
+	 * Sets the stage and injects FXML and CSS properties into the application.
+	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception{
 		try {
@@ -59,6 +29,14 @@ public class MapView extends Application {
 			primaryStage.show();
 			primaryStage.setResizable(false);
 			primaryStage.sizeToScene();
+			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+				
+				@Override
+				public void handle(WindowEvent event) {
+					System.exit(0);
+				}
+				
+			});
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
