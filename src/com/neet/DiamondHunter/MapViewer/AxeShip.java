@@ -16,12 +16,9 @@ public class AxeShip {
 	public int[] boatPosition;
 	public int[] axePosition;
 	private int[] coordinates;
-	
-<<<<<<< HEAD
-=======
+
 	private int col;
-	
->>>>>>> 1e50cb5a3a259b207996d6dc6c6b490fcfdae672
+
 	//items
 	public static final int BOAT = 0;
 	public static final int AXE = 1;
