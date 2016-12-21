@@ -1,35 +1,31 @@
-/* Get the position of player
+/* Get the position of Diamonds
  * and return the value
- * Get player sprite
+ * Get Diamonds sprite
  * */
 
 package com.neet.DiamondHunter.MapViewer;
-
-import com.neet.DiamondHunter.Entity.Player;
 import com.neet.DiamondHunter.Manager.Content;
 
 import javafx.scene.image.WritableImage;
 
-public class ShowPlayer implements EntityDisplay {
+public class ShowDiamonds implements EntityDisplay{
 
 	private int[] coordinate;
 
-	public ShowPlayer(){
+	public ShowDiamonds(){
 		coordinate = new int[2];
 		getEntityPosition();
-		updateEntityPosition();
 	}
 
 	@Override
 	public void getEntityPosition() {
-		//2 indicates line 2 which is the player's coordinate
-		coordinate = WriteCoord.getCoord(2);
+		//3 indicates line 3 which is the Diamonds's coordinate
+		coordinate = WriteCoord.getCoord(3);
 	}
 
 	@Override
 	public WritableImage getEntity(int type) {
-		WritableImage player = Player.onWater ? new ImageConversion(Content.PLAYER[4]).getWrImg() : new ImageConversion(Content.PLAYER[0]).getWrImg();
-		return player;
+		return new ImageConversion(Content.DIAMOND[0]).getWrImg();
 	}
 
 	@Override
@@ -40,7 +36,7 @@ public class ShowPlayer implements EntityDisplay {
 	@Override
 	public void updateEntityPosition() {
 		String coords = Integer.toString(coordinate[0]) + "," + Integer.toString(coordinate[1]);
-		WriteCoord.overwriteFile(coords,2);
+		WriteCoord.overwriteFile(coords,3);
 	}
 
 }
