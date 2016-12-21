@@ -10,6 +10,10 @@ import com.neet.DiamondHunter.Manager.Content;
 
 import javafx.scene.image.WritableImage;
 
+/**
+ * Handles axe and ship entity for the GridPane.
+ *
+ */
 public class AxeShip implements EntityDisplay {
 	
 	private int[] coordinates;

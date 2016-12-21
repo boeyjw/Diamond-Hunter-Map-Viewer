@@ -10,6 +10,10 @@ import com.neet.DiamondHunter.Manager.Content;
 
 import javafx.scene.image.WritableImage;
 
+/**
+ * Handles player entity in the GridPane
+ *
+ */
 public class ShowPlayer implements EntityDisplay {
 
 	private int[] coordinate;

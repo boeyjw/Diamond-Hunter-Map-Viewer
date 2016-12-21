@@ -8,6 +8,10 @@ import com.neet.DiamondHunter.Manager.Content;
 
 import javafx.scene.image.WritableImage;
 
+/**
+ * Handles diamond entity in the GridPane
+ *
+ */
 public class ShowDiamonds implements EntityDisplay{
 
 	private int[] coordinate;

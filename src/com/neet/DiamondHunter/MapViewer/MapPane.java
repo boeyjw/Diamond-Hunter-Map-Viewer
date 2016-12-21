@@ -11,6 +11,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 
+/**
+ * Loads the tiles and maps to be drawn onto the canvas.
+ * Class specific to handle the game map only.
+ *
+ */
 public class MapPane {
 
 	// position
@@ -35,9 +40,14 @@ public class MapPane {
 	public static final int HEIGHT = 640;
 
 	public MapPane() {
+		//The number of pixels of each tile
 		tileSize = 16;
 	}
-
+	
+	/**
+	 * Load the tiles and store a reference over each tile.
+	 * @param s The tile image URI
+	 */
 	public void loadTiles(String s) {
 
 		try {
@@ -111,7 +121,11 @@ public class MapPane {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * Draws the map based on the mapping data loaded from {@link com.neet.DiamondHunter.MapViewer.MapPane#loadMap(String)}.
+	 * @param gc The graphic context of the canvas.
+	 */
 	public void drawImage(GraphicsContext gc) {
 
 		for (int row = 0; row < numRows; row++) {
@@ -127,7 +141,12 @@ public class MapPane {
 			}
 		}
 	}
-
+	
+	/**
+	 * Retrieves the size of each tile.
+	 * Used to uniform the GridPane layout.
+	 * @return The number of pixels of each tile
+	 */
 	public int getTileSize() {
 		return tileSize;
 	}
@@ -140,6 +159,12 @@ public class MapPane {
 		return numCols;
 	}
 	
+	/**
+	 * Retrieves the tile image type from the mapping data loaded from {@link com.neet.DiamondHunter.MapViewer.MapPane#loadMap(String)}.
+	 * @param r The row index of the GridPane
+	 * @param c The column index of the GridPane
+	 * @return The tile image reference
+	 */
 	public int getTileImageFromMap(int r, int c) {
 		return map[r][c];
 	}
