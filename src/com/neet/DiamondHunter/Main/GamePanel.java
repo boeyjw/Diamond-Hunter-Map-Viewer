@@ -100,6 +100,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		gsm = new GameStateManager();
 	}
 	
+
 	// updates game
 	private void update() {
 		gsm.update();
@@ -116,6 +117,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		Graphics g2 = getGraphics();
 		g2.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT2 * SCALE, null);
 		g2.dispose();
+	}
+	
+	public GameStateManager getGsm() {
+		return gsm;
 	}
 	
 	// key event
