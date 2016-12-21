@@ -11,37 +11,29 @@ import com.neet.DiamondHunter.Manager.Content;
 import javafx.scene.image.WritableImage;
 
 public class ShowPlayer{
-	
-	private int row;
-	private int col;
-	
-	/**
-	 * Get default player position at start.
-	 */
-	public ShowPlayer() {
+
+	public int[] coordinate;
+	public int row;
+	public int col;
+	public WritableImage player;
+
+	public ShowPlayer(){
+		coordinate = new int[2];
 		getPlayerPosition();
 	}
 	
-	//get the sprites
-	public WritableImage getPlayer(){
-		WritableImage player;
-		
-		player = (Player.onWater) ? 
-				new ImageConversion(Content.PLAYER[4]).getWrImg() : 
-					new ImageConversion(Content.PLAYER[0]).getWrImg();
-
+	//get the sprite
+	public WritableImage getPlayer(){		
+		player = Player.onWater ? new ImageConversion(Content.PLAYER[4]).getWrImg() : new ImageConversion(Content.PLAYER[0]).getWrImg();
 		return player;
 	}
 	
 	//get current position of the player
-	public int[] getPlayerPosition(){
-		int[] coordinate;
+	public void getPlayerPosition(){
 		//2 indicates line 2 which is the player's coordinate
 		coordinate = WriteCoord.getCoord(2);
 		row = coordinate[0];
 		col = coordinate[1];
-		
-		return coordinate;
 	}
 	
 	//update current position

@@ -20,6 +20,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 
 /**
  * Main controller for the interface.
@@ -29,6 +32,7 @@ import javafx.scene.image.ImageView;
 public class MapViewController implements Initializable {
 	
 	private AxeShip as;
+	private ShowPlayer sp;
 	private MapPane mp;
 	private GraphicsContext gc;
 	private TileInformation[][] tileInfo;
@@ -52,6 +56,8 @@ public class MapViewController implements Initializable {
 		//MapPane has all the loaders for the map
 		mp = new MapPane();
 		as = new AxeShip();
+		sp = new ShowPlayer();
+		
 		//The tile information display box is never editable
 		tileInfoText.setEditable(false);
 		initMapCanvas();
@@ -129,16 +135,30 @@ public class MapViewController implements Initializable {
 			tileText += "Water";
 		}
 		
+		//display boat on top of tile
 		if(colIndex == as.boatPosition[1] && rowIndex == as.boatPosition[0]){
 			label.setGraphic(new ImageView(as.getItem(AxeShip.BOAT)));
 			tileInfo[rowIndex][colIndex].setEntity(true);
 			tileText += "\nA boat!";
+			label.setOnDragDetected(e -> {
+				Dragboard db = label.startDragAndDrop(TransferMode.ANY);
+				e.consume();
+			});
 		}
+		//display axe on top of tile
 		if(colIndex == as.axePosition[1] && rowIndex == as.axePosition[0]){
 			label.setGraphic(new ImageView(as.getItem(AxeShip.AXE)));
 			tileInfo[rowIndex][colIndex].setEntity(true);
 			tileText += "\nAn axe!";
 		}
+		//display player initial position on map
+		if(colIndex == sp.coordinate[1] && rowIndex == sp.coordinate[0]){
+			label.setGraphic(new ImageView(sp.getPlayer()));
+			tileInfo[rowIndex][colIndex].setEntity(true);
+			tileText += "\nYou are here!";
+		}
+		
+		
 		
 		if (tileInfo[rowIndex][colIndex].isNormal()) {
 			tileText += "\nWalkable";

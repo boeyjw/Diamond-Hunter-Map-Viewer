@@ -16,9 +16,9 @@ public class AxeShip {
 	public int[] boatPosition;
 	public int[] axePosition;
 	private int[] coordinates;
-	
+
 	private int col;
-	
+
 	//items
 	public static final int BOAT = 0;
 	public static final int AXE = 1;
@@ -46,15 +46,15 @@ public class AxeShip {
 		WriteCoord.overwriteFile(coords,1);
 	}
 	
-	//get the sprites
+	//get the sprite
 	public WritableImage getItem(int type){
+		int col = 0;
 		if(type == BOAT){
 			col = 0;
 		}
 		if(type == AXE){
 			col = 1;
 		}
-		
 		item = new ImageConversion(Content.ITEMS[1][col]).getWrImg();	
 		return item;
 
