@@ -1,7 +1,6 @@
 package com.neet.DiamondHunter.MapViewer;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import com.neet.DiamondHunter.Main.Game;
@@ -14,15 +13,12 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
@@ -85,7 +81,7 @@ public class MapViewController implements Initializable {
 	}
 	
 	/**
-	 * Initialises the map in a non-FXML canvas and draws onto FXML canvas in a whole.
+	 * Initialises the map in a non-FXML canvas and draws onto FXML canvas as a whole.
 	 */
 	private void initMapCanvas() {
 		mvCanvas.setWidth((double) MapPane.WIDTH);
@@ -111,7 +107,7 @@ public class MapViewController implements Initializable {
 		
 		for (int row = 0; row < mp.getNumRows(); row++) {
 			for (int col = 0; col < mp.getNumCols(); col++) {
-				tileInfo[row][col] = new TileInformation(mp.getTileImageFromMap(row, col));
+				tileInfo[row][col] = new TileInformation(mp.getTileImageFromMap(row, col), row, col);
 				addPane(col, row);
 			}
 		}
@@ -135,7 +131,7 @@ public class MapViewController implements Initializable {
 		} else if (tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.FLOWER) {
 			tileText += "Flowery tile";
 		} else if (tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.GREENTREE) {
-			tileText += "Big green tree";
+			tileText += "Green tree";
 		} else if (tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.DEADTREE) {
 			tileText += "Dead tree";
 		} else if (tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.WATER) {
@@ -147,14 +143,14 @@ public class MapViewController implements Initializable {
 			label.setGraphic(new ImageView(as.getItem(AxeShip.BOAT)));
 			tileInfo[rowIndex][colIndex].setEntity(true);
 			tileText += "\nA boat!";
-			dragSource(label);
+			dragSource(label, "Boat");
 		}
 		//display axe on top of tile
 		if(colIndex == as.axePosition[1] && rowIndex == as.axePosition[0]){
 			label.setGraphic(new ImageView(as.getItem(AxeShip.AXE)));
 			tileInfo[rowIndex][colIndex].setEntity(true);
 			tileText += "\nAn axe!";
-			dragSource(label);
+			dragSource(label, "Axe");
 		}
 		//display player initial position on map
 		if(colIndex == sp.coordinate[1] && rowIndex == sp.coordinate[0]){
@@ -168,10 +164,10 @@ public class MapViewController implements Initializable {
 		} else {
 			tileText += "\nBlocked";
 		}
-
-		final String tt = tileText;
 		
-		dropTarget(label);
+		dropTarget(label, tileInfo[rowIndex][colIndex]);
+		
+		final String tt = tileText;
 
 		label.setOnMouseEntered(e -> {
 			tileInfoText.setText(tt);
@@ -182,7 +178,6 @@ public class MapViewController implements Initializable {
 	
 	@FXML
 	private void saveCoor() {
-		as = new AxeShip();
 		as.updateItemPosition();
 	}
 	
@@ -213,13 +208,18 @@ public class MapViewController implements Initializable {
 	
 	/**
 	 * Method to drag axe/boat
+	 * @param source The label of the object going or being dragged
+	 * @param itemType The string of the item being dragged
 	 */
-	private void dragSource(Label source){
+	private void dragSource(Label source, String itemType){
 		source.setOnDragDetected((MouseEvent e) -> {
 			Dragboard db = source.startDragAndDrop(TransferMode.MOVE);
 			ClipboardContent content = new ClipboardContent();
 	        content.putImage(((ImageView)(source.getGraphic())).getImage());
 	        db.setContent(content);
+	        
+	        tileInfoText.setText("Dragging: " + itemType + "\nYou can only place the " + itemType + " in non-red tiles");
+	        
 			e.consume();
 		});
 		
@@ -232,14 +232,15 @@ public class MapViewController implements Initializable {
 
 	/**
 	 * Method to drop axe/boat on any good tile
+	 * @param target The label where the dragging object is currently on
+	 * @param ti The tile information of every tile in the map
 	 * */
-	private void dropTarget(Label target) {
-		
-		TileInformation ti = (TileInformation) (target.getUserData());
+	private void dropTarget(Label target, TileInformation ti) {
 		
 		target.setOnDragOver(e -> {
-			if (e.getGestureSource() != target) 
+			if (e.getGestureSource() != target) {
 				e.acceptTransferModes(TransferMode.MOVE);
+			}
 			e.consume();
 		});
 		
@@ -265,9 +266,7 @@ public class MapViewController implements Initializable {
 				Dragboard db = e.getDragboard();
 				boolean flag = false;
 				if(db.hasContent(DataFormat.IMAGE)){
-					Image obj = (Image) db.getContent(DataFormat.IMAGE);
-					ImageView iv = new ImageView(obj);
-					target.setGraphic(iv);
+					target.setGraphic(new ImageView(((Image) db.getContent(DataFormat.IMAGE))));
 					flag = true;
 				}
 				e.setDropCompleted(flag);

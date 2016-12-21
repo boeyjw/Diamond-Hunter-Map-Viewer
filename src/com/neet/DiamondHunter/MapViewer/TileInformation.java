@@ -24,10 +24,16 @@ public class TileInformation {
 	public static final int BUSH = 2;
 	public static final int FLOWER = 3;
 	
-	public TileInformation(int tileImageType) {
+	//tile coordinate
+	private int row;
+	private int col;
+	
+	public TileInformation(int tileImageType, int row, int col) {
 		this.tileImageType = tileImageType;
 		this.isNormal = (tileImageType == GRASS || tileImageType == BUSH || tileImageType == FLOWER) ? true : false;
 		this.isEntity = false;
+		this.row = row;
+		this.col = col;
 	}
 
 	public boolean isEntity() {
@@ -44,5 +50,13 @@ public class TileInformation {
 
 	public boolean isNormal() {
 		return isNormal;
+	}
+
+	public int getRow() {
+		return row;
+	}
+
+	public int getCol() {
+		return col;
 	}
 }
