@@ -25,7 +25,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 
 /**
@@ -122,6 +124,7 @@ public class MapViewController implements Initializable {
 	 */
 	private void addPane(int colIndex, int rowIndex) {
 		Label label = new Label();
+		label.setMinSize(mp.getTileSize(), mp.getTileSize());
 		label.setUserData(tileInfo[rowIndex][colIndex]);
 		String tileText = "Coordinate: " + Integer.toString(rowIndex + 1) + " x " + Integer.toString(colIndex + 1) + "\nTile Image: ";
 
@@ -144,13 +147,14 @@ public class MapViewController implements Initializable {
 			label.setGraphic(new ImageView(as.getItem(AxeShip.BOAT)));
 			tileInfo[rowIndex][colIndex].setEntity(true);
 			tileText += "\nA boat!";
-			drapDrop(label, );
+			dragSource(label);
 		}
 		//display axe on top of tile
 		if(colIndex == as.axePosition[1] && rowIndex == as.axePosition[0]){
 			label.setGraphic(new ImageView(as.getItem(AxeShip.AXE)));
 			tileInfo[rowIndex][colIndex].setEntity(true);
 			tileText += "\nAn axe!";
+			dragSource(label);
 		}
 		//display player initial position on map
 		if(colIndex == sp.coordinate[1] && rowIndex == sp.coordinate[0]){
@@ -159,8 +163,6 @@ public class MapViewController implements Initializable {
 			tileText += "\nYou are here!";
 		}
 		
-		
-		
 		if (tileInfo[rowIndex][colIndex].isNormal()) {
 			tileText += "\nWalkable";
 		} else {
@@ -168,11 +170,14 @@ public class MapViewController implements Initializable {
 		}
 
 		final String tt = tileText;
+		
+		dropTarget(label);
 
 		label.setOnMouseEntered(e -> {
 			tileInfoText.setText(tt);
 		});
 		tileMapping.add(label, colIndex, rowIndex);
+		
 	}
 	
 	@FXML
@@ -206,46 +211,15 @@ public class MapViewController implements Initializable {
 		}
 	}
 	
-	private void dragDrop(Label source, Label target){
-		source.setOnDragDetected(e -> {
+	/**
+	 * Method to drag axe/boat
+	 */
+	private void dragSource(Label source){
+		source.setOnDragDetected((MouseEvent e) -> {
 			Dragboard db = source.startDragAndDrop(TransferMode.MOVE);
-			
 			ClipboardContent content = new ClipboardContent();
 	        content.putImage(((ImageView)(source.getGraphic())).getImage());
 	        db.setContent(content);
-			e.consume();
-		});
-		
-		target.setOnDragOver(e -> {
-			if (e.getGestureSource() != target) 
-				e.acceptTransferModes(TransferMode.MOVE);
-			e.consume();
-		});
-		
-		target.setOnDragEntered(e -> {
-		   if (e.getGestureSource() != target && e.getDragboard().hasContent(DataFormat.IMAGE)) {
-			   TileInformation ti = (TileInformation) (target.getUserData());
-		       //if the tile has items on it or is blocked, set colour to red
-			   if(ti.isEntity() || !ti.isNormal())      
-		    	   target.setStyle(""); 
-		       else
-		    	   target.setStyle("");
-		   }
-		   e.consume();
-		});
-		
-		target.setOnDragExited(e -> {
-			target.setStyle(null);
-		});
-		
-		target.setOnDragDropped(e -> {
-			Dragboard db = e.getDragboard();
-			boolean flag = false;
-			if(db.hasContent(DataFormat.IMAGE)){
-				target.setGraphic((ImageView)(db.getContent(DataFormat.IMAGE)));
-				flag = true;
-			}
-			e.setDropCompleted(flag);
 			e.consume();
 		});
 		
@@ -255,5 +229,50 @@ public class MapViewController implements Initializable {
 			e.consume();
 		});
 	}
-}
 
+	/**
+	 * Method to drop axe/boat on any good tile
+	 * */
+	private void dropTarget(Label target) {
+		
+		TileInformation ti = (TileInformation) (target.getUserData());
+		
+		target.setOnDragOver(e -> {
+			if (e.getGestureSource() != target) 
+				e.acceptTransferModes(TransferMode.MOVE);
+			e.consume();
+		});
+		
+		target.setOnDragEntered(e -> {
+		   if (e.getGestureSource() != target && e.getDragboard().hasContent(DataFormat.IMAGE)) {
+		       //if the tile has items on it or is blocked, set colour to red
+			   if(ti.isEntity() || !ti.isNormal()){ 
+		    	   target.setStyle(""); 
+			   }
+		       else{
+		    	   target.setStyle("");
+		       }
+		   }
+		   e.consume();
+		});
+		
+		target.setOnDragExited(e -> {
+			target.setStyle(null);
+		});
+		
+		if(!ti.isEntity() && ti.isNormal()){
+			target.setOnDragDropped((DragEvent e) -> {
+				Dragboard db = e.getDragboard();
+				boolean flag = false;
+				if(db.hasContent(DataFormat.IMAGE)){
+					Image obj = (Image) db.getContent(DataFormat.IMAGE);
+					ImageView iv = new ImageView(obj);
+					target.setGraphic(iv);
+					flag = true;
+				}
+				e.setDropCompleted(flag);
+				e.consume();
+			});
+		}
+	}
+}
