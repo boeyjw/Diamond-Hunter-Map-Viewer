@@ -54,6 +54,7 @@ public class MapViewController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		WriteCoord.checkExist();
 		// At launch of Map Viewer, the game itself is never launched
 		isLaunchedMainGame = false;
 		// MapPane has all the loaders for the map
@@ -78,8 +79,6 @@ public class MapViewController implements Initializable {
 		 * FXML overridden if the application grows.
 		 */
 		mainPane.setMinSize(mapStack.getPrefWidth() + 100, mapStack.getPrefHeight() + 100);
-
-		WriteCoord.checkExist();
 
 		initTileMapping();
 	}

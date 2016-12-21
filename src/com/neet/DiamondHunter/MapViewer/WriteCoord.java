@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * This is a class to write coordinates of axe, boat, player and diamonds into a
@@ -100,17 +101,26 @@ public class WriteCoord {
 
 	// overwrite file to update position of items or player
 	public static void overwriteFile(String data, int line) {
+		checkExist();
 		try {
-			BufferedReader coordFile = new BufferedReader(new FileReader("Entity-Coordinates.txt"));
+			BufferedReader oldCoordFile = new BufferedReader(new FileReader("Entity-Coordinates.txt"));
 			int count = 0;
-			String l;
-			while ((l = coordFile.readLine()) != null) {
+			String l = "";
+			while ((l = oldCoordFile.readLine()) != null) {
 				count++;
 				if (count == line) {
-					l.replace(l, data);
+					l += l.replace(l, data);
 				}
+				l += "\n";
 			}
-			coordFile.close();
+			oldCoordFile.close();
+			
+			/*PrintWriter pw = new PrintWriter(coordFile);
+			pw.close();
+			
+			FileWriter fw = new FileWriter(coordFile);
+			fw.write(l);
+			fw.close();*/
 		} catch (FileNotFoundException e) {
 			System.err.println("File does not exist");
 			e.printStackTrace();
