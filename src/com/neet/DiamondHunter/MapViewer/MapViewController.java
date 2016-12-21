@@ -247,10 +247,10 @@ public class MapViewController implements Initializable {
 		   if (e.getGestureSource() != target && e.getDragboard().hasContent(DataFormat.IMAGE)) {
 		       //if the tile has items on it or is blocked, set colour to red
 			   if(ti.isEntity() || !ti.isNormal()){ 
-		    	   target.setStyle(""); 
+		    	   target.setStyle("-fx-background-color: rgba(255, 0, 0, 0.5)");
 			   }
 		       else{
-		    	   target.setStyle("");
+		    	   target.setStyle("-fx-background-color: rgba(0, 0, 0, 0)");
 		       }
 		   }
 		   e.consume();
