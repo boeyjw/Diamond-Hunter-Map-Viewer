@@ -36,7 +36,7 @@ public class ShowDiamonds{
 	//update current position
 	public void updateDiamondsPosition(){
 		String coords = Integer.toString(row) + "," + Integer.toString(col);
-		WriteCoord.overwriteFile(coords,2);
+		WriteCoord.overwriteFile(coords,3);
 	}
 	
 }
