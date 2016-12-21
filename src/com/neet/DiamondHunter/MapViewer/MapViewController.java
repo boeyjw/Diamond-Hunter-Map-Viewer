@@ -27,19 +27,20 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 
 /**
- * Main controller for the interface.
- * Any interaction in the MapViewInterface.fxml is computed here.
+ * Main controller for the interface. Any interaction in the
+ * MapViewInterface.fxml is computed here.
  *
  */
 public class MapViewController implements Initializable {
-	
+
 	private AxeShip as;
 	private ShowPlayer sp;
+	private ShowDiamonds sd;
 	private MapPane mp;
 	private GraphicsContext gc;
 	private TileInformation[][] tileInfo;
 	boolean isLaunchedMainGame;
-	
+
 	@FXML
 	private AnchorPane mainPane;
 	@FXML
@@ -50,38 +51,42 @@ public class MapViewController implements Initializable {
 	private StackPane mapStack;
 	@FXML
 	private TextArea tileInfoText;
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		//At launch of Map Viewer, the game itself is never launched
+		// At launch of Map Viewer, the game itself is never launched
 		isLaunchedMainGame = false;
-		//MapPane has all the loaders for the map
+		// MapPane has all the loaders for the map
 		mp = new MapPane();
 		as = new AxeShip();
 		sp = new ShowPlayer();
-		
-		//The tile information display box is never editable
+		sd = new ShowDiamonds();
+
+		// The tile information display box is never editable
 		tileInfoText.setEditable(false);
 		initMapCanvas();
-		
-		//Initialises the size of the StackPane that contains the map in canvas and GridPane
+
+		// Initialises the size of the StackPane that contains the map in canvas
+		// and GridPane
 		mapStack.relocate(20, 20);
-		mapStack.setPrefSize((double) (mp.getNumRows() * mp.getTileSize()), (double) (mp.getNumCols() * mp.getTileSize()));
-		
+		mapStack.setPrefSize((double) (mp.getNumRows() * mp.getTileSize()),
+				(double) (mp.getNumCols() * mp.getTileSize()));
+
 		/*
-		 * This is the base size of the entire application.
-		 * The AnchorPain (main window) is adjusted based on the size of the map.
-		 * However, this is FXML overridden if the application grows.
+		 * This is the base size of the entire application. The AnchorPain (main
+		 * window) is adjusted based on the size of the map. However, this is
+		 * FXML overridden if the application grows.
 		 */
 		mainPane.setMinSize(mapStack.getPrefWidth() + 100, mapStack.getPrefHeight() + 100);
-		
+
 		WriteCoord.checkExist();
-		
+
 		initTileMapping();
 	}
-	
+
 	/**
-	 * Initialises the map in a non-FXML canvas and draws onto FXML canvas as a whole.
+	 * Initialises the map in a non-FXML canvas and draws onto FXML canvas as a
+	 * whole.
 	 */
 	private void initMapCanvas() {
 		mvCanvas.setWidth((double) MapPane.WIDTH);
@@ -94,9 +99,10 @@ public class MapViewController implements Initializable {
 
 		mvCanvas.getGraphicsContext2D().drawImage(gc.getCanvas().snapshot(new SnapshotParameters(), null), 0, 0);
 	}
-	
+
 	/**
-	 * Initialises the grid on top of the map that handles input validation and movement of boat and axe.
+	 * Initialises the grid on top of the map that handles input validation and
+	 * movement of boat and axe.
 	 */
 	private void initTileMapping() {
 		tileInfo = new TileInformation[mp.getNumRows()][mp.getNumCols()];
@@ -104,7 +110,7 @@ public class MapViewController implements Initializable {
 			tileMapping.getColumnConstraints().add(new ColumnConstraints((double) (mp.getTileSize())));
 			tileMapping.getRowConstraints().add(new RowConstraints((double) (mp.getTileSize())));
 		}
-		
+
 		for (int row = 0; row < mp.getNumRows(); row++) {
 			for (int col = 0; col < mp.getNumCols(); col++) {
 				tileInfo[row][col] = new TileInformation(mp.getTileImageFromMap(row, col), row, col);
@@ -112,17 +118,21 @@ public class MapViewController implements Initializable {
 			}
 		}
 	}
-	
+
 	/**
 	 * Adds a label to each tile that contains information of the current tile.
-	 * @param colIndex The column index of the GridPane.
-	 * @param rowIndex The row index of the GridPane.
+	 * 
+	 * @param colIndex
+	 *            The column index of the GridPane.
+	 * @param rowIndex
+	 *            The row index of the GridPane.
 	 */
 	private void addPane(int colIndex, int rowIndex) {
 		Label label = new Label();
 		label.setMinSize(mp.getTileSize(), mp.getTileSize());
 		label.setUserData(tileInfo[rowIndex][colIndex]);
-		String tileText = "Coordinate: " + Integer.toString(rowIndex + 1) + " x " + Integer.toString(colIndex + 1) + "\nTile Image: ";
+		String tileText = "Coordinate: " + Integer.toString(rowIndex + 1) + " x " + Integer.toString(colIndex + 1)
+				+ "\nTile Image: ";
 
 		if (tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.GRASS) {
 			tileText += "Grassy tile";
@@ -137,92 +147,103 @@ public class MapViewController implements Initializable {
 		} else if (tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.WATER) {
 			tileText += "Water";
 		}
-		
-		//display boat on top of tile
-		if(colIndex == as.boatPosition[1] && rowIndex == as.boatPosition[0]){
+
+		// display boat on top of tile
+		if (colIndex == as.boatPosition[1] && rowIndex == as.boatPosition[0]) {
 			label.setGraphic(new ImageView(as.getItem(AxeShip.BOAT)));
 			tileInfo[rowIndex][colIndex].setEntity(true);
 			tileText += "\nA boat!";
 			dragSource(label, "Boat");
 		}
-		//display axe on top of tile
-		if(colIndex == as.axePosition[1] && rowIndex == as.axePosition[0]){
+		// display axe on top of tile
+		if (colIndex == as.axePosition[1] && rowIndex == as.axePosition[0]) {
 			label.setGraphic(new ImageView(as.getItem(AxeShip.AXE)));
 			tileInfo[rowIndex][colIndex].setEntity(true);
 			tileText += "\nAn axe!";
 			dragSource(label, "Axe");
 		}
-		//display player initial position on map
-		if(colIndex == sp.coordinate[1] && rowIndex == sp.coordinate[0]){
+		// display player initial position on map
+		if (colIndex == sp.coordinate[1] && rowIndex == sp.coordinate[0]) {
 			label.setGraphic(new ImageView(sp.getPlayer()));
 			tileInfo[rowIndex][colIndex].setEntity(true);
 			tileText += "\nYou are here!";
 		}
-		
+		// display diamonds initial position on map
+		if (colIndex == sd.coordinate[1] && rowIndex == sd.coordinate[0]) {
+			label.setGraphic(new ImageView(sd.getDiamonds()));
+			tileInfo[rowIndex][colIndex].setEntity(true);
+			tileText += "\nYou are here!";
+		}
+
 		if (tileInfo[rowIndex][colIndex].isNormal()) {
 			tileText += "\nWalkable";
 		} else {
 			tileText += "\nBlocked";
 		}
-		
+
 		dropTarget(label, tileInfo[rowIndex][colIndex]);
-		
+
 		final String tt = tileText;
 
 		label.setOnMouseEntered(e -> {
 			tileInfoText.setText(tt);
 		});
 		tileMapping.add(label, colIndex, rowIndex);
-		
+
 	}
-	
+
 	@FXML
 	private void saveCoor() {
 		as.updateItemPosition();
 	}
-	
+
 	/**
-	 * Exits the game and let's the garbage collector release the resources held by the application.
+	 * Exits the game and let's the garbage collector release the resources held
+	 * by the application.
 	 */
 	@FXML
 	private void exitMapView() {
 		System.exit(0);
 	}
-	
+
 	/**
-	 * Launched the game if the game has never been launched during the lifecycle of Map Viewer application.
-	 * If the game is launched at most once, the game will be kept alive throughout the lifecycle of the Map Viewer application.
-	 * Resources are not released throughout the lifecycle.
+	 * Launched the game if the game has never been launched during the
+	 * lifecycle of Map Viewer application. If the game is launched at most
+	 * once, the game will be kept alive throughout the lifecycle of the Map
+	 * Viewer application. Resources are not released throughout the lifecycle.
 	 */
 	@FXML
 	private void playGame() {
-		if(!isLaunchedMainGame) {
+		if (!isLaunchedMainGame) {
 			Game.runDHMainGame();
 			Game.getWindow().setAutoRequestFocus(true);
 			isLaunchedMainGame = true;
-		}
-		else {
+		} else {
 			Game.getWindow().setVisible(true);
 		}
 	}
-	
+
 	/**
 	 * Method to drag axe/boat
-	 * @param source The label of the object going or being dragged
-	 * @param itemType The string of the item being dragged
+	 * 
+	 * @param source
+	 *            The label of the object going or being dragged
+	 * @param itemType
+	 *            The string of the item being dragged
 	 */
-	private void dragSource(Label source, String itemType){
+	private void dragSource(Label source, String itemType) {
 		source.setOnDragDetected((MouseEvent e) -> {
 			Dragboard db = source.startDragAndDrop(TransferMode.MOVE);
 			ClipboardContent content = new ClipboardContent();
-	        content.putImage(((ImageView)(source.getGraphic())).getImage());
-	        db.setContent(content);
-	        
-	        tileInfoText.setText("Dragging: " + itemType + "\nYou can only place the " + itemType + " in non-red tiles");
-	        
+			content.putImage(((ImageView) (source.getGraphic())).getImage());
+			db.setContent(content);
+
+			tileInfoText
+					.setText("Dragging: " + itemType + "\nYou can only place the " + itemType + " in non-red tiles");
+
 			e.consume();
 		});
-		
+
 		source.setOnDragDone(e -> {
 			if (e.getTransferMode() == TransferMode.MOVE)
 				source.setGraphic(null);
@@ -232,40 +253,42 @@ public class MapViewController implements Initializable {
 
 	/**
 	 * Method to drop axe/boat on any good tile
-	 * @param target The label where the dragging object is currently on
-	 * @param ti The tile information of every tile in the map
-	 * */
+	 * 
+	 * @param target
+	 *            The label where the dragging object is currently on
+	 * @param ti
+	 *            The tile information of every tile in the map
+	 */
 	private void dropTarget(Label target, TileInformation ti) {
-		
+
 		target.setOnDragOver(e -> {
 			if (e.getGestureSource() != target) {
 				e.acceptTransferModes(TransferMode.MOVE);
 			}
 			e.consume();
 		});
-		
+
 		target.setOnDragEntered(e -> {
-		   if (e.getGestureSource() != target && e.getDragboard().hasContent(DataFormat.IMAGE)) {
-		       //if the tile has items on it or is blocked, set colour to red
-			   if(ti.isEntity() || !ti.isNormal()){ 
-		    	   target.setStyle("-fx-background-color: rgba(255, 0, 0, 0.5)");
-			   }
-		       else{
-		    	   target.setStyle("-fx-background-color: rgba(0, 0, 0, 0)");
-		       }
-		   }
-		   e.consume();
+			if (e.getGestureSource() != target && e.getDragboard().hasContent(DataFormat.IMAGE)) {
+				// if the tile has items on it or is blocked, set colour to red
+				if (ti.isEntity() || !ti.isNormal()) {
+					target.setStyle("-fx-background-color: rgba(255, 0, 0, 0.5)");
+				} else {
+					target.setStyle("-fx-background-color: rgba(0, 0, 0, 0)");
+				}
+			}
+			e.consume();
 		});
-		
+
 		target.setOnDragExited(e -> {
 			target.setStyle(null);
 		});
-		
-		if(!ti.isEntity() && ti.isNormal()){
+
+		if (!ti.isEntity() && ti.isNormal()) {
 			target.setOnDragDropped((DragEvent e) -> {
 				Dragboard db = e.getDragboard();
 				boolean flag = false;
-				if(db.hasContent(DataFormat.IMAGE)){
+				if (db.hasContent(DataFormat.IMAGE)) {
 					target.setGraphic(new ImageView(((Image) db.getContent(DataFormat.IMAGE))));
 					flag = true;
 				}
