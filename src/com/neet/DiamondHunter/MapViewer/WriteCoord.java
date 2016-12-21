@@ -12,15 +12,13 @@ import java.io.PrintWriter;
 
 /**
  * This is a class to write coordinates of axe, boat, player and diamonds into a
- * text file namely Entity-Coordinates.txt.
- * If the file does not exist, create the
+ * text file namely Item-Coordinates.txt If the file does not exist, create the
  * file and write all default position.
- * The coordinates which is needed. <br>
- * Arrangement: <br>
- * line 1 : {@code AXE_xaxis, AXE_yaxis, BOAT_xaxis, BOAT_yaxis} 
- * line 2 : {@code player_xaxis, player_yaxis} 
- * line 3-17: {@code diamond_xaxis, diamond_yaxis}
- * @return The coordinate array respective to the entity
+ * 
+ * @return The coordinates which is needed. Arrangement: line 1 :
+ *         {@code AXE_xaxis, AXE_yaxis, BOAT_xaxis, BOAT_yaxis} line 2 :
+ *         {@code player_xaxis, player_yaxis} line 3-17:
+ *         {@code diamond_xaxis, diamond_yaxis}
  **/
 
 public class WriteCoord {
@@ -30,12 +28,7 @@ public class WriteCoord {
 	private static final String[] diamond_coords = { "20,20", "12,36", "28,4", "4,34", "28,19", "35,26", "38,36",
 			"27,28", "20,30", "14,25", "4,21", "9,14", "4,3", "20,14", "13,20" };
 
-	/**
-	 * Check the existence of the file.
-	 * If the file exist, skips the entire method.
-	 * Otherwise, create the file with all the default position value of the entities.
-	 * This method will fail in strict UAC directory.
-	 */
+	// check if coordinate file exist in path
 	public static void checkExist() {
 		// If the file does not exist in the specified path
 		if (!coordFile.exists() || coordFile.isDirectory()) {
@@ -61,13 +54,7 @@ public class WriteCoord {
 			}
 		}
 	}
-	
-	/**
-	 * Retrieves the coordinates respective to the entity.
-	 * If the file does not exist, the method will fail.
-	 * @param line The line in which the coordinates of the respective entity is written on.
-	 * @return The array of coordinates.
-	 */
+
 	public static int[] getCoord(int line) {
 		checkExist();
 		// File exist and is ready to be read
@@ -112,33 +99,28 @@ public class WriteCoord {
 		return null;
 	}
 
-	/**
-	 * Updates the coordinates of the entity by overwriting the entire file.
-	 * If the file does not exist, the method will fail.
-	 * @param newCoords The updated coordinates of the entity
-	 * @param line The line to be rewritten with the updated coordinates.
-	 */
-	public static void overwriteFile(String newCoords, int line) {
+	// overwrite file to update position of items or player
+	public static void overwriteFile(String data, int line) {
 		checkExist();
 		try {
-			BufferedReader oldCoordFile = new BufferedReader(new FileReader(coordFile));
+			BufferedReader oldCoordFile = new BufferedReader(new FileReader("Entity-Coordinates.txt"));
 			int count = 0;
-			String ln = "";
-			while ((ln += oldCoordFile.readLine()) != null) {
+			String l = "";
+			while ((l = oldCoordFile.readLine()) != null) {
 				count++;
 				if (count == line) {
-					ln += ln.replace(ln, newCoords);
+					l += l.replace(l, data);
 				}
-				ln += "\n";
+				l += "\n";
 			}
 			oldCoordFile.close();
 			
-			PrintWriter clearCoordFile = new PrintWriter(coordFile);
-			clearCoordFile.close();
+			/*PrintWriter pw = new PrintWriter(coordFile);
+			pw.close();
 			
-			FileWriter owCoordFile = new FileWriter(coordFile);
-			owCoordFile.write(ln);
-			owCoordFile.close();
+			FileWriter fw = new FileWriter(coordFile);
+			fw.write(l);
+			fw.close();*/
 		} catch (FileNotFoundException e) {
 			System.err.println("File does not exist");
 			e.printStackTrace();
