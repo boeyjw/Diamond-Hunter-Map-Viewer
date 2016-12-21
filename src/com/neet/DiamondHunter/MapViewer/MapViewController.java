@@ -33,8 +33,8 @@ import javafx.scene.input.TransferMode;
  */
 public class MapViewController implements Initializable {
 	
-	private AxeShip as;
-	private ShowPlayer sp;
+	private EntityDisplay as;
+	private EntityDisplay sp;
 	private MapPane mp;
 	private GraphicsContext gc;
 	private TileInformation[][] tileInfo;
@@ -139,22 +139,22 @@ public class MapViewController implements Initializable {
 		}
 		
 		//display boat on top of tile
-		if(colIndex == as.boatPosition[1] && rowIndex == as.boatPosition[0]){
-			label.setGraphic(new ImageView(as.getItem(AxeShip.BOAT)));
+		if(as.compareCoordinates(rowIndex, colIndex, AxeShip.BOAT)){
+			label.setGraphic(new ImageView(as.getEntity(AxeShip.BOAT)));
 			tileInfo[rowIndex][colIndex].setEntity(true);
 			tileText += "\nA boat!";
 			dragSource(label, "Boat");
 		}
 		//display axe on top of tile
-		if(colIndex == as.axePosition[1] && rowIndex == as.axePosition[0]){
-			label.setGraphic(new ImageView(as.getItem(AxeShip.AXE)));
+		if(as.compareCoordinates(rowIndex, colIndex, AxeShip.AXE)){
+			label.setGraphic(new ImageView(as.getEntity(AxeShip.AXE)));
 			tileInfo[rowIndex][colIndex].setEntity(true);
 			tileText += "\nAn axe!";
 			dragSource(label, "Axe");
 		}
 		//display player initial position on map
-		if(colIndex == sp.coordinate[1] && rowIndex == sp.coordinate[0]){
-			label.setGraphic(new ImageView(sp.getPlayer()));
+		if(sp.compareCoordinates(rowIndex, colIndex, -1)){
+			label.setGraphic(new ImageView(sp.getEntity(-1)));
 			tileInfo[rowIndex][colIndex].setEntity(true);
 			tileText += "\nYou are here!";
 		}
@@ -178,7 +178,7 @@ public class MapViewController implements Initializable {
 	
 	@FXML
 	private void saveCoor() {
-		as.updateItemPosition();
+		as.updateEntityPosition();
 	}
 	
 	/**

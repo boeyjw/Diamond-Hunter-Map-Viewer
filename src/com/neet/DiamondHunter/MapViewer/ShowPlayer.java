@@ -10,36 +10,37 @@ import com.neet.DiamondHunter.Manager.Content;
 
 import javafx.scene.image.WritableImage;
 
-public class ShowPlayer{
+public class ShowPlayer implements EntityDisplay {
 
-	public int[] coordinate;
-	public int row;
-	public int col;
-	public WritableImage player;
+	private int[] coordinate;
 
 	public ShowPlayer(){
 		coordinate = new int[2];
-		getPlayerPosition();
+		getEntityPosition();
+		updateEntityPosition();
 	}
-	
-	//get the sprite
-	public WritableImage getPlayer(){		
-		player = Player.onWater ? new ImageConversion(Content.PLAYER[4]).getWrImg() : new ImageConversion(Content.PLAYER[0]).getWrImg();
-		return player;
-	}
-	
-	//get current position of the player
-	public void getPlayerPosition(){
+
+	@Override
+	public void getEntityPosition() {
 		//2 indicates line 2 which is the player's coordinate
 		coordinate = WriteCoord.getCoord(2);
-		row = coordinate[0];
-		col = coordinate[1];
 	}
-	
-	//update current position
-	public void updatePlayerPosition(){
-		String coords = Integer.toString(row) + "," + Integer.toString(col);
+
+	@Override
+	public WritableImage getEntity(int type) {
+		WritableImage player = Player.onWater ? new ImageConversion(Content.PLAYER[4]).getWrImg() : new ImageConversion(Content.PLAYER[0]).getWrImg();
+		return player;
+	}
+
+	@Override
+	public boolean compareCoordinates(int row, int col, int type) {
+		return (row == coordinate[0] && col == coordinate[1]) ? true : false;
+	}
+
+	@Override
+	public void updateEntityPosition() {
+		String coords = Integer.toString(coordinate[0]) + "," + Integer.toString(coordinate[1]);
 		WriteCoord.overwriteFile(coords,2);
 	}
-	
+
 }
