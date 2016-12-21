@@ -17,10 +17,13 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 
 public class MapViewController implements Initializable {
 
 	private AxeShip as;
+	private ShowPlayer sp;
 	private MapPane mp;
 	private GraphicsContext gc;
 	private TileInformation[][] tileInfo;
@@ -41,6 +44,7 @@ public class MapViewController implements Initializable {
 		isLaunchedMainGame = false;
 		mp = new MapPane();
 		as = new AxeShip();
+		sp = new ShowPlayer();
 
 		initMapCanvas();
 
@@ -124,16 +128,30 @@ public class MapViewController implements Initializable {
 			toolText += "Water";
 		}
 		
+		//display boat on top of tile
 		if(colIndex == as.boatPosition[1] && rowIndex == as.boatPosition[0]){
 			label.setGraphic(new ImageView(as.getItem(AxeShip.BOAT)));
 			tileInfo[rowIndex][colIndex].setEntity(true);
 			toolText += "\nA boat!";
+			label.setOnDragDetected(e -> {
+				Dragboard db = label.startDragAndDrop(TransferMode.ANY);
+				e.consume();
+			});
 		}
+		//display axe on top of tile
 		if(colIndex == as.axePosition[1] && rowIndex == as.axePosition[0]){
 			label.setGraphic(new ImageView(as.getItem(AxeShip.AXE)));
 			tileInfo[rowIndex][colIndex].setEntity(true);
 			toolText += "\nAn axe!";
 		}
+		//display player initial position on map
+		if(colIndex == sp.coordinate[1] && rowIndex == sp.coordinate[0]){
+			label.setGraphic(new ImageView(sp.getPlayer()));
+			tileInfo[rowIndex][colIndex].setEntity(true);
+			toolText += "\nYou are here!";
+		}
+		
+		
 		
 		if (tileInfo[rowIndex][colIndex].isNormal()) {
 			toolText += "\nWalkable";
@@ -148,4 +166,6 @@ public class MapViewController implements Initializable {
 		});
 		tileMapping.add(label, colIndex, rowIndex);
 	}
+	
+	
 }
