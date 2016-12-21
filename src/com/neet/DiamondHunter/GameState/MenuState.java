@@ -5,13 +5,11 @@ package com.neet.DiamondHunter.GameState;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import javax.swing.JFrame;
-
+import com.neet.DiamondHunter.Main.Game;
 import com.neet.DiamondHunter.Manager.Content;
 import com.neet.DiamondHunter.Manager.GameStateManager;
 import com.neet.DiamondHunter.Manager.JukeBox;
 import com.neet.DiamondHunter.Manager.Keys;
-import com.neet.DiamondHunter.MapViewer.MapView;
 
 public class MenuState extends GameState {
 	
@@ -73,7 +71,7 @@ public class MenuState extends GameState {
 		if(currentOption == 1) {
 			gsm.setState(GameStateManager.GAMEOVER);
 			gsm.setState(GameStateManager.INTRO);
-			MapView.getWindow().setVisible(false);
+			Game.getWindow().setVisible(false);
 		}
 	}
 	
