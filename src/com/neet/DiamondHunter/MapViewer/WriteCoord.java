@@ -1,4 +1,4 @@
-package com.neet.DiamondHunter.Coordinates;
+package com.neet.DiamondHunter.MapViewer;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -24,24 +24,27 @@ import java.io.IOException;
 
 public class WriteCoord {
 
-private static final String[] diamond_coords = { "20,20","12,36","28,4","4,34","28,19",
-										 		 "35,26","38,36","27,28","20,30","14,25",
-										 		 "4,21","9,14","4,3","20,14","13,20" };
+	private static File coordFile = new File("Resources/Sprites/Item-Coordinates.txt");
 	
-	public static int[] getCoord(int line){
-		File coordFile = new File("Resources/Sprites/Item-Coordinates.txt");
+	private static final String[] diamond_coords = { "20,20","12,36","28,4","4,34","28,19",
+											 		 "35,26","38,36","27,28","20,30","14,25",
+											 		 "4,21","9,14","4,3","20,14","13,20" };
+	
+	//check if coordinate file exist in path
+	public static void checkExist() {
 		//If the file does not exist in the specified path
 		if(!coordFile.exists() || coordFile.isDirectory()) {
 			try {
 				//Create the file with default value first. If this fails, NullPointerException will be thrown as return value is null
 				if(coordFile.createNewFile()) {
 					BufferedWriter wrCoords = new BufferedWriter(new FileWriter(coordFile));
-					wrCoords.write("26,37,12,4"); 
+					wrCoords.write("26,37,12,4"); //items default coordinates
 					wrCoords.newLine();
-					wrCoords.write("17,17");
-					for(int i=0; i<15; i++){
+					wrCoords.write("17,17"); //player default coordinate
+					wrCoords.newLine();
+					for(int i=0; i<diamond_coords.length; i++){
 						wrCoords.write(diamond_coords[i]);
-						wrCoords.newLine();
+						if(i != diamond_coords.length - 1) wrCoords.newLine();
 					}
 					wrCoords.close();
 				}
@@ -50,14 +53,20 @@ private static final String[] diamond_coords = { "20,20","12,36","28,4","4,34","
 				e.printStackTrace();
 			}
 		}
+	}
 
+
+
+	public static int[] getCoord(int line){
+		checkExist();
 		//File exist and is ready to be read
+		
 		if(coordFile.canRead()) {
 			try {
 				
 				FileInputStream rdCoords = new FileInputStream(coordFile);
 				byte[] data = new byte[(int) coordFile.length()];
-
+				
 				//Read the entire file in one go
 				rdCoords.read(data);
 				rdCoords.close();
@@ -65,15 +74,15 @@ private static final String[] diamond_coords = { "20,20","12,36","28,4","4,34","
 				String[] strCoords;
 				
 				//Get only the line for axe/boat coordinates or player coordinate
-				if(line == 1) strCoords= new String(strLines[0]).split(",");
-				else strCoords = new String(strLines[1]).split(",");
-
+				if(line == 1) strCoords= new String(strLines[0]).trim().split(","); 
+				else strCoords = new String(strLines[1]).trim().split(",");
+				
 				//Get the coordinates
-				int[] Coords = new int[strCoords.length];
+				int[] coords = new int[strCoords.length];
 				for(int i = 0; i < strCoords.length; i++) {
-					Coords[i] = Integer.parseInt(strCoords[i]);
+					coords[i] = Integer.parseInt(strCoords[i]);
 				}
-				return Coords;
+				return coords;
 			} catch (FileNotFoundException e) {
 				System.err.println("File does not exist");
 				e.printStackTrace();
@@ -89,7 +98,8 @@ private static final String[] diamond_coords = { "20,20","12,36","28,4","4,34","
 
 		return null;
 	}
-	
+
+
 	//overwrite file to update position of items or player
 	public static void overwriteFile(String data, int line){
 		try {

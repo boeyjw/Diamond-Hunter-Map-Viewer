@@ -40,6 +40,7 @@ public class MapViewController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		isLaunchedMainGame = false;
 		mp = new MapPane();
+		as = new AxeShip();
 
 		initMapCanvas();
 
@@ -48,7 +49,9 @@ public class MapViewController implements Initializable {
 				(double) (mp.getNumCols() * mp.getTileSize()));
 
 		mainPane.setMinSize(mapStack.getPrefWidth() + 100, mapStack.getPrefHeight() + 100);
-
+		
+		WriteCoord.checkExist();
+		
 		initTileMapping();
 	}
 
@@ -70,7 +73,7 @@ public class MapViewController implements Initializable {
 			tileMapping.getColumnConstraints().add(new ColumnConstraints((double) (mp.getTileSize())));
 			tileMapping.getRowConstraints().add(new RowConstraints((double) (mp.getTileSize())));
 		}
-
+		
 		for (int row = 0; row < mp.getNumRows(); row++) {
 			for (int col = 0; col < mp.getNumCols(); col++) {
 				tileInfo[row][col] = new TileInformation(mp.getTileImageFromMap(row, col));
@@ -81,10 +84,10 @@ public class MapViewController implements Initializable {
 
 	@FXML 
 	public void saveCoor() {
-		as = new AxeShip();
 		as.updateItemPosition();
 	}
 
+	@FXML
 	public void exitMapView() {
 		System.exit(0);
 	}
@@ -102,6 +105,7 @@ public class MapViewController implements Initializable {
 
 	private void addPane(int colIndex, int rowIndex) {
 		Label label = new Label();
+		label.setUserData(tileInfo[rowIndex][colIndex]);
 
 		String toolText = "Coordinate: " + Integer.toString(rowIndex + 1) + " x " + Integer.toString(colIndex + 1)
 				+ "\nTile Image: ";
@@ -120,14 +124,15 @@ public class MapViewController implements Initializable {
 			toolText += "Water";
 		}
 		
-		as.getItemPosition();
 		if(colIndex == as.boatPosition[1] && rowIndex == as.boatPosition[0]){
-			as.type = 0;
-			label.setGraphic(new ImageView(as.getItem()));
+			label.setGraphic(new ImageView(as.getItem(AxeShip.BOAT)));
+			tileInfo[rowIndex][colIndex].setEntity(true);
+			toolText += "\nA boat!";
 		}
 		if(colIndex == as.axePosition[1] && rowIndex == as.axePosition[0]){
-			as.type = 1;
-			label.setGraphic(new ImageView(as.getItem()));
+			label.setGraphic(new ImageView(as.getItem(AxeShip.AXE)));
+			tileInfo[rowIndex][colIndex].setEntity(true);
+			toolText += "\nAn axe!";
 		}
 		
 		if (tileInfo[rowIndex][colIndex].isNormal()) {
