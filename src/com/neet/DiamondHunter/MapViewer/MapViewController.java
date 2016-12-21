@@ -17,8 +17,12 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 
@@ -138,10 +142,7 @@ public class MapViewController implements Initializable {
 			label.setGraphic(new ImageView(as.getItem(AxeShip.BOAT)));
 			tileInfo[rowIndex][colIndex].setEntity(true);
 			tileText += "\nA boat!";
-			label.setOnDragDetected(e -> {
-				Dragboard db = label.startDragAndDrop(TransferMode.ANY);
-				e.consume();
-			});
+			drapDrop(label, );
 		}
 		//display axe on top of tile
 		if(colIndex == as.axePosition[1] && rowIndex == as.axePosition[0]){
@@ -202,4 +203,55 @@ public class MapViewController implements Initializable {
 			Game.getWindow().setVisible(true);
 		}
 	}
+	
+	private void dragDrop(Label source, Label target){
+		source.setOnDragDetected(e -> {
+			Dragboard db = source.startDragAndDrop(TransferMode.MOVE);
+			
+			ClipboardContent content = new ClipboardContent();
+	        content.putImage(((ImageView)(source.getGraphic())).getImage());
+	        db.setContent(content);
+			e.consume();
+		});
+		
+		target.setOnDragOver(e -> {
+			if (e.getGestureSource() != target) 
+				e.acceptTransferModes(TransferMode.MOVE);
+			e.consume();
+		});
+		
+		target.setOnDragEntered(e -> {
+		   if (e.getGestureSource() != target && e.getDragboard().hasContent(DataFormat.IMAGE)) {
+			   TileInformation ti = (TileInformation) (target.getUserData());
+		       //if the tile has items on it or is blocked, set colour to red
+			   if(ti.isEntity() || !ti.isNormal())      
+		    	   target.setStyle(""); 
+		       else
+		    	   target.setStyle("");
+		   }
+		   e.consume();
+		});
+		
+		target.setOnDragExited(e -> {
+			target.setStyle(null);
+		});
+		
+		target.setOnDragDropped(e -> {
+			Dragboard db = e.getDragboard();
+			boolean flag = false;
+			if(db.hasContent(DataFormat.IMAGE)){
+				target.setGraphic((ImageView)(db.getContent(DataFormat.IMAGE)));
+				flag = true;
+			}
+			e.setDropCompleted(flag);
+			e.consume();
+		});
+		
+		source.setOnDragDone(e -> {
+			if (e.getTransferMode() == TransferMode.MOVE)
+				source.setGraphic(null);
+			e.consume();
+		});
+	}
 }
+
