@@ -33,7 +33,11 @@ public class MapView extends Application {
 				
 				@Override
 				public void handle(WindowEvent event) {
-					System.exit(0);
+					/*
+					 * The 'X' close JavaFX application thread but not Swing thread. 
+					 * This enforces the entire application to end its process.
+					 */
+					System.exit(0); 
 				}
 				
 			});

@@ -108,29 +108,29 @@ public class MapViewController implements Initializable {
 	private void addPane(int colIndex, int rowIndex) {
 		Label label = new Label();
 		label.setUserData(tileInfo[rowIndex][colIndex]);
-		String toolText = "Coordinate: " + Integer.toString(rowIndex + 1) + " x " + Integer.toString(colIndex + 1) + "\nTile Image: ";
+		String tileText = "Coordinate: " + Integer.toString(rowIndex + 1) + " x " + Integer.toString(colIndex + 1) + "\nTile Image: ";
 
 		if (tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.GRASS) {
-			toolText += "Grassy tile";
+			tileText += "Grassy tile";
 		} else if (tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.BUSH) {
-			toolText += "Bushy tile";
+			tileText += "Bushy tile";
 		} else if (tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.FLOWER) {
-			toolText += "Flowery tile";
+			tileText += "Flowery tile";
 		} else if (tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.GREENTREE) {
-			toolText += "Big green tree";
+			tileText += "Big green tree";
 		} else if (tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.DEADTREE) {
-			toolText += "Dead tree";
+			tileText += "Dead tree";
 		} else if (tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.WATER) {
-			toolText += "Water";
+			tileText += "Water";
 		}
 
 		if (tileInfo[rowIndex][colIndex].isNormal()) {
-			toolText += "\nWalkable";
+			tileText += "\nWalkable";
 		} else {
-			toolText += "\nBlocked";
+			tileText += "\nBlocked";
 		}
 
-		final String tt = toolText;
+		final String tt = tileText;
 
 		label.setOnMouseEntered(e -> {
 			tileInfoText.setText(tt);

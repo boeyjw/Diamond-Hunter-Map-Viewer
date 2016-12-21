@@ -29,7 +29,7 @@ public class WriteCoord {
 										 		 "4,21","9,14","4,3","20,14","13,20" };
 	
 	public static int[] getCoord(int line){
-		File coordFile = new File("Resources/Sprites/Item-Coordinates.txt");
+		File coordFile = new File("Entity-Coordinates.txt");
 		//If the file does not exist in the specified path
 		if(!coordFile.exists() || coordFile.isDirectory()) {
 			try {
@@ -40,7 +40,7 @@ public class WriteCoord {
 					wrCoords.newLine();
 					wrCoords.write("17,17"); //player coordinates
 					wrCoords.newLine();
-					for(int i=0; i<diamond_coords.length; i++){
+					for(int i = 0; i < diamond_coords.length; i++){
 						wrCoords.write(diamond_coords[i]); //diamond coordinates
 						wrCoords.newLine();
 					}
@@ -70,12 +70,12 @@ public class WriteCoord {
 				else strCoords = new String(strLines[1]).trim().split(",");
 				
 				//Get the coordinates
-				int[] Coords = new int[strCoords.length];
+				int[] coords = new int[strCoords.length];
 				for(int i = 0; i < strCoords.length; i++) {
-					Coords[i] = Integer.parseInt(strCoords[i]);
+					coords[i] = Integer.parseInt(strCoords[i]);
 				}
 				
-				return Coords;
+				return coords;
 			} catch (FileNotFoundException e) {
 				System.err.println("File does not exist");
 				e.printStackTrace();
@@ -95,8 +95,8 @@ public class WriteCoord {
 	//overwrite file to update position of items or player
 	public static void overwriteFile(String data, int line){
 		try {
-			BufferedReader coordFile = new BufferedReader(new FileReader("Resources/Sprites/Item-Coordinates.txt"));
-			int count=0;
+			BufferedReader coordFile = new BufferedReader(new FileReader("Entity-Coordinates.txt"));
+			int count = 0;
 			String ln;
 			while((ln = coordFile.readLine()) != null){
 				count++;

@@ -6,6 +6,10 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 
+/**
+ * Utility class to load image in JavaFX.
+ *
+ */
 public class ImageConversion {
 
 	private BufferedImage buffImg; 

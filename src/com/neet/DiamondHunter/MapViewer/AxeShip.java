@@ -18,18 +18,18 @@ public class AxeShip {
 	private int[] axePosition;
 	private int[] coordinates;
 	
-	int row;
-	int col;
+	private int row;
+	private int col;
 	
 	//items
 	private static final int BOAT = 0;
 	private static final int AXE = 1;
 	
-	protected AxeShip(int type) {
+	public AxeShip(int type) {
 		this.type = type;
 	}
 	
-	protected AxeShip() {
+	public AxeShip() {
 		
 	}
 
