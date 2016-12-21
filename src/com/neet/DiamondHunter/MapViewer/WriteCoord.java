@@ -24,7 +24,7 @@ import java.io.IOException;
 
 public class WriteCoord {
 
-	private static File coordFile = new File("Resources/Sprites/Item-Coordinates.txt");
+	private static File coordFile = new File("Entity-Coordinates.txt");
 	
 	private static final String[] diamond_coords = { "20,20","12,36","28,4","4,34","28,19",
 											 		 "35,26","38,36","27,28","20,30","14,25",
@@ -103,7 +103,7 @@ public class WriteCoord {
 	//overwrite file to update position of items or player
 	public static void overwriteFile(String data, int line){
 		try {
-			BufferedReader coordFile = new BufferedReader(new FileReader("Resources/Sprites/Item-Coordinates.txt"));
+			BufferedReader coordFile = new BufferedReader(new FileReader("Entity-Coordinates.txt"));
 			int count=0;
 			String l;
 			while((l = coordFile.readLine()) != null){
