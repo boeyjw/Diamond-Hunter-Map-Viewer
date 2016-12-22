@@ -14,7 +14,7 @@ import javafx.scene.image.WritableImage;
 public class ShowDiamonds implements EntityDisplay{
 
 	private int[] coordinate;
-	private static int coordCount = 0;
+	private static int coordCount;
 
 	public ShowDiamonds(){
 		getEntityPosition();
@@ -24,6 +24,7 @@ public class ShowDiamonds implements EntityDisplay{
 	public void getEntityPosition() {
 		//3 indicates line 3 which is the Diamonds's coordinate
 		coordinate = WriteCoord.getCoord(3);
+		coordCount = 0;
 	}
 
 	@Override

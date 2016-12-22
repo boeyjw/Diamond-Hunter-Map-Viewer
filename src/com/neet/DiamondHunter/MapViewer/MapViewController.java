@@ -128,7 +128,22 @@ public class MapViewController implements Initializable {
 
 		mvCanvas.getGraphicsContext2D().drawImage(gc.getCanvas().snapshot(new SnapshotParameters(), null), 0, 0);
 	}
+	
+	private void updateGridPane() {
+		as.getEntityPosition();
+		sp.getEntityPosition();
+		sd.getEntityPosition();
+		tileMapping.getChildren().clear();
+		tileInfo = new TileInformation[mp.getNumRows()][mp.getNumCols()];
 
+		for (int row = 0; row < mp.getNumRows(); row++) {
+			for (int col = 0; col < mp.getNumCols(); col++) {
+				tileInfo[row][col] = new TileInformation(mp.getTileImageFromMap(row, col), row, col);
+				addTile(col, row);
+			}
+		}
+	}
+	
 	/**
 	 * Initialises the grid on top of the map that handles input validation and
 	 * movement of boat and axe.
@@ -154,7 +169,6 @@ public class MapViewController implements Initializable {
 	 * @param colIndex The column index of the GridPane.
 	 * @param rowIndex The row index of the GridPane.
 	 */
-	
 	private void addTile(int colIndex, int rowIndex) {
 		
 		Label label = new Label();
@@ -203,7 +217,7 @@ public class MapViewController implements Initializable {
 			tileText += "\nYou are here!";
 		}
 		// display diamonds initial position on map
-		if (sd.compareCoordinates(rowIndex, colIndex, EntityDisplay.UNIQUE)) {
+		if(sd.compareCoordinates(rowIndex, colIndex, EntityDisplay.UNIQUE)) {
 			label.setGraphic(new ImageView(sd.getEntity(EntityDisplay.UNIQUE)));
 			tileInfo[rowIndex][colIndex].setEntityType(TileInformation.DIAMOND);
 			tileText += "\nA diamond!";
@@ -308,6 +322,8 @@ public class MapViewController implements Initializable {
 						System.out.println("b" + targetTile.getRow() + " " +targetTile.getCol());
 					}else System.out.println("ok2");
 					System.out.println("ok3");
+					saveCoor();
+					updateGridPane();
 				}
 				e.setDropCompleted(flag);
 				e.consume();
