@@ -71,7 +71,7 @@ public class AxeShip extends ASPositionUpdate {
 		String coords = Integer.toString(ar) + "," + Integer.toString(ac) + "," 
 						+ Integer.toString(br) + "," + Integer.toString(bc);
 		System.out.println(coords);
-		WriteCoord.overwriteFile(coords,0);
+		WriteCoord.overwriteFile(coords,1);
 }
 
 }

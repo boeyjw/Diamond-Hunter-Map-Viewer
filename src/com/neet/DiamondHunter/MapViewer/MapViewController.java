@@ -318,6 +318,7 @@ public class MapViewController implements Initializable {
 	@FXML
 	private void saveCoor() {
 		System.out.println("save");
+		WriteCoord.toOverwrite = true;
 		as.updateEntityPosition(tmpCoords[0], tmpCoords[1], tmpCoords[2], tmpCoords[3]);
 	}
 
