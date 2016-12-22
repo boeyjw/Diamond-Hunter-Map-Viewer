@@ -14,9 +14,9 @@ import javafx.scene.image.WritableImage;
  * Handles axe and ship entity for the GridPane.
  *
  */
-public class AxeShip implements EntityDisplay {
+public class AxeShip extends ASPositionUpdate {
 	
-	protected static int[] coordinates;
+	private int[] coordinates;
 
 	//items
 	public static final int BOAT = 0;
@@ -61,11 +61,17 @@ public class AxeShip implements EntityDisplay {
 	}
 	
 	@Override
-	public void updateEntityPosition() {
-		String coords = Integer.toString(coordinates[0]) + "," + Integer.toString(coordinates[1]) + "," 
-						+ Integer.toString(coordinates[0]) + "," + Integer.toString(coordinates[1]);
+	public void updateEntityPosition(int ar, int ac, int br, int bc) {
+		
+		coordinates[0] = ar;
+		coordinates[1] = ac;
+		coordinates[2] = br;
+		coordinates[3] = bc;
+		
+		String coords = Integer.toString(ar) + "," + Integer.toString(ac) + "," 
+						+ Integer.toString(br) + "," + Integer.toString(bc);
 		System.out.println(coords);
 		WriteCoord.overwriteFile(coords,0);
-	}
+}
 
 }

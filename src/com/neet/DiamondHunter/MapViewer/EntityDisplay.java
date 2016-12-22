@@ -35,9 +35,5 @@ public interface EntityDisplay {
 	 */
 	boolean compareCoordinates(int row, int col, int type);
 	
-	/**
-	 * Updates the entity position in the GridPane and text file
-	 */
-	void updateEntityPosition();
 	
 }

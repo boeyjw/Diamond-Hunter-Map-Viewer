@@ -46,7 +46,6 @@ public class ShowDiamonds implements EntityDisplay{
 		return false;
 	}
 
-	@Override
 	public void updateEntityPosition() {
 		String coords = Integer.toString(coordinate[0]) + "," + Integer.toString(coordinate[1]);
 		WriteCoord.overwriteFile(coords,2);

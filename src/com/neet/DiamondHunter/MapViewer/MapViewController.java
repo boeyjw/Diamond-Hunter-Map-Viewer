@@ -35,14 +35,16 @@ import javafx.scene.input.TransferMode;
  */
 public class MapViewController implements Initializable {
 	
-	private EntityDisplay as;
+	private ASPositionUpdate as;
 	private EntityDisplay sp;
 	private EntityDisplay sd;
 	private MapPane mp;
 	private GraphicsContext gc;
 	private TileInformation[][] tileInfo;
 	boolean isLaunchedMainGame;
-
+	
+	private int[] tmpCoords = {};
+	
 	@FXML
 	private AnchorPane mainPane;
 	@FXML
@@ -181,6 +183,8 @@ public class MapViewController implements Initializable {
 			tileInfo[rowIndex][colIndex].setEntityType(TileInformation.BOAT);
 			tileText += "\nA boat!";
 			itemType = "Boat";
+			tmpCoords[2] = rowIndex;
+			tmpCoords[3] = colIndex;
 			dragSource(label, itemType);
 		}
 		//display axe on top of tile
@@ -189,6 +193,8 @@ public class MapViewController implements Initializable {
 			tileInfo[rowIndex][colIndex].setEntityType(TileInformation.AXE);
 			tileText += "\nAn axe!";
 			itemType = "Axe";
+			tmpCoords[0] = rowIndex;
+			tmpCoords[1] = colIndex;
 			dragSource(label, itemType);
 		}
 		//display player initial position on map
@@ -211,16 +217,8 @@ public class MapViewController implements Initializable {
 		}
 		
 		label.setUserData(tileInfo[rowIndex][colIndex]);
-		dropTarget(label, tileInfo[rowIndex][colIndex]);
+		dropTarget(label, tileInfo[rowIndex][colIndex], itemType);
 		
-		//update the coordinates in AxeShip class
-		if(itemType == "Boat"){
-			AxeShip.coordinates[2] = rowIndex;
-			AxeShip.coordinates[3] = colIndex;
-		}else if(itemType == "Axe"){
-			AxeShip.coordinates[0] = rowIndex;
-			AxeShip.coordinates[1] = colIndex;
-		}else;
 
 		final String tt = tileText;
 
@@ -265,8 +263,9 @@ public class MapViewController implements Initializable {
 	 * @param ti
 	 *            The tile information of every tile in the map
 	 */
-	private void dropTarget(Label target, TileInformation ti) {
+	private void dropTarget(Label target, TileInformation ti, String itemType) {
 
+		TileInformation targetTile = (TileInformation)(target.getUserData());
 		target.setOnDragOver(e -> {
 			if (e.getGestureSource() != target) {
 				e.acceptTransferModes(TransferMode.MOVE);
@@ -297,6 +296,14 @@ public class MapViewController implements Initializable {
 				if (db.hasContent(DataFormat.IMAGE)) {
 					target.setGraphic(new ImageView(((Image) db.getContent(DataFormat.IMAGE))));
 					flag = true;
+					//update the coordinates in AxeShip class
+					if(itemType == "Axe"){
+						tmpCoords[0] = targetTile.getRow();
+						tmpCoords[1] = targetTile.getCol();
+					}else if(itemType == "Boat"){
+						tmpCoords[2] = targetTile.getRow();
+						tmpCoords[3] = targetTile.getCol();
+					}else;
 				}
 				e.setDropCompleted(flag);
 				e.consume();
@@ -307,9 +314,7 @@ public class MapViewController implements Initializable {
 	@FXML
 	private void saveCoor() {
 		System.out.println("save");
-		System.out.println(AxeShip.coordinates[0]+" "+ AxeShip.coordinates[1]+"\n"+
-						   AxeShip.coordinates[2]+" "+AxeShip.coordinates[3]);
-		as.updateEntityPosition();
+		as.updateEntityPosition(tmpCoords[0], tmpCoords[1], tmpCoords[2], tmpCoords[3]);
 	}
 
 	/**

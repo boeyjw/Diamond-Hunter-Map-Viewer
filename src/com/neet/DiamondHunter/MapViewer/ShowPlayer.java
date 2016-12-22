@@ -41,7 +41,6 @@ public class ShowPlayer implements EntityDisplay {
 		return (row == coordinate[0] && col == coordinate[1]) ? true : false;
 	}
 
-	@Override
 	public void updateEntityPosition() {
 		String coords = Integer.toString(coordinate[0]) + "," + Integer.toString(coordinate[1]);
 		WriteCoord.overwriteFile(coords,1);
