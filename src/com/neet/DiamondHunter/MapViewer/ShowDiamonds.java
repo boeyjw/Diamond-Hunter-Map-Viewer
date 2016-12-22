@@ -2,7 +2,6 @@
  * and return the value
  * Get Diamonds sprite
  * */
-
 package com.neet.DiamondHunter.MapViewer;
 import com.neet.DiamondHunter.Manager.Content;
 
@@ -18,7 +17,6 @@ public class ShowDiamonds implements EntityDisplay{
 	private static int coordCount = 0;
 
 	public ShowDiamonds(){
-		coordinate = new int[30];
 		getEntityPosition();
 	}
 
@@ -35,9 +33,12 @@ public class ShowDiamonds implements EntityDisplay{
 
 	@Override
 	public boolean compareCoordinates(int row, int col, int type) {
-		for(int i = 0; i < coordinate.length - 4; i += 2) {
-			if(row == coordinate[i] && col == coordinate[i + 1]) {
-				return true;
+		if(coordCount < coordinate.length - 1) {
+			for(int i = 0; i < coordinate.length; i += 2) {
+				if(row == coordinate[i] && col == coordinate[i + 1]) {
+					coordCount += 2;
+					return true;
+				}
 			}
 		}
 		return false;
