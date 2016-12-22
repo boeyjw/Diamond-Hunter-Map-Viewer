@@ -43,7 +43,8 @@ public class MapViewController implements Initializable {
 	private TileInformation[][] tileInfo;
 	boolean isLaunchedMainGame;
 	
-	private int[] tmpCoords = {};
+	private int[] tmpCoords = {0,0,0,0};
+	private String itemType = "";
 	
 	@FXML
 	private AnchorPane mainPane;
@@ -156,8 +157,6 @@ public class MapViewController implements Initializable {
 	
 	private void addTile(int colIndex, int rowIndex) {
 		
-		String itemType = "";
-		
 		Label label = new Label();
 		label.setMinSize(mp.getTileSize(), mp.getTileSize());
 		String tileText = "Coordinate: " + Integer.toString(rowIndex) + " x " + Integer.toString(colIndex)
@@ -217,8 +216,7 @@ public class MapViewController implements Initializable {
 		}
 		
 		label.setUserData(tileInfo[rowIndex][colIndex]);
-		dropTarget(label, tileInfo[rowIndex][colIndex], itemType);
-		
+		dropTarget(label, tileInfo[rowIndex][colIndex]);
 
 		final String tt = tileText;
 
@@ -263,9 +261,8 @@ public class MapViewController implements Initializable {
 	 * @param ti
 	 *            The tile information of every tile in the map
 	 */
-	private void dropTarget(Label target, TileInformation ti, String itemType) {
+	private void dropTarget(Label target, TileInformation ti) {
 
-		TileInformation targetTile = (TileInformation)(target.getUserData());
 		target.setOnDragOver(e -> {
 			if (e.getGestureSource() != target) {
 				e.acceptTransferModes(TransferMode.MOVE);
@@ -291,19 +288,26 @@ public class MapViewController implements Initializable {
 
 		if (!ti.isEntity() && ti.isNormal()) {
 			target.setOnDragDropped((DragEvent e) -> {
+				
 				Dragboard db = e.getDragboard();
 				boolean flag = false;
 				if (db.hasContent(DataFormat.IMAGE)) {
+					System.out.println("ok");
+					TileInformation targetTile = (TileInformation)(target.getUserData());
+					
 					target.setGraphic(new ImageView(((Image) db.getContent(DataFormat.IMAGE))));
 					flag = true;
-					//update the coordinates in AxeShip class
+					//update the new coordinates of axe or boat
 					if(itemType == "Axe"){
 						tmpCoords[0] = targetTile.getRow();
 						tmpCoords[1] = targetTile.getCol();
+						System.out.println("a" + targetTile.getRow() + " " +targetTile.getCol());
 					}else if(itemType == "Boat"){
 						tmpCoords[2] = targetTile.getRow();
 						tmpCoords[3] = targetTile.getCol();
-					}else;
+						System.out.println("b" + targetTile.getRow() + " " +targetTile.getCol());
+					}else System.out.println("ok2");
+					System.out.println("ok3");
 				}
 				e.setDropCompleted(flag);
 				e.consume();
