@@ -12,7 +12,7 @@ import javafx.scene.image.WritableImage;
 
 public class AxeShip implements EntityDisplay {
 	
-	private int[] coordinates;
+	protected static int[] coordinates;
 
 	//items
 	public static final int BOAT = 0;
@@ -60,6 +60,7 @@ public class AxeShip implements EntityDisplay {
 	public void updateEntityPosition() {
 		String coords = Integer.toString(coordinates[0]) + "," + Integer.toString(coordinates[1]) + "," 
 						+ Integer.toString(coordinates[0]) + "," + Integer.toString(coordinates[1]);
+		System.out.println(coords);
 		WriteCoord.overwriteFile(coords,1);
 	}
 

@@ -128,6 +128,9 @@ public class MapViewController implements Initializable {
 	 *            The row index of the GridPane.
 	 */
 	private void addPane(int colIndex, int rowIndex) {
+		
+		String itemType = "";
+		
 		Label label = new Label();
 		label.setMinSize(mp.getTileSize(), mp.getTileSize());
 		label.setUserData(tileInfo[rowIndex][colIndex]);
@@ -153,14 +156,16 @@ public class MapViewController implements Initializable {
 			label.setGraphic(new ImageView(as.getEntity(AxeShip.BOAT)));
 			tileInfo[rowIndex][colIndex].setEntity(true);
 			tileText += "\nA boat!";
-			dragSource(label, "Boat");
+			itemType = "Boat";
+			dragSource(label, itemType);
 		}
 		//display axe on top of tile
 		if(as.compareCoordinates(rowIndex, colIndex, AxeShip.AXE)){
 			label.setGraphic(new ImageView(as.getEntity(AxeShip.AXE)));
 			tileInfo[rowIndex][colIndex].setEntity(true);
 			tileText += "\nAn axe!";
-			dragSource(label, "Axe");
+			itemType = "Axe";
+			dragSource(label, itemType);
 		}
 		//display player initial position on map
 		if(sp.compareCoordinates(rowIndex, colIndex, -1)){
@@ -172,7 +177,7 @@ public class MapViewController implements Initializable {
 		if (sd.compareCoordinates(rowIndex, colIndex, -1)) {
 			label.setGraphic(new ImageView(sd.getEntity(-1)));
 			tileInfo[rowIndex][colIndex].setEntity(true);
-			tileText += "\nYou are here!";
+			tileText += "\nIt's a shiny diamond!";
 		}
 
 		if (tileInfo[rowIndex][colIndex].isNormal()) {
@@ -182,6 +187,15 @@ public class MapViewController implements Initializable {
 		}
 
 		dropTarget(label, tileInfo[rowIndex][colIndex]);
+		
+		//update the coordinates in AxeShip class
+		if(itemType == "Boat"){
+			AxeShip.coordinates[2] = rowIndex;
+			AxeShip.coordinates[3] = colIndex;
+		}else if(itemType == "Axe"){
+			AxeShip.coordinates[0] = rowIndex;
+			AxeShip.coordinates[1] = colIndex;
+		}else;
 
 		final String tt = tileText;
 
@@ -194,6 +208,7 @@ public class MapViewController implements Initializable {
 
 	@FXML
 	private void saveCoor() {
+		System.out.println("save");
 		as.updateEntityPosition();
 	}
 
@@ -238,8 +253,7 @@ public class MapViewController implements Initializable {
 			content.putImage(((ImageView) (source.getGraphic())).getImage());
 			db.setContent(content);
 
-			tileInfoText
-					.setText("Dragging: " + itemType + "\nYou can only place the " + itemType + " in non-red tiles");
+			tileInfoText.setText("Dragging: " + itemType + "\nYou can only place the " + itemType + " in non-red tiles");
 
 			e.consume();
 		});

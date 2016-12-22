@@ -13,14 +13,15 @@ public class ShowDiamonds implements EntityDisplay{
 	private int[] coordinate;
 
 	public ShowDiamonds(){
-		coordinate = new int[2];
+		coordinate = new int[30];
 		getEntityPosition();
 	}
 
 	@Override
 	public void getEntityPosition() {
-		//3 indicates line 3 which is the Diamonds's coordinate
+		//3 indicates line 3 which is the start of Diamonds' coordinates
 		coordinate = WriteCoord.getCoord(3);
+		//System.out.println(coordinate);
 	}
 
 	@Override
@@ -30,7 +31,11 @@ public class ShowDiamonds implements EntityDisplay{
 
 	@Override
 	public boolean compareCoordinates(int row, int col, int type) {
-		return (row == coordinate[0] && col == coordinate[1]) ? true : false;
+		boolean flag = false;
+		for(int i = 0; i < 15; i+=2){
+			if(row == coordinate[i] && col == coordinate[i+1]) flag = true;
+		} 
+		return flag;
 	}
 
 	@Override

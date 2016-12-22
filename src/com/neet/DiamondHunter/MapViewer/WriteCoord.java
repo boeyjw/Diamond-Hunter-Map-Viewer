@@ -42,7 +42,7 @@ public class WriteCoord {
 					wrCoords.newLine();
 					for (int i = 0; i < diamond_coords.length; i++) {
 						wrCoords.write(diamond_coords[i]);
-						if (i != diamond_coords.length - 1)
+						if (i != diamond_coords.length)
 							wrCoords.newLine();
 					}
 					wrCoords.close();
@@ -68,19 +68,25 @@ public class WriteCoord {
 				rdCoords.read(data);
 				rdCoords.close();
 				String[] strLines = new String(data, "UTF-8").split("\n");
-				String[] strCoords;
+				String[] strCoords = {};
 
 				// Get only the line for axe/boat coordinates or player
 				// coordinate
 				if (line == 1)
-					strCoords = new String(strLines[0]).trim().split(",");
-				else
-					strCoords = new String(strLines[line]).trim().split(",");
+					strCoords = new String(strLines[line-1]).trim().split(",");
+				else if (line == 2)
+					strCoords = new String(strLines[line-1]).trim().split(",");
+				else{
+					for(int i = line-1; i < strLines.length; i++)
+						strCoords = new String(strLines[i]).trim().split(",");
+						System.out.println(strCoords);
+				}
 
 				// Get the coordinates
 				int[] coords = new int[strCoords.length];
 				for (int i = 0; i < strCoords.length; i++) {
 					coords[i] = Integer.parseInt(strCoords[i]);
+					System.out.println(coords[i]);
 				}
 				return coords;
 			} catch (FileNotFoundException e) {
@@ -101,13 +107,19 @@ public class WriteCoord {
 	// overwrite file to update position of items or player
 	public static void overwriteFile(String data, int line) {
 		try {
+			System.out.println("ok1");
 			BufferedReader coordFile = new BufferedReader(new FileReader("Entity-Coordinates.txt"));
+			System.out.println("ok2");
 			int count = 0;
 			String l;
 			while ((l = coordFile.readLine()) != null) {
+				System.out.println("ok3");
 				count++;
 				if (count == line) {
+					System.out.println("ok4");
 					l.replace(l, data);
+					System.out.println("ok5");
+					break;
 				}
 			}
 			coordFile.close();
