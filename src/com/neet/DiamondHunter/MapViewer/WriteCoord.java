@@ -71,8 +71,8 @@ public class WriteCoord {
 				rdCoords.read(data);
 				rdCoords.close();
 				String[] strLines = new String(data, "UTF-8").split("\n");
-				String[] strCoords = new String[strLines.length];
-
+				String[] strCoords = new String[strLines.length * 2];
+				String[] temp = new String[2];
 				// Get only the line for axe/boat coordinates or player
 				// coordinate
 				if (line == 0)
@@ -80,15 +80,21 @@ public class WriteCoord {
 				else if(line == 1)
 					strCoords = new String(strLines[line]).trim().split(",");
 				else {
-					//Requires attention
-					for(int i = line; i < strLines.length; i++)
-						strCoords = new String(strLines[i]).trim().split(",");
+					int k = 0;
+					for(int i = line; i < strLines.length; i++) {
+						temp = new String(strLines[i]).trim().split(",");
+						for(int j = 0; j < temp.length; j++) {
+							strCoords[k++] = temp[j];
+						}
+					}
 				}
 
 				// Get the coordinates
 				int[] coords = new int[strCoords.length];
 				for (int i = 0; i < strCoords.length; i++) {
-					coords[i] = Integer.parseInt(strCoords[i]);
+					if(strCoords[i] != null) {
+						coords[i] = Integer.parseInt(strCoords[i]);
+					}
 				}
 				return coords;
 			} catch (FileNotFoundException e) {
