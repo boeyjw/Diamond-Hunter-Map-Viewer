@@ -27,12 +27,12 @@ public class ShowPlayer implements EntityDisplay {
 	@Override
 	public void getEntityPosition() {
 		//2 indicates line 2 which is the player's coordinate
-		coordinate = WriteCoord.getCoord(2);
+		coordinate = WriteCoord.getCoord(1);
 	}
 
 	@Override
 	public WritableImage getEntity(int type) {
-		WritableImage player = Player.onWater ? new ImageConversion(Content.PLAYER[4]).getWrImg() : new ImageConversion(Content.PLAYER[0]).getWrImg();
+		WritableImage player = Player.onWater ? new ImageConversion(Content.PLAYER[0][5]).getWrImg() : new ImageConversion(Content.PLAYER[0][0]).getWrImg();
 		return player;
 	}
 

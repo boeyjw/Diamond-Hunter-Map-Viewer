@@ -17,19 +17,23 @@ public class ShowDiamonds implements EntityDisplay{
 	private int[] coordinate;
 
 	public ShowDiamonds(){
-		coordinate = new int[2];
+		coordinate = new int[30];
 		getEntityPosition();
 	}
 
 	@Override
 	public void getEntityPosition() {
 		//3 indicates line 3 which is the Diamonds's coordinate
-		coordinate = WriteCoord.getCoord(3);
+		coordinate = WriteCoord.getCoord(2);
+		
+		for(int i : coordinate) {
+			System.out.print(i + " ");
+		}
 	}
 
 	@Override
 	public WritableImage getEntity(int type) {
-		return new ImageConversion(Content.DIAMOND[0]).getWrImg();
+		return new ImageConversion(Content.DIAMOND[0][0]).getWrImg();
 	}
 
 	@Override

@@ -71,14 +71,19 @@ public class WriteCoord {
 				rdCoords.read(data);
 				rdCoords.close();
 				String[] strLines = new String(data, "UTF-8").split("\n");
-				String[] strCoords;
+				String[] strCoords = new String[strLines.length];
 
 				// Get only the line for axe/boat coordinates or player
 				// coordinate
-				if (line == 1)
-					strCoords = new String(strLines[0]).trim().split(",");
-				else
+				if (line == 0)
 					strCoords = new String(strLines[line]).trim().split(",");
+				else if(line == 1)
+					strCoords = new String(strLines[line]).trim().split(",");
+				else {
+					//Requires attention
+					for(int i = line; i < strLines.length; i++)
+						strCoords = new String(strLines[i]).trim().split(",");
+				}
 
 				// Get the coordinates
 				int[] coords = new int[strCoords.length];
