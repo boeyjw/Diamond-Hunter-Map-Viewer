@@ -15,6 +15,7 @@ import javafx.scene.image.WritableImage;
 public class ShowDiamonds implements EntityDisplay{
 
 	private int[] coordinate;
+	//private static int coordCount = 0;
 
 	public ShowDiamonds(){
 		coordinate = new int[30];
@@ -37,11 +38,12 @@ public class ShowDiamonds implements EntityDisplay{
 
 	@Override
 	public boolean compareCoordinates(int row, int col, int type) {
-		boolean flag = false;
-		for(int i = 0; i < 15; i+=2){
-			if(row == coordinate[i] && col == coordinate[i+1]) flag = true;
-		} 
-		return flag;
+		for(int i = 0; i < coordinate.length - 4; i += 2) {
+			if(row == coordinate[i] && col == coordinate[i + 1]) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
