@@ -234,15 +234,15 @@ public class MapViewController implements Initializable {
 	 * @param source The label of the object going or being dragged
 	 * @param itemType The string of the item being dragged
 	 */
-	private void dragSource(Label source, String itemType) {
+	private void dragSource(Label source, String item) {
 		source.setOnDragDetected((MouseEvent e) -> {
 			Dragboard db = source.startDragAndDrop(TransferMode.MOVE);
 			ClipboardContent content = new ClipboardContent();
 			content.putImage(((ImageView) (source.getGraphic())).getImage());
 			db.setContent(content);
 
-			tileInfoText.setText("Dragging: " + itemType + "\nYou can only place the " + itemType + " in non-red tiles");
-
+			tileInfoText.setText("Dragging: " + item + "\nYou can only place the " + item + " in non-red tiles");
+			itemType = item;
 			e.consume();
 		});
 
