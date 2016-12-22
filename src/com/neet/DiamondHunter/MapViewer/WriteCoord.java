@@ -27,6 +27,8 @@ public class WriteCoord {
 
 	private static final String[] diamond_coords = { "20,20", "12,36", "28,4", "4,34", "28,19", "35,26", "38,36",
 			"27,28", "20,30", "14,25", "4,21", "9,14", "4,3", "20,14", "13,20" };
+	
+	public static boolean toOverwrite = false;
 
 	// check if coordinate file exist in path
 	public static void checkExist() {
@@ -115,12 +117,17 @@ public class WriteCoord {
 			}
 			oldCoordFile.close();
 			
-			/*PrintWriter pw = new PrintWriter(coordFile);
-			pw.close();
+			System.out.println(l);
 			
-			FileWriter fw = new FileWriter(coordFile);
-			fw.write(l);
-			fw.close();*/
+			if(toOverwrite) {
+				PrintWriter pw = new PrintWriter(coordFile);
+				pw.close();
+
+				FileWriter fw = new FileWriter(coordFile);
+				fw.write(l);
+				fw.close();
+				toOverwrite = false;
+			}
 		} catch (FileNotFoundException e) {
 			System.err.println("File does not exist");
 			e.printStackTrace();

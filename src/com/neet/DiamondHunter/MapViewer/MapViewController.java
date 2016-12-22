@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
@@ -17,6 +18,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -50,7 +52,16 @@ public class MapViewController implements Initializable {
 	@FXML
 	private StackPane mapStack;
 	@FXML
+	private VBox tileVBox;
+	@FXML
 	private TextArea tileInfoText;
+	
+	@FXML
+	private Button btnSave;
+	@FXML
+	private Button btnExit;
+	@FXML
+	private Button btnPlayGame;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -65,6 +76,7 @@ public class MapViewController implements Initializable {
 
 		// The tile information display box is never editable
 		tileInfoText.setEditable(false);
+		tileInfoText.setText("Welcome to Map Viewer!\nYou can drag and drop the axe or boat to any legal location you wish!");
 		initMapCanvas();
 
 		// Initialises the size of the StackPane that contains the map in canvas
@@ -72,6 +84,21 @@ public class MapViewController implements Initializable {
 		mapStack.relocate(20, 20);
 		mapStack.setPrefSize((double) (mp.getNumRows() * mp.getTileSize()),
 				(double) (mp.getNumCols() * mp.getTileSize()));
+		tileVBox.setOnMouseEntered(e -> {
+			tileInfoText.setText("Welcome to Map Viewer!\nYou can drag and drop the axe or boat to any legal location you wish!");
+		});
+		mainPane.setOnMouseEntered(e -> {
+			tileInfoText.setText("Welcome to Map Viewer!\nYou can drag and drop the axe or boat to any legal location you wish!");
+		});;
+		btnSave.setOnMouseEntered(e -> {
+			tileInfoText.setText("Save the current axe and boat configuration.");
+		});
+		btnExit.setOnMouseEntered(e -> {
+			tileInfoText.setText("Exit the Map Viewer");
+		});
+		btnPlayGame.setOnMouseEntered(e -> {
+			tileInfoText.setText("Play Diamond Hunter with the current axe and boat configuration");
+		});
 
 		/*
 		 * This is the base size of the entire application. The AnchorPain (main
@@ -113,7 +140,7 @@ public class MapViewController implements Initializable {
 		for (int row = 0; row < mp.getNumRows(); row++) {
 			for (int col = 0; col < mp.getNumCols(); col++) {
 				tileInfo[row][col] = new TileInformation(mp.getTileImageFromMap(row, col), row, col);
-				addPane(col, row);
+				addTile(col, row);
 			}
 		}
 	}
@@ -121,16 +148,13 @@ public class MapViewController implements Initializable {
 	/**
 	 * Adds a label to each tile that contains information of the current tile.
 	 * 
-	 * @param colIndex
-	 *            The column index of the GridPane.
-	 * @param rowIndex
-	 *            The row index of the GridPane.
+	 * @param colIndex The column index of the GridPane.
+	 * @param rowIndex The row index of the GridPane.
 	 */
-	private void addPane(int colIndex, int rowIndex) {
+	private void addTile(int colIndex, int rowIndex) {
 		Label label = new Label();
 		label.setMinSize(mp.getTileSize(), mp.getTileSize());
-		label.setUserData(tileInfo[rowIndex][colIndex]);
-		String tileText = "Coordinate: " + Integer.toString(rowIndex + 1) + " x " + Integer.toString(colIndex + 1)
+		String tileText = "Coordinate: " + Integer.toString(rowIndex) + " x " + Integer.toString(colIndex)
 				+ "\nTile Image: ";
 
 		if (tileInfo[rowIndex][colIndex].getTileImageType() == TileInformation.GRASS) {
@@ -150,28 +174,28 @@ public class MapViewController implements Initializable {
 		//display boat on top of tile
 		if(as.compareCoordinates(rowIndex, colIndex, AxeShip.BOAT)){
 			label.setGraphic(new ImageView(as.getEntity(AxeShip.BOAT)));
-			tileInfo[rowIndex][colIndex].setEntity(true);
+			tileInfo[rowIndex][colIndex].setEntityType(TileInformation.BOAT);
 			tileText += "\nA boat!";
 			dragSource(label, "Boat");
 		}
 		//display axe on top of tile
 		if(as.compareCoordinates(rowIndex, colIndex, AxeShip.AXE)){
 			label.setGraphic(new ImageView(as.getEntity(AxeShip.AXE)));
-			tileInfo[rowIndex][colIndex].setEntity(true);
+			tileInfo[rowIndex][colIndex].setEntityType(TileInformation.AXE);
 			tileText += "\nAn axe!";
 			dragSource(label, "Axe");
 		}
 		//display player initial position on map
-		if(sp.compareCoordinates(rowIndex, colIndex, -1)){
-			label.setGraphic(new ImageView(sp.getEntity(-1)));
-			tileInfo[rowIndex][colIndex].setEntity(true);
+		if(sp.compareCoordinates(rowIndex, colIndex, EntityDisplay.UNIQUE)){
+			label.setGraphic(new ImageView(sp.getEntity(EntityDisplay.UNIQUE)));
+			tileInfo[rowIndex][colIndex].setEntityType(TileInformation.PLAYER);
 			tileText += "\nYou are here!";
 		}
 		// display diamonds initial position on map
-		if (sd.compareCoordinates(rowIndex, colIndex, -1)) {
-			label.setGraphic(new ImageView(sd.getEntity(-1)));
-			tileInfo[rowIndex][colIndex].setEntity(true);
-			tileText += "\nYou are here!";
+		if (sd.compareCoordinates(rowIndex, colIndex, EntityDisplay.UNIQUE)) {
+			label.setGraphic(new ImageView(sd.getEntity(EntityDisplay.UNIQUE)));
+			tileInfo[rowIndex][colIndex].setEntityType(TileInformation.DIAMOND);
+			tileText += "\nA diamond!";
 		}
 
 		if (tileInfo[rowIndex][colIndex].isNormal()) {
@@ -179,7 +203,8 @@ public class MapViewController implements Initializable {
 		} else {
 			tileText += "\nBlocked";
 		}
-
+		
+		label.setUserData(tileInfo[rowIndex][colIndex]);
 		dropTarget(label, tileInfo[rowIndex][colIndex]);
 
 		final String tt = tileText;
@@ -187,48 +212,16 @@ public class MapViewController implements Initializable {
 		label.setOnMouseEntered(e -> {
 			tileInfoText.setText(tt);
 		});
+		
+		
 		tileMapping.add(label, colIndex, rowIndex);
 
 	}
 
-	@FXML
-	private void saveCoor() {
-		as.updateEntityPosition();
-	}
-
-	/**
-	 * Exits the game and let's the garbage collector release the resources held
-	 * by the application.
-	 */
-	@FXML
-	private void exitMapView() {
-		System.exit(0);
-	}
-
-	/**
-	 * Launched the game if the game has never been launched during the
-	 * lifecycle of Map Viewer application. If the game is launched at most
-	 * once, the game will be kept alive throughout the lifecycle of the Map
-	 * Viewer application. Resources are not released throughout the lifecycle.
-	 */
-	@FXML
-	private void playGame() {
-		if (!isLaunchedMainGame) {
-			Game.runDHMainGame();
-			Game.getWindow().setAutoRequestFocus(true);
-			isLaunchedMainGame = true;
-		} else {
-			Game.getWindow().setVisible(true);
-		}
-	}
-
 	/**
 	 * Method to drag axe/boat
-	 * 
-	 * @param source
-	 *            The label of the object going or being dragged
-	 * @param itemType
-	 *            The string of the item being dragged
+	 * @param source The label of the object going or being dragged
+	 * @param itemType The string of the item being dragged
 	 */
 	private void dragSource(Label source, String itemType) {
 		source.setOnDragDetected((MouseEvent e) -> {
@@ -237,8 +230,7 @@ public class MapViewController implements Initializable {
 			content.putImage(((ImageView) (source.getGraphic())).getImage());
 			db.setContent(content);
 
-			tileInfoText
-					.setText("Dragging: " + itemType + "\nYou can only place the " + itemType + " in non-red tiles");
+			tileInfoText.setText("Dragging: " + itemType + "\nYou can only place the " + itemType + " in non-red tiles");
 
 			e.consume();
 		});
@@ -294,6 +286,37 @@ public class MapViewController implements Initializable {
 				e.setDropCompleted(flag);
 				e.consume();
 			});
+		}
+	}
+	
+	@FXML
+	private void saveCoor() {
+		as.updateEntityPosition();
+	}
+
+	/**
+	 * Exits the game and let's the garbage collector release the resources held
+	 * by the application.
+	 */
+	@FXML
+	private void exitMapView() {
+		System.exit(0);
+	}
+
+	/**
+	 * Launched the game if the game has never been launched during the
+	 * lifecycle of Map Viewer application. If the game is launched at most
+	 * once, the game will be kept alive throughout the lifecycle of the Map
+	 * Viewer application. Resources are not released throughout the lifecycle.
+	 */
+	@FXML
+	private void playGame() {
+		if (!isLaunchedMainGame) {
+			Game.runDHMainGame();
+			Game.getWindow().setAutoRequestFocus(true);
+			isLaunchedMainGame = true;
+		} else {
+			Game.getWindow().setVisible(true);
 		}
 	}
 }
