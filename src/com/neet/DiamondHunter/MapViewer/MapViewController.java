@@ -43,7 +43,7 @@ public class MapViewController implements Initializable {
 	private TileInformation[][] tileInfo;
 	boolean isLaunchedMainGame;
 	
-	private int[] tmpCoords = {0,0,0,0};
+	private int[] tmpCoords = new int[4];
 	private String itemType = "";
 	
 	@FXML
@@ -60,7 +60,7 @@ public class MapViewController implements Initializable {
 	private TextArea tileInfoText;
 	
 	@FXML
-	private Button btnSave;
+	private Button btnDefault;
 	@FXML
 	private Button btnExit;
 	@FXML
@@ -79,7 +79,7 @@ public class MapViewController implements Initializable {
 
 		// The tile information display box is never editable
 		tileInfoText.setEditable(false);
-		tileInfoText.setText("Welcome to Map Viewer!\nYou can drag and drop the axe or boat to any legal location you wish!");
+		tileInfoText.setText("Welcome to Map Viewer!\nJust drag and drop the axe or boat to any legal location you wish!\nThe location is saved automatically!");
 		initMapCanvas();
 
 		// Initialises the size of the StackPane that contains the map in canvas
@@ -88,13 +88,13 @@ public class MapViewController implements Initializable {
 		mapStack.setPrefSize((double) (mp.getNumRows() * mp.getTileSize()),
 				(double) (mp.getNumCols() * mp.getTileSize()));
 		tileVBox.setOnMouseEntered(e -> {
-			tileInfoText.setText("Welcome to Map Viewer!\nYou can drag and drop the axe or boat to any legal location you wish!");
+			tileInfoText.setText("Welcome to Map Viewer!\nJust drag and drop the axe or boat to any legal location you wish!\nThe location is saved automatically!");
 		});
 		mainPane.setOnMouseEntered(e -> {
-			tileInfoText.setText("Welcome to Map Viewer!\nYou can drag and drop the axe or boat to any legal location you wish!");
+			tileInfoText.setText("Welcome to Map Viewer!\nJust drag and drop the axe or boat to any legal location you wish!\nThe location is saved automatically!");
 		});;
-		btnSave.setOnMouseEntered(e -> {
-			tileInfoText.setText("Save the current axe and boat configuration.");
+		btnDefault.setOnMouseEntered(e -> {
+			tileInfoText.setText("Return the axe and boat configuration to default.");
 		});
 		btnExit.setOnMouseEntered(e -> {
 			tileInfoText.setText("Exit the Map Viewer");
@@ -127,21 +127,6 @@ public class MapViewController implements Initializable {
 		mp.drawImage(gc);
 
 		mvCanvas.getGraphicsContext2D().drawImage(gc.getCanvas().snapshot(new SnapshotParameters(), null), 0, 0);
-	}
-	
-	private void updateGridPane() {
-		as.getEntityPosition();
-		sp.getEntityPosition();
-		sd.getEntityPosition();
-		tileMapping.getChildren().clear();
-		tileInfo = new TileInformation[mp.getNumRows()][mp.getNumCols()];
-
-		for (int row = 0; row < mp.getNumRows(); row++) {
-			for (int col = 0; col < mp.getNumCols(); col++) {
-				tileInfo[row][col] = new TileInformation(mp.getTileImageFromMap(row, col), row, col);
-				addTile(col, row);
-			}
-		}
 	}
 	
 	/**
@@ -306,7 +291,6 @@ public class MapViewController implements Initializable {
 				Dragboard db = e.getDragboard();
 				boolean flag = false;
 				if (db.hasContent(DataFormat.IMAGE)) {
-					System.out.println("ok");
 					TileInformation targetTile = (TileInformation)(target.getUserData());
 					
 					target.setGraphic(new ImageView(((Image) db.getContent(DataFormat.IMAGE))));
@@ -315,13 +299,10 @@ public class MapViewController implements Initializable {
 					if(itemType == "Axe"){
 						tmpCoords[0] = targetTile.getRow();
 						tmpCoords[1] = targetTile.getCol();
-						System.out.println("a" + targetTile.getRow() + " " +targetTile.getCol());
 					}else if(itemType == "Boat"){
 						tmpCoords[2] = targetTile.getRow();
 						tmpCoords[3] = targetTile.getCol();
-						System.out.println("b" + targetTile.getRow() + " " +targetTile.getCol());
-					}else System.out.println("ok2");
-					System.out.println("ok3");
+					}
 					saveCoor();
 					updateGridPane();
 				}
@@ -331,20 +312,46 @@ public class MapViewController implements Initializable {
 		}
 	}
 	
-	@FXML
+	/**
+	 * Refreshes the GridPane every time a drag and drop action is completed successfully.
+	 * Saves the changed coordinates of the moved item as well.
+	 */
+	private void updateGridPane() {
+		as.getEntityPosition();
+		sp.getEntityPosition();
+		sd.getEntityPosition();
+		tileMapping.getChildren().clear();
+		tileInfo = new TileInformation[mp.getNumRows()][mp.getNumCols()];
+
+		for (int row = 0; row < mp.getNumRows(); row++) {
+			for (int col = 0; col < mp.getNumCols(); col++) {
+				tileInfo[row][col] = new TileInformation(mp.getTileImageFromMap(row, col), row, col);
+				addTile(col, row);
+			}
+		}
+	}
+	
+	/**
+	 * Saves the coordinates of all items.
+	 * Switches the overwrite to true.
+	 */
 	private void saveCoor() {
-		System.out.println("save");
 		WriteCoord.toOverwrite = true;
 		as.updateEntityPosition(tmpCoords[0], tmpCoords[1], tmpCoords[2], tmpCoords[3]);
 	}
-
+	
 	/**
-	 * Exits the game and let's the garbage collector release the resources held
-	 * by the application.
+	 * Returns the axe and boat to its default state.
+	 * Operation: Recoordinate => Save to file => update the GridPane
 	 */
 	@FXML
-	private void exitMapView() {
-		System.exit(0);
+	private void returnDefault() {
+		tmpCoords[0] = 26;
+		tmpCoords[1] = 37;
+		tmpCoords[2] = 12;
+		tmpCoords[3] = 4;
+		saveCoor();
+		updateGridPane();
 	}
 
 	/**
@@ -362,5 +369,14 @@ public class MapViewController implements Initializable {
 		} else {
 			Game.getWindow().setVisible(true);
 		}
+	}
+	
+	/**
+	 * Exits the game and let's the garbage collector release the resources held
+	 * by the application.
+	 */
+	@FXML
+	private void exitMapView() {
+		System.exit(0);
 	}
 }

@@ -120,15 +120,12 @@ public class WriteCoord {
 			String input = "";
 			String l = "";
 			while ((l = oldCoordFile.readLine()) != null) {
-				System.out.println(count+"   "+line);
 				if (count == (line - 1)) {
-					System.out.println("okok");
 					l = l.replace(l, data);
 				}
 				input += l + "\n";
 				count++;
 			}
-			System.out.println(input);
 			oldCoordFile.close();
 			
 			if(toOverwrite) {
