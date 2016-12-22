@@ -26,8 +26,8 @@ public class ShowPlayer implements EntityDisplay {
 
 	@Override
 	public void getEntityPosition() {
-		//1 indicates line 1 which is the player's coordinate
-		coordinate = WriteCoord.getCoord(1);
+		//2 indicates line 2 which is the player's coordinate
+		coordinate = WriteCoord.getCoord(2);
 	}
 
 	@Override

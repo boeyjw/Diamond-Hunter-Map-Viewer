@@ -60,7 +60,6 @@ public class WriteCoord {
 	public static int[] getCoord(int line) {
 		checkExist();
 		// File exist and is ready to be read
-
 		if (coordFile.canRead()) {
 			try {
 
@@ -71,24 +70,25 @@ public class WriteCoord {
 				rdCoords.read(data);
 				rdCoords.close();
 				String[] strLines = new String(data, "UTF-8").split("\n");
-				String[] strCoords = new String[strLines.length * 2];
+				String[] strCoords;
 				String[] temp = new String[2];
 				// Get only the line for axe/boat coordinates or player
 				// coordinate
-				if (line == 0)
-					strCoords = new String(strLines[line]).trim().split(",");
-				else if(line == 1)
-					strCoords = new String(strLines[line]).trim().split(",");
-				else {
+				if (line == 1) //Axe and boat
+					strCoords = new String(strLines[line - 1]).trim().split(",");
+				else if(line == 2) //Player
+					strCoords = new String(strLines[line - 1]).trim().split(",");
+				else { //Diamonds
 					int k = 0;
-					for(int i = line; i < strLines.length; i++) {
+					strCoords = new String[strLines.length * 2 - 4];
+					for(int i = line - 1; i < strLines.length; i++) {
 						temp = new String(strLines[i]).trim().split(",");
 						for(int j = 0; j < temp.length; j++) {
 							strCoords[k++] = temp[j];
 						}
 					}
 				}
-
+				
 				// Get the coordinates
 				int[] coords = new int[strCoords.length];
 				for (int i = 0; i < strCoords.length; i++) {
@@ -126,8 +126,6 @@ public class WriteCoord {
 				l += "\n";
 			}
 			oldCoordFile.close();
-			
-			System.out.println(l);
 			
 			if(toOverwrite) {
 				PrintWriter pw = new PrintWriter(coordFile);
