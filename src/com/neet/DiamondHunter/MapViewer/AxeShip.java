@@ -33,7 +33,7 @@ public class AxeShip implements EntityDisplay {
 		 * 1 indicates line 1 which is the axe and boat coordinates.
 		 * Array: axe_xaxis, axe_yaxis, boat_xaxis, boat_yaxis
 		 */
-		coordinates = WriteCoord.getCoord(0);
+		coordinates = WriteCoord.getCoord(1);
 	}
 	
 	@Override

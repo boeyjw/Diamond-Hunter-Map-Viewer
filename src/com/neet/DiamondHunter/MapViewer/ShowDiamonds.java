@@ -23,7 +23,7 @@ public class ShowDiamonds implements EntityDisplay{
 	@Override
 	public void getEntityPosition() {
 		//3 indicates line 3 which is the Diamonds's coordinate
-		coordinate = WriteCoord.getCoord(2);
+		coordinate = WriteCoord.getCoord(3);
 	}
 
 	@Override

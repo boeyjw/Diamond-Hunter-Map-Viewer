@@ -172,7 +172,7 @@ public class PlayState extends GameState {
 	}
 	
 	private void populateItems() {
-		int[] itemPos = WriteCoord.getCoord(1); //set the position
+		int[] itemPos = WriteCoord.getCoord(1); //1 indicates line 1 which is the axe and boat coordinates.
 		
 		if(itemPos == null) {
 			System.err.println("The game has failed to load custom coordinates. Falling back to default state.");

@@ -74,14 +74,14 @@ public class WriteCoord {
 				String[] temp = new String[2];
 				// Get only the line for axe/boat coordinates or player
 				// coordinate
-				if (line == 0)
-					strCoords = new String(strLines[line]).trim().split(",");
-				else if(line == 1)
-					strCoords = new String(strLines[line]).trim().split(",");
-				else {
+				if (line == 1) //Axe and boat
+					strCoords = new String(strLines[line - 1]).trim().split(",");
+				else if(line == 2) //Player
+					strCoords = new String(strLines[line - 1]).trim().split(",");
+				else { //Diamonds
 					int k = 0;
 					strCoords = new String[strLines.length * 2 - 4];
-					for(int i = line; i < strLines.length; i++) {
+					for(int i = line - 1; i < strLines.length; i++) {
 						temp = new String(strLines[i]).trim().split(",");
 						for(int j = 0; j < temp.length; j++) {
 							strCoords[k++] = temp[j];
