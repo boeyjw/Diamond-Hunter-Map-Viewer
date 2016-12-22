@@ -307,6 +307,8 @@ public class MapViewController implements Initializable {
 	@FXML
 	private void saveCoor() {
 		System.out.println("save");
+		System.out.println(AxeShip.coordinates[0]+" "+ AxeShip.coordinates[1]+"\n"+
+						   AxeShip.coordinates[2]+" "+AxeShip.coordinates[3]);
 		as.updateEntityPosition();
 	}
 

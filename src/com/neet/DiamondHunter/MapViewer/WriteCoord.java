@@ -81,9 +81,8 @@ public class WriteCoord {
 					strCoords = new String(strLines[line]).trim().split(",");
 				else {
 					//Requires attention
-					for(int i = line; i < strLines.length; i++){
+					for(int i = line; i < strLines.length; i++)
 						strCoords = new String(strLines[i]).trim().split(",");
-					System.out.println(strCoords[i]);}
 				}
 
 				// Get the coordinates
