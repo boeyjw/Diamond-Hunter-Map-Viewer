@@ -150,11 +150,19 @@ public class MapPane {
 	public int getTileSize() {
 		return tileSize;
 	}
-
+	
+	/**
+	 * The number of rows of the map
+	 * @return Number of rows of the map
+	 */
 	public int getNumRows() {
 		return numRows;
 	}
-
+	
+	/**
+	 * The number of columns of the map
+	 * @return Number of columns of the map
+	 */
 	public int getNumCols() {
 		return numCols;
 	}

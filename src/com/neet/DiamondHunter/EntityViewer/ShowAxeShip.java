@@ -4,9 +4,10 @@
  * Get axe and boat sprites
  * */
 
-package com.neet.DiamondHunter.MapViewer;
+package com.neet.DiamondHunter.EntityViewer;
 
 import com.neet.DiamondHunter.Manager.Content;
+import com.neet.DiamondHunter.MapViewer.WriteCoord;
 
 import javafx.scene.image.WritableImage;
 
@@ -14,7 +15,7 @@ import javafx.scene.image.WritableImage;
  * Handles axe and ship entity for the GridPane.
  *
  */
-public class AxeShip extends ASPositionUpdate {
+public class ShowAxeShip extends AxeShip {
 	
 	private int[] coordinates;
 
@@ -22,7 +23,7 @@ public class AxeShip extends ASPositionUpdate {
 	public static final int BOAT = 0;
 	public static final int AXE = 1;
 
-	public AxeShip() {
+	public ShowAxeShip() {
 		coordinates = new int[4];
 		getEntityPosition();
 	}
@@ -62,7 +63,6 @@ public class AxeShip extends ASPositionUpdate {
 	
 	@Override
 	public void updateEntityPosition(int ar, int ac, int br, int bc) {
-		
 		coordinates[0] = ar;
 		coordinates[1] = ac;
 		coordinates[2] = br;
@@ -70,7 +70,6 @@ public class AxeShip extends ASPositionUpdate {
 		
 		String coords = Integer.toString(ar) + "," + Integer.toString(ac) + "," 
 						+ Integer.toString(br) + "," + Integer.toString(bc);
-		System.out.println(coords);
 		WriteCoord.overwriteFile(coords,1);
 }
 

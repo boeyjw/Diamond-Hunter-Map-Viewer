@@ -2,8 +2,9 @@
  * and return the value
  * Get Diamonds sprite
  * */
-package com.neet.DiamondHunter.MapViewer;
+package com.neet.DiamondHunter.EntityViewer;
 import com.neet.DiamondHunter.Manager.Content;
+import com.neet.DiamondHunter.MapViewer.WriteCoord;
 
 import javafx.scene.image.WritableImage;
 

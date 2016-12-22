@@ -28,9 +28,17 @@ public class WriteCoord {
 	private static final String[] diamond_coords = { "20,20", "12,36", "28,4", "4,34", "28,19", "35,26", "38,36",
 			"27,28", "20,30", "14,25", "4,21", "9,14", "4,3", "20,14", "13,20" };
 	
+	/*
+	 * The switch to enable overwriting file.
+	 * Essential field as without this, the file is automatically overwritten at launch of Map Viewer.
+	 */
 	public static boolean toOverwrite = false;
 
-	// check if coordinate file exist in path
+	/**
+	 * Check if coordinate file exist in path.
+	 * Does nothing if file exist.
+	 * Creates a file with all default coordinates for all entity if file does not exist.
+	 */
 	public static void checkExist() {
 		// If the file does not exist in the specified path
 		if (!coordFile.exists() || coordFile.isDirectory()) {
@@ -56,7 +64,12 @@ public class WriteCoord {
 			}
 		}
 	}
-
+	
+	/**
+	 * Retrieve coordinates from the file
+	 * @param line The line of coordinates which correspond to the entity to be retrieved
+	 * @return The coordinates
+	 */
 	public static int[] getCoord(int line) {
 		checkExist();
 		// File exist and is ready to be read
@@ -111,7 +124,11 @@ public class WriteCoord {
 		return null;
 	}
 
-	// overwrite file to update position of items or player
+	/**
+	 * Overwrite file to update position of items or player
+	 * @param data The updated coordinates
+	 * @param line The line of coordinates to be overwritten
+	 */
 	public static void overwriteFile(String data, int line) {
 		checkExist();
 		try {

@@ -3,6 +3,11 @@ package com.neet.DiamondHunter.MapViewer;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.neet.DiamondHunter.EntityViewer.AxeShip;
+import com.neet.DiamondHunter.EntityViewer.ShowAxeShip;
+import com.neet.DiamondHunter.EntityViewer.EntityDisplay;
+import com.neet.DiamondHunter.EntityViewer.ShowDiamonds;
+import com.neet.DiamondHunter.EntityViewer.ShowPlayer;
 import com.neet.DiamondHunter.Main.Game;
 
 import javafx.fxml.FXML;
@@ -35,17 +40,26 @@ import javafx.scene.input.TransferMode;
  */
 public class MapViewController implements Initializable {
 	
-	private ASPositionUpdate as;
+	//All entity instantiation
+	private AxeShip as;
 	private EntityDisplay sp;
 	private EntityDisplay sd;
+	
+	//The map
 	private MapPane mp;
 	private GraphicsContext gc;
+	
+	//The information of each tile loaded
 	private TileInformation[][] tileInfo;
+	
+	//Check if the Diamond  Hunter game has already been launched
 	boolean isLaunchedMainGame;
 	
+	//Temporary store for the updated coordinates
 	private int[] tmpCoords = new int[4];
 	private String itemType = "";
 	
+	//The application pane and map pane
 	@FXML
 	private AnchorPane mainPane;
 	@FXML
@@ -54,11 +68,12 @@ public class MapViewController implements Initializable {
 	private GridPane tileMapping;
 	@FXML
 	private StackPane mapStack;
+	
+	//The right-side pane
 	@FXML
 	private VBox tileVBox;
 	@FXML
 	private TextArea tileInfoText;
-	
 	@FXML
 	private Button btnDefault;
 	@FXML
@@ -73,7 +88,7 @@ public class MapViewController implements Initializable {
 		isLaunchedMainGame = false;
 		// MapPane has all the loaders for the map
 		mp = new MapPane();
-		as = new AxeShip();
+		as = new ShowAxeShip();
 		sp = new ShowPlayer();
 		sd = new ShowDiamonds();
 
@@ -176,8 +191,8 @@ public class MapViewController implements Initializable {
 		}
 		
 		//display boat on top of tile
-		if(as.compareCoordinates(rowIndex, colIndex, AxeShip.BOAT)){
-			label.setGraphic(new ImageView(as.getEntity(AxeShip.BOAT)));
+		if(as.compareCoordinates(rowIndex, colIndex, ShowAxeShip.BOAT)){
+			label.setGraphic(new ImageView(as.getEntity(ShowAxeShip.BOAT)));
 			tileInfo[rowIndex][colIndex].setEntityType(TileInformation.BOAT);
 			tileText += "\nA boat!";
 			itemType = "Boat";
@@ -186,8 +201,8 @@ public class MapViewController implements Initializable {
 			dragSource(label, itemType);
 		}
 		//display axe on top of tile
-		if(as.compareCoordinates(rowIndex, colIndex, AxeShip.AXE)){
-			label.setGraphic(new ImageView(as.getEntity(AxeShip.AXE)));
+		if(as.compareCoordinates(rowIndex, colIndex, ShowAxeShip.AXE)){
+			label.setGraphic(new ImageView(as.getEntity(ShowAxeShip.AXE)));
 			tileInfo[rowIndex][colIndex].setEntityType(TileInformation.AXE);
 			tileText += "\nAn axe!";
 			itemType = "Axe";
@@ -255,10 +270,8 @@ public class MapViewController implements Initializable {
 	/**
 	 * Method to drop axe/boat on any good tile
 	 * 
-	 * @param target
-	 *            The label where the dragging object is currently on
-	 * @param ti
-	 *            The tile information of every tile in the map
+	 * @param target The label where the dragging object is currently on
+	 * @param ti The tile information of every tile in the map
 	 */
 	private void dropTarget(Label target, TileInformation ti) {
 

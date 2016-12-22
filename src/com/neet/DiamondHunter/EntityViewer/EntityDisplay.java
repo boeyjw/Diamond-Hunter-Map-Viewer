@@ -1,4 +1,4 @@
-package com.neet.DiamondHunter.MapViewer;
+package com.neet.DiamondHunter.EntityViewer;
 
 import javafx.scene.image.WritableImage;
 
@@ -27,7 +27,7 @@ public interface EntityDisplay {
 	
 	/**
 	 * Compare the coordinates of the current GridPane index with the entity coordinates.
-	 * This must be called after {@link com.neet.DiamondHunter.MapViewer.EntityDisplay#getEntityPosition()}.
+	 * This must be called after {@link com.neet.DiamondHunter.EntityViewer.EntityDisplay#getEntityPosition()}.
 	 * @param row The row index of the GridPane
 	 * @param col The column index of the GridPane
 	 * @param type The entity flag. Defaults to -1 if entity is unique.
