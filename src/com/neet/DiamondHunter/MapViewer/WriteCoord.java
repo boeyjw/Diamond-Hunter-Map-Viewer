@@ -117,14 +117,18 @@ public class WriteCoord {
 		try {
 			BufferedReader oldCoordFile = new BufferedReader(new FileReader("Entity-Coordinates.txt"));
 			int count = 0;
+			String input = "";
 			String l = "";
 			while ((l = oldCoordFile.readLine()) != null) {
-				count++;
-				if (count == line) {
-					l += l.replace(l, data);
+				System.out.println(count+"   "+line);
+				if (count == (line - 1)) {
+					System.out.println("okok");
+					l = l.replace(l, data);
 				}
-				l += "\n";
+				input += l + "\n";
+				count++;
 			}
+			System.out.println(input);
 			oldCoordFile.close();
 			
 			if(toOverwrite) {
@@ -132,7 +136,7 @@ public class WriteCoord {
 				pw.close();
 
 				FileWriter fw = new FileWriter(coordFile);
-				fw.write(l);
+				fw.write(input);
 				fw.close();
 				toOverwrite = false;
 			}
