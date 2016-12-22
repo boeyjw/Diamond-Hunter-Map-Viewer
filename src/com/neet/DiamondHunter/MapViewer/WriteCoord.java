@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * This is a class to write coordinates of axe, boat, player and diamonds into a
@@ -26,6 +27,8 @@ public class WriteCoord {
 
 	private static final String[] diamond_coords = { "20,20", "12,36", "28,4", "4,34", "28,19", "35,26", "38,36",
 			"27,28", "20,30", "14,25", "4,21", "9,14", "4,3", "20,14", "13,20" };
+	
+	public static boolean toOverwrite = false;
 
 	// check if coordinate file exist in path
 	public static void checkExist() {
@@ -68,18 +71,19 @@ public class WriteCoord {
 				rdCoords.read(data);
 				rdCoords.close();
 				String[] strLines = new String(data, "UTF-8").split("\n");
-				String[] strCoords = {};
+				String[] strCoords = new String[strLines.length];
 
 				// Get only the line for axe/boat coordinates or player
 				// coordinate
-				if (line == 1)
-					strCoords = new String(strLines[line-1]).trim().split(",");
-				else if (line == 2)
-					strCoords = new String(strLines[line-1]).trim().split(",");
-				else{
-					for(int i = line-1; i < strLines.length; i++)
+				if (line == 0)
+					strCoords = new String(strLines[line]).trim().split(",");
+				else if(line == 1)
+					strCoords = new String(strLines[line]).trim().split(",");
+				else {
+					//Requires attention
+					for(int i = line; i < strLines.length; i++){
 						strCoords = new String(strLines[i]).trim().split(",");
-						System.out.println(strCoords);
+					System.out.println(strCoords[i]);}
 				}
 
 				// Get the coordinates
@@ -100,29 +104,36 @@ public class WriteCoord {
 			System.err.println("Error in reading file");
 			return null;
 		}
-
 		return null;
 	}
 
 	// overwrite file to update position of items or player
 	public static void overwriteFile(String data, int line) {
+		checkExist();
 		try {
-			System.out.println("ok1");
-			BufferedReader coordFile = new BufferedReader(new FileReader("Entity-Coordinates.txt"));
-			System.out.println("ok2");
+			BufferedReader oldCoordFile = new BufferedReader(new FileReader("Entity-Coordinates.txt"));
 			int count = 0;
-			String l;
-			while ((l = coordFile.readLine()) != null) {
-				System.out.println("ok3");
+			String l = "";
+			while ((l = oldCoordFile.readLine()) != null) {
 				count++;
 				if (count == line) {
-					System.out.println("ok4");
-					l.replace(l, data);
-					System.out.println("ok5");
-					break;
+					l += l.replace(l, data);
 				}
+				l += "\n";
 			}
-			coordFile.close();
+			oldCoordFile.close();
+			
+			System.out.println(l);
+			
+			if(toOverwrite) {
+				PrintWriter pw = new PrintWriter(coordFile);
+				pw.close();
+
+				FileWriter fw = new FileWriter(coordFile);
+				fw.write(l);
+				fw.close();
+				toOverwrite = false;
+			}
 		} catch (FileNotFoundException e) {
 			System.err.println("File does not exist");
 			e.printStackTrace();

@@ -10,6 +10,10 @@ import com.neet.DiamondHunter.Manager.Content;
 
 import javafx.scene.image.WritableImage;
 
+/**
+ * Handles axe and ship entity for the GridPane.
+ *
+ */
 public class AxeShip implements EntityDisplay {
 	
 	protected static int[] coordinates;
@@ -26,10 +30,10 @@ public class AxeShip implements EntityDisplay {
 	@Override
 	public void getEntityPosition() {
 		/*
-		 * 1 indicates line 1 which is the axe and boat coordinates.
+		 * 0 indicates line 0 which is the axe and boat coordinates.
 		 * Array: axe_xaxis, axe_yaxis, boat_xaxis, boat_yaxis
 		 */
-		coordinates = WriteCoord.getCoord(1);
+		coordinates = WriteCoord.getCoord(0);
 	}
 	
 	@Override
@@ -61,7 +65,7 @@ public class AxeShip implements EntityDisplay {
 		String coords = Integer.toString(coordinates[0]) + "," + Integer.toString(coordinates[1]) + "," 
 						+ Integer.toString(coordinates[0]) + "," + Integer.toString(coordinates[1]);
 		System.out.println(coords);
-		WriteCoord.overwriteFile(coords,1);
+		WriteCoord.overwriteFile(coords,0);
 	}
 
 }

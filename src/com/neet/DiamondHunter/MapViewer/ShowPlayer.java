@@ -10,6 +10,10 @@ import com.neet.DiamondHunter.Manager.Content;
 
 import javafx.scene.image.WritableImage;
 
+/**
+ * Handles player entity in the GridPane
+ *
+ */
 public class ShowPlayer implements EntityDisplay {
 
 	private int[] coordinate;
@@ -22,13 +26,13 @@ public class ShowPlayer implements EntityDisplay {
 
 	@Override
 	public void getEntityPosition() {
-		//2 indicates line 2 which is the player's coordinate
-		coordinate = WriteCoord.getCoord(2);
+		//1 indicates line 1 which is the player's coordinate
+		coordinate = WriteCoord.getCoord(1);
 	}
 
 	@Override
 	public WritableImage getEntity(int type) {
-		WritableImage player = Player.onWater ? new ImageConversion(Content.PLAYER[4]).getWrImg() : new ImageConversion(Content.PLAYER[0]).getWrImg();
+		WritableImage player = Player.onWater ? new ImageConversion(Content.PLAYER[0][5]).getWrImg() : new ImageConversion(Content.PLAYER[0][0]).getWrImg();
 		return player;
 	}
 
@@ -40,7 +44,7 @@ public class ShowPlayer implements EntityDisplay {
 	@Override
 	public void updateEntityPosition() {
 		String coords = Integer.toString(coordinate[0]) + "," + Integer.toString(coordinate[1]);
-		WriteCoord.overwriteFile(coords,2);
+		WriteCoord.overwriteFile(coords,1);
 	}
 
 }

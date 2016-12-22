@@ -8,6 +8,10 @@ import com.neet.DiamondHunter.Manager.Content;
 
 import javafx.scene.image.WritableImage;
 
+/**
+ * Handles diamond entity in the GridPane
+ *
+ */
 public class ShowDiamonds implements EntityDisplay{
 
 	private int[] coordinate;
@@ -19,14 +23,16 @@ public class ShowDiamonds implements EntityDisplay{
 
 	@Override
 	public void getEntityPosition() {
-		//3 indicates line 3 which is the start of Diamonds' coordinates
-		coordinate = WriteCoord.getCoord(3);
-		//System.out.println(coordinate);
+		//3 indicates line 3 which is the Diamonds's coordinate
+		coordinate = WriteCoord.getCoord(2);
+		for(int i : coordinate) {
+			System.out.print(i + " ");
+		}
 	}
 
 	@Override
 	public WritableImage getEntity(int type) {
-		return new ImageConversion(Content.DIAMOND[0]).getWrImg();
+		return new ImageConversion(Content.DIAMOND[0][0]).getWrImg();
 	}
 
 	@Override
@@ -41,7 +47,7 @@ public class ShowDiamonds implements EntityDisplay{
 	@Override
 	public void updateEntityPosition() {
 		String coords = Integer.toString(coordinate[0]) + "," + Integer.toString(coordinate[1]);
-		WriteCoord.overwriteFile(coords,3);
+		WriteCoord.overwriteFile(coords,2);
 	}
 
 }
