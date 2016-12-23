@@ -6,7 +6,6 @@
 
 package com.neet.DiamondHunter.EntityViewer;
 
-import com.neet.DiamondHunter.Manager.Content;
 import com.neet.DiamondHunter.MapViewer.WriteCoord;
 
 import javafx.scene.image.WritableImage;
@@ -40,10 +39,10 @@ public class ShowAxeShip extends AxeShip {
 	@Override
 	public WritableImage getEntity(int type) {
 		if(type == BOAT){
-			return new ImageConversion(Content.ITEMS[1][0]).getWrImg();
+			return new SpriteLoader().getItems(1, 0);
 		}
 		else if(type == AXE){
-			return new ImageConversion(Content.ITEMS[1][1]).getWrImg();
+			return new SpriteLoader().getItems(1, 1);
 		}
 		
 		return null;

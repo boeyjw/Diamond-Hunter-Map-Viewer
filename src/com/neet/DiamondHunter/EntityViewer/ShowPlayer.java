@@ -5,8 +5,6 @@
 
 package com.neet.DiamondHunter.EntityViewer;
 
-import com.neet.DiamondHunter.Entity.Player;
-import com.neet.DiamondHunter.Manager.Content;
 import com.neet.DiamondHunter.MapViewer.WriteCoord;
 
 import javafx.scene.image.WritableImage;
@@ -33,8 +31,7 @@ public class ShowPlayer implements EntityDisplay {
 
 	@Override
 	public WritableImage getEntity(int type) {
-		WritableImage player = Player.onWater ? new ImageConversion(Content.PLAYER[0][5]).getWrImg() : new ImageConversion(Content.PLAYER[0][0]).getWrImg();
-		return player;
+		return new SpriteLoader().getPlayer(0, 0);
 	}
 
 	@Override

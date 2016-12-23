@@ -34,7 +34,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" />
                      </VBox.margin>
                   </TextArea>
-                  <Button fx:id="btnDefault" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#returnDefault" prefHeight="41.0" prefWidth="253.0" style="-fx-background-color: rgba(255, 255,255, 0.5); -fx-border-width: 5; -fx-border-color: #000000; -fx-border-radius: 5;" text="Default position" textAlignment="CENTER">
+                  <Button fx:id="btnDefault" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#returnDefault" prefHeight="41.0" prefWidth="253.0" style="-fx-background-color: rgba(255, 255,255, 0.5); -fx-border-width: 5; -fx-border-color: #000000; -fx-border-radius: 5;" styleClass="button-cursor" stylesheets="@MapView_style.css" text="Default position" textAlignment="CENTER">
                      <font>
                         <Font name="8BIT WONDER Nominal" size="24.0" />
                      </font>
@@ -42,7 +42,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="btnPlayGame" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#playGame" prefHeight="41.0" style="-fx-background-color: rgba(255, 255,255, 0.5); -fx-border-color: #000000; -fx-border-width: 5; -fx-border-radius: 5;" text="Play Game" textAlignment="CENTER">
+                  <Button fx:id="btnPlayGame" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#playGame" prefHeight="41.0" style="-fx-background-color: rgba(255, 255,255, 0.5); -fx-border-color: #000000; -fx-border-width: 5; -fx-border-radius: 5;" styleClass="button-cursor" stylesheets="@MapView_style.css" text="Play Game" textAlignment="CENTER">
                      <font>
                         <Font name="8BIT WONDER Nominal" size="24.0" />
                      </font>
@@ -50,7 +50,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="btnExit" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#exitMapView" prefHeight="41.0" style="-fx-background-color: rgba(255, 255,255, 0.5); -fx-border-color: #000000; -fx-border-width: 5; -fx-border-radius: 5;" text="Exit" textAlignment="CENTER">
+                  <Button fx:id="btnExit" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#exitMapView" prefHeight="41.0" style="-fx-background-color: rgba(255, 255,255, 0.5); -fx-border-color: #000000; -fx-border-width: 5; -fx-border-radius: 5;" styleClass="button-cursor" stylesheets="@MapView_style.css" text="Exit" textAlignment="CENTER">
                      <font>
                         <Font name="8BIT WONDER Nominal" size="24.0" />
                      </font>

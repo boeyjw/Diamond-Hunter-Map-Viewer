@@ -1,3 +1,7 @@
+.button-cursor {
+	-fx-cursor: hand;
+}
+
 #mainPane {
     -fx-background-image: url("/HUD/bg.gif");
 }

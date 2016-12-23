@@ -3,7 +3,6 @@
  * Get Diamonds sprite
  * */
 package com.neet.DiamondHunter.EntityViewer;
-import com.neet.DiamondHunter.Manager.Content;
 import com.neet.DiamondHunter.MapViewer.WriteCoord;
 
 import javafx.scene.image.WritableImage;
@@ -30,7 +29,7 @@ public class ShowDiamonds implements EntityDisplay{
 
 	@Override
 	public WritableImage getEntity(int type) {
-		return new ImageConversion(Content.DIAMOND[0][0]).getWrImg();
+		return new SpriteLoader().getDiamond(0, 0);
 	}
 
 	@Override

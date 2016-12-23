@@ -35,7 +35,6 @@ public class Game {
 			public void windowClosing(WindowEvent e) {
 				super.windowClosing(e);
 				window.setVisible(false);
-				gp.getGsm().setState(GameStateManager.GAMEOVER);
 				gp.getGsm().setState(GameStateManager.INTRO);
 				JukeBox.stopAll();
 			}
