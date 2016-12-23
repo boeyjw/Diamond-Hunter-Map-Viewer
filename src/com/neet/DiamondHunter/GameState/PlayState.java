@@ -9,6 +9,8 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import com.neet.DiamondHunter.Entity.Diamond;
 import com.neet.DiamondHunter.Entity.Item;
 import com.neet.DiamondHunter.Entity.Player;
@@ -174,7 +176,13 @@ public class PlayState extends GameState {
 	private void populateItems() {
 		int[] itemPos = WriteCoord.getCoord(1); //1 indicates line 1 which is the axe and boat coordinates.
 		
-		if(itemPos == null) {
+		if(itemPos == null) {			
+			JOptionPane.showMessageDialog(null, 
+							"The game has failed to load custom coordinates. Falling back to default state.\n"
+							+ "Check if Entity-Coordinate.txt file is in the same directory with the game jar file.\n"
+							+ "To get custom coordinates, please run Map Viewer.jar at least once.", 
+							"No custom configurations found.", 
+							JOptionPane.INFORMATION_MESSAGE);
 			System.err.println("The game has failed to load custom coordinates. Falling back to default state.");
 			itemPos = new int[4];
 			itemPos[0] = 26;

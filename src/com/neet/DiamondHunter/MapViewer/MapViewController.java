@@ -88,6 +88,8 @@ public class MapViewController implements Initializable {
 		isLaunchedMainGame = false;
 		// MapPane has all the loaders for the map
 		mp = new MapPane();
+		
+		//Begin all entity coordinate configuration
 		as = new ShowAxeShip();
 		sp = new ShowPlayer();
 		sd = new ShowDiamonds();
@@ -201,7 +203,7 @@ public class MapViewController implements Initializable {
 			dragSource(label, itemType);
 		}
 		//display axe on top of tile
-		if(as.compareCoordinates(rowIndex, colIndex, ShowAxeShip.AXE)){
+		else if(as.compareCoordinates(rowIndex, colIndex, ShowAxeShip.AXE)){
 			label.setGraphic(new ImageView(as.getEntity(ShowAxeShip.AXE)));
 			tileInfo[rowIndex][colIndex].setEntityType(TileInformation.AXE);
 			tileText += "\nAn axe!";
@@ -211,13 +213,13 @@ public class MapViewController implements Initializable {
 			dragSource(label, itemType);
 		}
 		//display player initial position on map
-		if(sp.compareCoordinates(rowIndex, colIndex, EntityDisplay.UNIQUE)){
+		else if(sp.compareCoordinates(rowIndex, colIndex, EntityDisplay.UNIQUE)){
 			label.setGraphic(new ImageView(sp.getEntity(EntityDisplay.UNIQUE)));
 			tileInfo[rowIndex][colIndex].setEntityType(TileInformation.PLAYER);
 			tileText += "\nYou are here!";
 		}
 		// display diamonds initial position on map
-		if(sd.compareCoordinates(rowIndex, colIndex, EntityDisplay.UNIQUE)) {
+		else if(sd.compareCoordinates(rowIndex, colIndex, EntityDisplay.UNIQUE)) {
 			label.setGraphic(new ImageView(sd.getEntity(EntityDisplay.UNIQUE)));
 			tileInfo[rowIndex][colIndex].setEntityType(TileInformation.DIAMOND);
 			tileText += "\nA diamond!";

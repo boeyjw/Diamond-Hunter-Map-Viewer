@@ -2,7 +2,6 @@ package com.neet.DiamondHunter.EntityViewer;
 
 import java.awt.image.BufferedImage;
 
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 
@@ -15,10 +14,7 @@ import javafx.scene.image.WritableImage;
  */
 public class ImageConversion {
 
-	private BufferedImage buffImg; 
-	private BufferedImage[] buffImgList;
-	private WritableImage wrImg;
-	private WritableImage[] wrImgList;
+	private BufferedImage buffImg;
 	
 	/**
 	 * Single BufferedImage conversion constructor
@@ -29,29 +25,9 @@ public class ImageConversion {
 	}
 	
 	/**
-	 * Multi BufferedImage conversion constructor
-	 * @param buffImgList The array of BufferedImage to be processed
+	 * Converts BufferedImage into WritableImage
+	 * @return WritableImage
 	 */
-	public ImageConversion(BufferedImage[] buffImgList) {
-		this.buffImgList = buffImgList;
-	}
-	
-	/**
-	 * Single WritableImage conversion constructor
-	 * @param wrImg The WritableImage to be processed
-	 */
-	public ImageConversion(WritableImage wrImg) {
-		this.wrImg = wrImg;
-	}
-	
-	/**
-	 * Multi WritableImage conversion constructor
-	 * @param wrImgList The array of WritableImage to be processed
-	 */
-	public ImageConversion(WritableImage[] wrImgList) {
-		this.wrImgList = wrImgList;
-	}
-	
 	public WritableImage getWrImg() {
 		WritableImage wrImg = null;
 		if (buffImg != null) {
@@ -64,34 +40,6 @@ public class ImageConversion {
 			}
 		}
 		return wrImg;
-	}
-	
-	public WritableImage[] getWrImgList() {
-		WritableImage[] wrImgList = new WritableImage[buffImgList.length];
-		for (int i = 0; i < buffImgList.length; i++) {
-			if (buffImgList[i] != null) {
-				wrImgList[i] = new WritableImage(buffImgList[i].getWidth(), buffImgList[i].getHeight());
-				PixelWriter pw = wrImgList[i].getPixelWriter();
-				for (int x = 0; x < buffImgList[i].getWidth(); x++) {
-					for (int y = 0; y < buffImgList[i].getHeight(); y++) {
-						pw.setArgb(x, y, buffImgList[i].getRGB(x, y));
-					}
-				}
-			}
-		}
-		return wrImgList;
-	}
-
-
-	public BufferedImage getBuffImg() {
-		return SwingFXUtils.fromFXImage(wrImg, null);
-	}
-
-	public BufferedImage[] getBuffImgList() {
-		BufferedImage[] convBuffImgList = new BufferedImage[wrImgList.length];
-		for (int i = 0; i < wrImgList.length; i++)
-			convBuffImgList[i] = SwingFXUtils.fromFXImage(wrImgList[i], null);
-		return convBuffImgList;
 	}
 
 }

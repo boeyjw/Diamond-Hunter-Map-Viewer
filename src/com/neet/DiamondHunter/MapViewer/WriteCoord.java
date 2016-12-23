@@ -71,7 +71,6 @@ public class WriteCoord {
 	 * @return The coordinates
 	 */
 	public static int[] getCoord(int line) {
-		checkExist();
 		// File exist and is ready to be read
 		if (coordFile.canRead()) {
 			try {
