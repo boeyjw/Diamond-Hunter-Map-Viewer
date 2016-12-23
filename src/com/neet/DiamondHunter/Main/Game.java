@@ -17,19 +17,6 @@ public class Game {
 
 	private static JFrame window;
 	
-	public static void main(String[] args) {
-		window = new JFrame("Diamond Hunter");
-		GamePanel gp = new GamePanel();
-		window.add(gp);
-		
-		window.setResizable(false);
-		window.pack();
-		
-		window.setLocationRelativeTo(null);
-		window.setVisible(true);
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
-	
 	public static void runDHMainGame() {
 		window = new JFrame("Diamond Hunter: Map Viewer Instance");
 		GamePanel gp = new GamePanel();
