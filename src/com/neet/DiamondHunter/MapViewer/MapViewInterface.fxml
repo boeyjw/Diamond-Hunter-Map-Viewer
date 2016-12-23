@@ -13,7 +13,7 @@
 
 <AnchorPane fx:id="mainPane" prefHeight="700.0" prefWidth="1003.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neet.DiamondHunter.MapViewer.MapViewController">
    <children>
-      <BorderPane layoutX="63.0" layoutY="60.0">
+      <BorderPane layoutX="26.0" layoutY="25.0" prefHeight="609.0" prefWidth="892.0">
          <center>
             <StackPane fx:id="mapStack">
                <children>

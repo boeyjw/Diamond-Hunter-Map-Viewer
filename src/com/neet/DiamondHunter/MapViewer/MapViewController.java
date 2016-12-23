@@ -125,7 +125,7 @@ public class MapViewController implements Initializable {
 		 * window) is adjusted based on the size of the map. However, this is
 		 * FXML overridden if the application grows.
 		 */
-		mainPane.setMinSize(mapStack.getPrefWidth() + 100, mapStack.getPrefHeight() + 100);
+		mainPane.setMinSize(mapStack.getPrefWidth(), mapStack.getPrefHeight());
 
 		initTileMapping();
 	}
